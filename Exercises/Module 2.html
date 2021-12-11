@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Module 2: Javascript</title>
+        <script>
+            console.log('dick');
+            console.log("Beginning");
+            // console.log("Level 1");
+            console.log("Level 2");
+            /*
+            console.log("Level 3");
+            console.log("Level 4");
+            */
+            console.log("Level 69");
+
+            console.log(123);
+            console.log(0.001);
+            console.log(true);
+            console.log("Hello");
+            console.log(1e3)
+            console.log(1e69)
+
+            console.log(Number.MIN_VALUE);
+            console.log(Number.MAX_VALUE);
+
+
+            console.log("'She said \"It is just great\"!'")
+            console.log('"She said \'It is just great\'!"')
+            console.log("'She said 'It is just great'!'")
+            console.log('"She said "It is just great"!"')
+
+
+            let a;
+            console.log("a = " + a);
+
+            let b = 42;
+            console.log("b = " + b);
+
+            b = 10;
+            console.log("b = " + b);
+
+
+            // Dynamic Typing
+            let c;
+            
+            c = 42;
+            console.log(c)
+
+            c = 10;
+            console.log(c)
+
+            c = "hello"
+            console.log(c)
+
+            
+            console.log(Math.E); //Euler's number
+            console.log(Math.PI);
+            console.log(Number.POSITIVE_INFINITY);
+            console.log(Number.NaN);
+
+            console.log(Math.ceil(1.2));
+            console.log(Math.floor(1.8));
+            console.log(Math.round(1.5));
+            console.log(Math.sin(1));
+            console.log(Math.random());
+
+
+            // Get the time at the start of the program
+            let startTime = new Date();
+            
+
+            // Ask for user input
+            alert("Press OK. I'm timing you.");
+
+            // Get the end time and output the difference
+            let endTime = new Date();
+            alert('That took ' + (endTime.getTime() - startTime.getTime() )+ 'ms.');
+            // The getTime() method returns the number of milliseconds* since the Unix Epoch.
+            // new Date() gives an object where simple maths like subtraction doesn’t work
+
+
+            
+
+            // Create the new object
+            let person = new Object();
+
+            // Assign some properties to the object called person.
+            person.fName = "Jacky";
+            person.lName = "Yao";
+
+            // Display the details of our person object.
+            let outStr = "First name: " + person.fName + "\n";
+            outStr += "Last name: " + person.lName;
+            console.log(outStr);
+
+
+            // Exercise 9, create your own object
+            let mars = new Object();
+
+            mars.name = "Mars";
+            mars.satellites = 2;
+            mars.semiMajorAxisM = 2.28e11;
+            mars.elonMuskMoveInYear = 2024;
+
+            let outputStringMars = `Name: ${mars.name}\nNo. of Satellites: ${mars.satellites} \nSemi-major axis: ${mars.semiMajorAxisM}m \nWhat year will Elon Musk move here?: ${mars.elonMuskMoveInYear}`;
+            alert(outputStringMars);
+
+
+            // Exercise 4?, Arrays
+
+            // Create array with 3 colours and print
+            let e4Array = ["Red", "Blue", "Green"];
+            console.log(e4Array);
+
+            // Print each element one at a time
+            console.log(e4Array[0]);
+            console.log(e4Array[1]);
+            console.log(e4Array[2]);
+
+            // Add purple to element 3
+            e4Array[3] = "Purple";
+
+            // Add orange using push
+            e4Array.push("Orange");
+
+            // Print Array Length and Element 3
+            console.log(e4Array.length);
+            console.log(e4Array[3]);
+
+            // Print whole array
+            console.log(e4Array);
+
+            // Change element 3 to yellow and print whole array
+            e4Array[3] = "Yellow";
+            console.log(e4Array);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

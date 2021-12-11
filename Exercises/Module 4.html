@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Module 4</title>
+        <script>
+            // // isNaN()
+            // str = "123"
+            // alert(isNaN(str));         // false
+            // alert(isNaN(parseInt(str)));        // false
+            // alert(isNaN(parseInt("abs")));      // true
+
+            // let regIsInt = /^\d+$/;    // One or more digits followed by nothing
+            // alert(regIsInt.test(prompt("Enter Integer")));
+            
+            // Exercise 2 Convert string to a number
+            // inputMonth = prompt("Enter month: ");
+            // console.log(typeof(inputMonth));        // string
+            // console.log(Number.isInteger(inputMonth));   // false
+
+            // inputMonthInt = parseInt(inputMonth);
+            // console.log(typeof(inputMonthInt));     // number
+            // console.log(Number.isInteger(inputMonthInt));       // true
+
+            // Exercise 2.1 User height
+            userHeight = prompt("Enter height(m): ");
+            console.log("typeof: " + typeof(userHeight) + "\nis finite: " + Number.isFinite(userHeight));
+
+            userHeightFloat = parseFloat(userHeight);
+            console.log("typeof: " + typeof(userHeightFloat) + "\nis finite: " + Number.isFinite(userHeightFloat));
+
+
+            // let test = "5abc";
+            // let testInt = parseInt(test);
+            // console.log(testInt);
+            // console.log(typeof(testInt));
+            // let numStr = prompt('Enter Number');
+            // console.log("numStr: " + typeof(numStr));
+            // let number = parseInt(numStr);
+            // console.log("number: " + typeof(number));
+
+            // console.log("it it an integer: " + Number.isInteger(numStr));
+            // console.log("is it a number: " + Number.isFinite(numStr));
+
+
+            // Exercise 2: Convert a string to a number
+            // let inputDay = prompt("Enter day of month");
+            // console.log("typeof: " + typeof(inputDay) + "\nNumber.isInteger:" + Number.isInteger(inputDay));
+            // inputDay = parseInt(inputDay);
+            // console.log("typeof: " + typeof(inputDay) + "\nNumber.isInteger:" + Number.isInteger(inputDay));
+
+
+            // Exercise 3: Getting Booleans
+            // let choice = confirm('Do you want to continue?');
+            // console.log('Response: ' + choice);       // true or false
+
+
+            // Exercise 4: write() and writeln()
+            // let subjects = ['Programming Progress','Storing Data','Functions and User I/O']
+
+            // document.write('<ol>');
+            // document.write('<li>' + subjects[0] + '</li>');
+            // document.write('<li>' + subjects[1] + '</li>');
+            // document.write('<li>' + subjects[2] + '</li>');
+            // document.write('</ol>');
+
+            // let difficultSubject = parseInt(prompt('What subject did you find most difficult? (Enter Number)'));
+            // document.write('You should revise topic ' + difficultSubject-- + ": " + subjects[difficultSubject]);
+
+
+            // Module 4B
+            // // Exercise 1: Discounted Price
+            // const RATE = 0.25;
+            
+            // let price = parseFloat(prompt('Enter the normal price: ', '0.00'));
+            // let discountedStr = 'The sale price is $';
+
+            // price *= (1 - RATE);
+
+            // discountedStr += price.toFixed(2);
+            // console.log(discountedStr)
+
+
+            // Exercise 2: charAt() and slice() methods
+            // let str = "Lempika has cake";
+
+            // console.log(str.charAt(0));
+            // console.log(str.charAt(1));
+            // console.log(str.charAt(2));
+
+            // console.log(str.slice(0));      // From start
+            // console.log(str.slice(7));      // From 7 onwards
+            // console.log(str.slice(7,9));    // From 7 to 9 (excluding)
+            // console.log(str.slice(-2));     // From last 2 from end
+
+
+            // // Exercise 3: Filename Extension
+            // let filename = "";
+            // filename = prompt("Enter filename (including extension): ");
+            // document.write("The extension is: " + filename.slice(-3));
+
+
+            // // Exercise 4: indexOf()
+            let str = "Lempika's cake is free for all";
+            ss = "Lempika";
+            console.log(ss + " is located at index: " + str.indexOf(ss));       // Lempika is located at index: 0
+            ss = "cake";
+            console.log(ss + " is located at index: " + str.indexOf(ss));       // cake is located at index: 10
+            ss = "i";
+            console.log(ss + " is located at index: " + str.indexOf(ss));       // i is located at index: 4
+            ss = "l";
+            console.log(ss + " is located at index: " + str.indexOf(ss));       // l is located at index: 28
+
+
+            // Exercise 5: Searching in Colours
+            // const COLOURS = 'blackbluegreenredyellowwhite';
+            // let favouriteColour = '';
+
+            // // Get the user's favourite colour & lower case
+            // favouriteColour = prompt('Enter your favourite colour: ').toLowerCase();
+            
+            // console.log(COLOURS.indexOf(favouriteColour));
+
+
+
+            // Exercise 6: Searching in an Array
+            // const DAY_NAME = ['sun','mon','tue','wed','thu','fri','sat'];
+            // // Input the day name from the user
+            // userDay = prompt('What day is it?');
+            // // Truncate the day name to 3 letters & lowercase
+            // userDayAbb = userDay.slice(0,3).toLowerCase();
+            // // Find index in DAY_NAME
+            // dayIndex = DAY_NAME.indexOf(userDayAbb);
+            // // Output
+            // console.log('Index: ' + dayIndex);
+
+
+            // Exercise 7: Comma Separated Values
+
+            // Calculate total marks for susan
+            const RESULTSLN1 = "Fname;Sname;StuNum;Quizzes;Ass1;Ass2;Exam";
+            const RESULTSLN3 = "Susan;Brown;1002;6;17;28;40";
+
+            let susan = RESULTSLN3.split(";");
+            // console.log(susan);
+            let susanResults = parseInt(susan[3]) + parseInt(susan[4]) + parseInt(susan[5]) + parseInt(susan[6]);
+            let studentNumber = parseInt(susan[2]);
+            // print student number with final mark
+            console.log("Susan (" + studentNumber + ") is dumb with a score of: " + susanResults);
+
+
+            // // Stephen's code LUL
+            // let line3 = "Susan;Brown;1002;6;17;28;40";
+            // let arr = line3.split(";");
+            // let sum = arr[3] + arr[4] + arr[5] + arr[6];
+            // document.write(sum);        // 6172840
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

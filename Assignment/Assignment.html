@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 1</title>
+        <script>
+            // Constant initialisation
+            const MONTH_STR = 'jan:feb:mar:apr:may:jun:jul:aug:sep:oct:nov:dec';
+            const MILLISECONDS_DAY = 1000*60*60*24;     // 86,400,000 milliseconds in a day
+            const CYCLE_INTELLECTUAL = 33;
+            const CYCLE_EMOTIONAL = 28;
+            const CYCLE_PHYSICAL = 23;
+            
+            // Obtain user birthday through prompt and intialise/save variables
+            let birthYear = prompt("Year of birth?");
+            let birthMonth = prompt("Month of birth? (Text)").toLowerCase().slice(0,3);     // Takes birth month as string and converts to lowercase & abbreviates
+            let birthDay = prompt("Day of birth?");
+
+            // Find abbreviated month in MONTH_STR then converts into a month. January = 0, December = 11
+            let birthMonthConverted = MONTH_STR.indexOf(birthMonth) / 4;
+
+            // Create Date Object using user birthday
+            let userBirthday = new Date(birthYear,birthMonthConverted,birthDay);     // Month is 0-indexed like our MONTH_STR
+            
+            // Create Date Object for current time
+            let currentDate = new Date();
+
+            // Calculate user's age in days and output as integer
+            let userAge = currentDate - userBirthday;       // Age (Milliseconds)
+            let userAgeDays =  userAge / MILLISECONDS_DAY;      // (Age Days)
+            console.log(`You have been alive for: ${Math.floor(userAgeDays)} days`);
+
+            // Calculate user energy levels and convert
+            // Intellectual Cycle
+            let userIntellectual = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_INTELLECTUAL);      // Calculate user Intellectual Cycle
+            userIntellectual = (userIntellectual * 100).toFixed(1);     // Convert to Fixed Format Number with 1 decimal
+            // Emotional Cycle
+            let userEmotional = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_EMOTIONAL);
+            userEmotional = (userEmotional * 100).toFixed(1);
+            // Physical Cycle
+            let userPhysical = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_PHYSICAL);
+            userPhysical = (userPhysical * 100).toFixed(1);
+
+            // Write heading and list of user energy levels in html
+            document.write('<h1>Your biorhythm energy levels are:-</h1>');
+            document.write('<ul>');
+            document.write(`<li><font color="green">Intellectual:</font> ${userIntellectual}% </li>`);
+            document.write(`<li><font color="red">Emotional:</font> ${userEmotional}% </li>`);
+            document.write(`<li><font color="blue">Physical:</font> ${userPhysical}% </li>`);
+            document.write('</ul>');
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
