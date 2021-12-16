@@ -31,13 +31,13 @@
 
             // Calculate user energy levels and convert
             // Intellectual Cycle
-            let userIntellectual = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_INTELLECTUAL);      // Calculate user Intellectual Cycle
+            let userIntellectual = Math.sin((userAgeDays*2*Math.PI)/CYCLE_INTELLECTUAL);      // Calculate user Intellectual Cycle
             userIntellectual = (userIntellectual * 100).toFixed(1);     // Convert to Fixed Format Number with 1 decimal
             // Emotional Cycle
-            let userEmotional = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_EMOTIONAL);
+            let userEmotional = Math.sin((userAgeDays*2*Math.PI)/CYCLE_EMOTIONAL);
             userEmotional = (userEmotional * 100).toFixed(1);
             // Physical Cycle
-            let userPhysical = Math.sin(userAgeDays * (2 * Math.PI) / CYCLE_PHYSICAL);
+            let userPhysical = Math.sin((userAgeDays*2*Math.PI)/CYCLE_PHYSICAL);
             userPhysical = (userPhysical * 100).toFixed(1);
 
             // Write heading and list of user energy levels in html

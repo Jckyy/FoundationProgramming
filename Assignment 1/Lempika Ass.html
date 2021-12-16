@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 1 - Albert Davis</title>
+    <script>
+    
+        //Declaration of Constants
+        const MONTH_ABREV = 'jan:feb:mar:apr:may:jun:jul:aug:sep:oct:nov:dec';
+        const MILLI_SEC_DAY = 1000*60*60*24; //The number of milliseconds in a day.
+        const INT_CYCLE = 33;    
+        const EMO_CYCLE = 28;    
+        const PHY_CYCLE = 23;    
+        const PERCENTAGE = 100;    //Used for converting the energy level value into a percentage value for final output.
+        const ABREV_DIV = 4;    //Used for division of MONTH_ABREV in order to obtain the index value of respective month
+        
+        //Declaration of Variables
+        let year;            
+        let month;            
+        let day;            
+        let birthdayDate;    
+        let nowDate;        
+        let daysFinal;        
+        let intFinal;        
+        let emoFinal;        
+        let phyFinal;        
+        
+    //A prompt function to gather user's Year of birth. It assume return value correct.
+        year = prompt("What year were you born?");      
+    //A prompt function to gather the user's Month of birth, then slices to gather first 3 letters to search on MONTH_ABREV. This value is then divided by ABREV_DIV to find index of month. It assume return value correct.
+        month = prompt("What month were you born?");
+        month = month.slice(0,3);
+        month = month.toLowerCase();
+        month = (MONTH_ABREV.indexOf(month))/ABREV_DIV;
+        
+    //A prompt function to gather the user's Day of the month of birth. It assume return value correct.
+        day = prompt("What day of the month were you born?");
+        
+    //Inputs the year, month and day into a Date object.
+        birthdayDate = new Date(year, month, day);
+        
+    //Constructs a current date object.
+        nowDate = new Date();
+        
+    //The getTime method is used to obtain the number of milliseconds for both objects from Jan 1, 1970. MILLI_SEC_DAY is used to convert milliseconds to days. The difference of the two Date Objects will find number of days from birth to current date, and then rounded to nearest whole day.
+        birthdayDate = (birthdayDate.getTime()/MILLI_SEC_DAY);
+        nowDate = (nowDate.getTime()/MILLI_SEC_DAY);
+        daysFinal = nowDate - birthdayDate;
+        daysFinal = Math.floor(daysFinal);      // OMEGALUL-jacky
+        
+    //The intellectual, emotional and physical energy levels are calculated using formula given.
+        intFinal = Math.sin((daysFinal*2*Math.PI)/INT_CYCLE)*PERCENTAGE;
+        emoFinal = Math.sin((daysFinal*2*Math.PI)/EMO_CYCLE)*PERCENTAGE;
+        phyFinal = Math.sin((daysFinal*2*Math.PI)/PHY_CYCLE)*PERCENTAGE;
+        
+            //A statement on how many days the user has been born is written as an integer.
+            document.write ("You have been alive for " + daysFinal + " days.");
+        
+        //Writes a Heading 1 title with the text "Your biorhythm energy levels are:-"
+            document.write ("<h1>");
+            document.write ("Your biorhythm energy levels are:-");
+            document.write ("</h1>");
+            
+        //Outputs each energy type rounded to 1 decimal point in an unordered list. Each energy type is given a different colour, and presented as a percentage.
+            document.write ("<ul>");
+            document.write ("<li><font color='green'> Intellectual: " + intFinal.toFixed(1) + "% </font></li>");
+            document.write ("<li><font color='red'> Emotional: " + emoFinal.toFixed(1) + "% </font></li>");
+            document.write ("<li><font color='blue'> Physical: " + phyFinal.toFixed(1) + "% </font></li>");
+            document.write ("</ul>");
+            
+        </script>
+        </head>
+    </html>
