@@ -3,66 +3,66 @@
         <meta charset="UTF-8">
         <title>Module 5a</title>
         <script>
-            // // Exercise 1 & 2 & 4: if statement
-            // let user;
-            // user = prompt('Are you feeling good today?');
-            // if (user == "yes") {
-            //     document.write("Great to hear!");
-            // }
-            // else if (user == "no") {
-            //     document.write("So sad!");
-            // }
-            // else {
-            //     document.write("Eh?")
-            // }
+            // Exercise 1 & 2 & 4: if statement
+            let user;
+            user = prompt('Are you feeling good today?');
+            if (user == "yes") {
+                document.write("Great to hear!");
+            }
+            else if (user == "no") {
+                document.write("So sad!");
+            }
+            else {
+                document.write("Eh?")
+            }
 
 
-            // //Exercise 3: Nested If
-            // let num1, num2;
-            // num1 = parseInt(prompt("Enter a number"));
-            // if (num >= 0) {
-            //     alert("Number was positive");
-            //     num2 = parseInt(prompt("Enter another"));
-            //     if (num2 >=0){
-            //         alert("Both numbers were positive");
-            //     }
-            // }
+            //Exercise 3: Nested If
+            let num1, num2;
+            num1 = parseInt(prompt("Enter a number"));
+            if (num >= 0) {
+                alert("Number was positive");
+                num2 = parseInt(prompt("Enter another"));
+                if (num2 >=0){
+                    alert("Both numbers were positive");
+                }
+            }
 
 
-            // let testNumber = parseInt(prompt('Enter a number'));
-            // if (testNumber > 0) {
-            //     alert('positive');
-            // }
-            // else if (testNumber < 0) {
-            //     alert('negative');
-            // }
-            // else {
-            //     alert('zero')
-            // }
+            let testNumber = parseInt(prompt('Enter a number'));
+            if (testNumber > 0) {
+                alert('positive');
+            }
+            else if (testNumber < 0) {
+                alert('negative');
+            }
+            else {
+                alert('zero')
+            }
 
-            // let arr = [2,6,-1,-2,1];
-            // let index = parseInt(prompt('Enter an index'));
-            // if (index >= 0 && index < arr.length && arr[index] >=0) {
-            //     alert('Value at index ' + index + ' is positive');
-            // }
-            // else {
-            //     alert('Index is invalid or value is negative');
-            // }
+            let arr = [2,6,-1,-2,1];
+            let index = parseInt(prompt('Enter an index'));
+            if (index >= 0 && index < arr.length && arr[index] >=0) {
+                alert('Value at index ' + index + ' is positive');
+            }
+            else {
+                alert('Index is invalid or value is negative');
+            }
 
 
-            // // Exercise 5: Conditional Evaluation
-            // let arr = [1,2,3,4,5];
-            // let arrIndex = parseInt(prompt('Enter an index:'));
-            // if (!isNaN(arrIndex)        // Is index a number
-            //     && arrIndex >= 0        // Is index a positive number
-            //     && arrIndex <= arr.length       // Is index smaller than the max array length
-            //     && arr[arrIndex] >= 0) {        // Is the index a positive 
-            //         document.write('The element was positive\n');
-            //         document.write(arr[arrIndex]);
-            //     }
-            // else {
-            //     document.write('Invalid index or negative value');
-            // }
+            // Exercise 5: Conditional Evaluation
+            let arr = [1,2,3,4,5];
+            let arrIndex = parseInt(prompt('Enter an index:'));
+            if (!isNaN(arrIndex)        // Is index a number
+                && arrIndex >= 0        // Is index a positive number
+                && arrIndex <= arr.length       // Is index smaller than the max array length
+                && arr[arrIndex] >= 0) {        // Is the index a positive 
+                    document.write('The element was positive\n');
+                    document.write(arr[arrIndex]);
+                }
+            else {
+                document.write('Invalid index or negative value');
+            }
 
 
             // // Redundancy in Boolean Expressions
