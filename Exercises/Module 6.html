@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Module 6</title>
+        <script>
+            // // Constants and variables
+            // const SENTINEL = -1;
+            // let sum = 0;    // Sum of user inputs
+            // let userInput, message;   // Input from user
+
+            // // Process inputs until sentinel
+            // while (userInput != SENTINEL) {
+            // message = 'Enter an integer (' + SENTINEL + ') to end: ';
+            // userInput = parseInt(prompt(message));
+            // sum += userInput;
+            // }
+
+            // // Output the sum
+            // alert('Sum: ' + sum);
+
+
+            // Constants and variables
+            const SENTINEL = -1;
+            const message = 'Enter an integer (' + SENTINEL + ') to end: ';
+            let userInput, sum;
+
+            // Process inputs until sentinel
+            sum = 0;    // Sum of user inputs
+            while (true) {
+            userInput = parseInt(prompt(message));
+            if (userInput == SENTINEL) {
+                break
+            }
+            sum += userInput;
+
+            // Output the sum
+            document.write('Sum ' + sum + '<br>')
+}
+        </script>
+    </head>
+</html>
