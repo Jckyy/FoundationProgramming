@@ -1,56 +1,179 @@
 <html> 
   <head> 
     <meta charset="UTF-8">
-    <title>Module 5b Template</title> 
+    <title>Module 5b</title> 
     <script> 
-      // Input a Postcode
-      // Prepare a test
-      let isInt = /^\d\d\d\d$/;
-      // Do the input
-      let valStr = prompt('Input the postcode');
-      var postCode = parseInt(valStr);
-      // Validate the input
-      while (!isInt.test(valStr)) {
-        // Tell the user about bad input
-        alert("Sorry, that was invalid");
-        // Do the input again
-        valStr = prompt('Input the postcode');
-        postCode = parseInt(valStr);
-      }
-      // Tell the user about the good postcode
-      document.write("The Postcode was " + postCode)
+        // // Input a Postcode
+        // // Prepare a test
+        // let isInt = /^\d\d\d\d$/;
+        // // Do the input
+        // let valStr = prompt('Input the postcode');
+        // var postCode = parseInt(valStr);
+        // // Validate the input
+        // while (!isInt.test(valStr)) {
+        //   // Tell the user about bad input
+        //   alert("Sorry, that was invalid");
+        //   // Do the input again
+        //   valStr = prompt('Input the postcode');
+        //   postCode = parseInt(valStr);
+        // }
+        // // Tell the user about the good postcode
+        // document.write("The Postcode was " + postCode)
 
 
-      
-      // Exercise 1: Purchasing a hard drive
-      let isInt = /^\d+$/;
-      let models = [ "WESTERN DIGITAL GREEN 120GB SATA M.2 SSD WDS120G1G0B"
-                   , "WESTERN DIGITAL GREEN 240GB SATA M.2 SSD WDS240G1G0B"
-                   , "ADATA 256GB SATA SSD MODEL: ASU800NS38-256GT-C"
-                   , "CRUCIAL 250GB SATA SSD MODEL: CT250MX500SSD4"
-                   ];
-      
-      let purchase = (prompt("Input purchase"));
-      let purchaseInt = parseInt(purchase);
+        
+        // // Exercise 1: Purchasing a hard drive
+        // let isInt = /^\d+$/;
+        // let models = [ "WESTERN DIGITAL GREEN 120GB SATA M.2 SSD WDS120G1G0B"
+        //              , "WESTERN DIGITAL GREEN 240GB SATA M.2 SSD WDS240G1G0B"
+        //              , "ADATA 256GB SATA SSD MODEL: ASU800NS38-256GT-C"
+        //              , "CRUCIAL 250GB SATA SSD MODEL: CT250MX500SSD4"
+        //              ];
+        
+        // let purchase = (prompt("Input purchase"));
+        // let purchaseInt = parseInt(purchase);
 
-      while (!isInt.test(purchase) || purchaseInt > models.length) {
-        alert("Invalid purchase");
-        purchase = (prompt("Input purchase"));
-        purchaseInt = parseInt(purchase);
-      }
+        // while (!isInt.test(purchase) || purchaseInt > models.length) {
+        //   alert("Invalid purchase");
+        //   purchase = (prompt("Input purchase"));
+        //   purchaseInt = parseInt(purchase);
+        // }
 
-      let ndx = purchaseInt - 1;
-      document.write("The purchase of " + models[purchase]+ " was successful");
-      
+        // let ndx = purchaseInt - 1;
+        // document.write("The purchase of " + models[purchase]+ " was successful");
+
+
+        // Exercise 2: While Loop
+        // let i = 2;
+
+        // while (i <= 20) {
+        //   console.log('i = ' + i);
+        //   i += 2
+        // }
+
+
+        // // Exercise 3: For Loop
+        // for (let i = 2; i <= 20; i += 2) {
+        //   console.log('i = ' + i);
+        // }
+
+
+        // // Exercise 4: Arrays and Loops
+        // let brand = ['Fiat', 'Ford', 'Honda', 'Lempika'];
+        // let price = [15000, 20000, 60000, 'Priceless'];
+
+        // brand.push('Bugati');
+        // price.push(300000);
+
+        // for (let i=0; i < brand.length; i++) {
+        //   console.log(`A ${brand[i]} costs ${price[i]}`);
+        // }
+
+        // // Exercise 5: Test if number is prime
+        // let x = parseInt(prompt('Enter a number'));
+        // isPrime = true
+        // for (let i=2; isPrime && i < x ;i++) {
+        //   if (x % i == 0) {
+        //     isPrime = false
+        //   }
+        //   console.log(`x=${x}, i=${i} ${isPrime}`)
+        // }
+        // if (isPrime) {
+        //   console.log(`${x} is a prime number!`);
+        // }
+        // else {
+        //   console.log(`${x} is not a prime number :(`)
+        // }
+
+
+
+        // Exercise 6: Print Chess Board
+        document.write('<table frame="box">');
+        for (let i=0;i<4;i++) {
+            // For each Row starting white
+            document.write('<tr>');
+            // 
+            for (let j=0;j<4;j++) {
+            document.write('<td style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+            document.write('<td style="background-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+            }
+            document.write('</tr>');
+            // For each Row starting black
+            document.write('<tr>');
+            for (let k=0;k<4;k++) {
+            document.write('<td style="background-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+            document.write('<td style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+            }
+            document.write('</tr>');
+        }
+        document.write('</table>')
+
+        // Exercise 6: Stephen version, without colors
+        // Constants for a chess board
+        const CB_HEIGHT=8;
+        const CB_WIDTH=8;
+
+        // Open the table
+        document.write('<table border=1>');
+        // For each row
+        for (let i=0; i<CB_HEIGHT;i++) {
+            // Open the row
+            document.write('<tr>');
+            // For each cell
+            for (let j=0;j<CB_WIDTH;j++) {
+                // Open the cell
+                document.write('<td style="background-color:white">');
+                // Cell contents
+                document.write('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+                // Close the cell
+                document.write('</td>');
+            }
+            // Close the row
+            document.write('</tr>');
+        }
+        // Close the table
+        document.write('</table>')
+
+
+        // Chess border big brain version using odd and even numbers for colours
+        // Variables
+        let dick = 2;
+        const CB_HEIGHT=8;
+        const CB_WIDTH=8;
+
+        // Open Table
+        document.write('<table frame="box">');
+        // for loop for the height of the board
+        for (let j=0; j<CB_HEIGHT; j++) {
+            // Open row
+            document.write('<tr>');
+            // for loop for the width of the board
+            for (let i=0; i<CB_WIDTH; i++) {
+                // Make white square if even
+                if (dick % 2 == 0) {
+                    document.write('<td style="background-color:white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+                    dick++
+                }
+                // Make black square if odd
+                else {
+                    document.write('<td style="background-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+                    dick++
+                }
+            }
+            // Close row
+            document.write('</tr>');
+            // Increment dick for next row
+            dick++;
+        }
     </script> 
   </head> 
   <body> 
-    <h1> Available Models </h1> 
+    <!-- <h1> Available Models </h1> 
     <ol> 
         <li>WESTERN DIGITAL GREEN 120GB SATA M.2 SSD WDS120G1G0B</li>
         <li>WESTERN DIGITAL GREEN 240GB SATA M.2 SSD WDS240G1G0B</li>
         <li>ADATA 256GB SATA SSD MODEL: ASU800NS38-256GT-C</li>
         <li>CRUCIAL 250GB SATA SSD MODEL: CT250MX500SSD4</li>
-    </ol> 
+    </ol>  -->
   </body> 
 </html> 
