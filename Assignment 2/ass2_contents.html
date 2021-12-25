@@ -1,0 +1,542 @@
+
+<!-- saved from url=(0098)https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <style> 
+
+      li:not(:last-child) {
+          margin-bottom: 5px;
+      }
+
+      h1
+      {   font-size: 300%;
+          text-align: center;
+          color: purple;
+      }
+
+      h2 { color: green; }
+      h3 { color: orange; }
+      dt { font-weight: bold; }
+      
+    </style> 
+  </head> 
+  <body> 
+
+<h1 id="top">Assignment 2</h1>
+ <div style="text-align:center; font-weight:bold;">USQ CSC1401 S2 2021</div> 
+ <div style="text-align:center;">"Unemployment Survey"</div> 
+ <h2> 
+  Contents
+ </h2> 
+
+<ul>
+  <li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#introduction">Introduction</a>
+  </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#task">Your Task</a>
+  <ul>
+    <li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#input"> The Input Phase </a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#calculation"> The Calculation Phase </a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#display"> The Display Phase </a>
+  </li></ul>
+  </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#requirements"> Requirements </a>
+  <ul>
+    <li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#indentation">Indentation</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#blockComment">Block Commented</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#naming">Naming Conventions</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#valueTypes">Value Types</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#codeOrder">Order of code in your source code file</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#forbidden">Dont use advanced features of not yet taught in class</a>
+  </li></ul>
+  </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#Submission"> Assignment Submission </a>
+  </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#suggestions"> Suggestions</a>
+  <ul>
+    <li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#HowtoApproach"> How to approach this assignment</a>
+    </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#HowtoFinishInput"> How to know when the user has finished inputting</a>
+  </li></ul>
+  </li><li>
+    <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#challenges">Challenges</a>
+    <ul>
+      <li> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#sortRecs">Sort the Records</a>
+      </li><li> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#dob">Day of Birth</a>
+      </li><li> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#under">Unemployed and Under-employed</a>
+    </li></ul>
+  </li>
+  <li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#criteria">Marking Criteria</a>
+  </li><li><a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#plagiarism">Plagiarism</a>
+</li></ul>
+
+<h2 id="introduction">Introduction</h2>
+<p>
+  This assignment is inspired by the Newsweek-Bulletin unemployment
+  survey conducted in 1999, that showed the real unemployment rate was
+  substantially higher than the official one.  Questionnaire design is
+  not something to be taken lightly if the results are important.  For
+  anyone designing a real survey, then the
+  <a href="https://www.abs.gov.au/websitedbs/d3310114.nsf/home/Basic+Survey+Design+-+Questionnaire+Design">
+  guidelines provided by the Australian Bureau of Statistics
+  </a> should be taken seriously.
+</p> <p>
+But the real purpose of this assignment, of course, is to gain programming skills.  
+This assignment will strengthen and test your programming skills in the
+following areas:-
+</p><ul>
+  <li>Writing Functions</li>
+  <li>Input Validation</li>
+  <li>String Handling</li>
+  <li>Dealing with anomalous data</li>
+  <li>Creating and using an array of objects</li>
+  <li>Counting data</li>
+  <li>Summation of data</li>
+  <li>Minimum and Maximum</li>
+  <li>Writing a HTML directly to a web page</li>
+</ul>
+<p></p> <p>
+A real online survey web page would need to send its data to
+a web server which, in turn, would store the data in a database.
+But web servers and databases are beyond the scope of this course, and we
+will store the collected data locally in an array of objects, before
+displaying the results in a web page.
+</p> <p>
+In Assignment 1, we did no validation of our collected data.  We just
+assumed that the user entered it correctly.  Like programs in real life,
+Assignment 2 requires full validation of the input data.
+</p> <p>
+The functions you developed in the workshop for Module 7
+(conducted in Week 6) will prove useful in this assignment.  You should
+use them where possible.  Make sure you finish all the workshop
+exercises from the workshop in Week 6 before attempting this assignment.
+</p>
+<h2 id="task">Your Task</h2>
+  <p> 
+  Let us imagine that a <b>human facilitator</b>
+  is equipped with a laptop, and is surveying
+  people.  The facilitator will use your program to:-
+  </p><ol>
+    <li> Enter the collected data.
+    </li><li> Perform some calculations.
+    </li><li> Display some results, including a summary of collected data in the form of a HTML table.
+  </li></ol>
+  <p></p>
+  <img src="./ass2 contents_files/flowChart1.png" width="300"><br>
+  <i> Diagram 1: The Three Parts of your Code.  </i> 
+  <p> 
+    Your program has 3 phases, as shown in the diagram above:-
+    </p><ol> 
+      <li> An input phase that collects the raw data.
+      </li><li> A calculation phase, that begins when the input phase is
+            finished.
+      </li><li> A display phase that begins when the calculation phase is
+            finished.  It displays calculated data as well as raw data
+            in the form of a HTML table.
+    </li></ol> 
+  Please dont allow these phases of your code to bleed into each other.
+  The input phase should do input only.  The calculation phase should
+  perform intermediate calculations only.  The display phase should 
+  display calculated data only.
+  <p></p> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="input"> The Input Phase </h3> 
+    <img src="./ass2 contents_files/flowChart2.png" width="300"><br>
+    <i> Diagram 2: The Input Phase.  </i> 
+  <p> 
+    Your program must allow the facilitator to keep entering the detail for
+    another person until the facilitator no longer wishes to.
+      How you achieve that is up to you, but it must be easy to use and
+      you need to make sure the user knows what to do.  
+</p> <p> 
+      You must perform interactive input by using the <tt>prompt()</tt> function
+        <i> (and possibly the confirm() function).  </i>
+</p>
+  <h4 id="input"> The Question Structure </h4> 
+    <img src="./ass2 contents_files/questStruct1.png" width="150"><br>
+    <i> Diagram 3: The Question Structure.  </i> 
+<p>
+    For each person that the facilitator chooses to enter, you need to get the
+    following from the user:-
+    </p><div style="margin-left:1cm;">
+      <dl> 
+        <dt> 1) The surname.
+          </dt><dd> <i>(suggestion: .sName)</i> The persons surname cannot be empty.
+        </dd><dt> 2) The given name.
+          </dt><dd> <i>(suggestion: .fName)</i> The given name cannot be empty.
+        </dd><dt> 3) The biological gender.
+          </dt><dd> <i>(suggestion:</i> .gender) The gender must either be "male" or "female".  (You can
+              make this "M" or "F" if you prefer.)
+        </dd><dt> 4) The age in years.
+          </dt><dd> <i>(suggestion: .ageYrs)</i> The age in years must be an integer in the range 15 to 100.
+        </dd><dt> 5) The post code.
+          </dt><dd> <i>(suggestion: .pCode)</i> The post code must consist of 4 digits.
+        </dd><dt> 6) Employment Status 
+          </dt><dd> <i>(suggestion: .emplyStat)</i> The employment status
+              must either be the word "employed" or the word "unemployed".  
+      </dd></dl> 
+    </div>
+<p></p> <p>
+  The facilitator (or your marker) should require no training prior to
+  using your program.  Make it clear to the facilitator what input would
+  be valid.  Keep it simple.
+</p> <p>
+  E.G. "What color is your car? Enter
+  either the string "black" or the string "white"?
+</p> <p>
+  E.G.  If you make it so that entering an empty string for a surname 
+  is what terminates the input loop, then make sure that is obvious
+  to the user.
+</p> <p>
+  You should use the method
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim">trim()</a>
+  to remove leading or trailing spaces from user input.
+</p> <p>
+</p>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+ <h3 id="calculation"> The Calculation Phase </h3> 
+The calculation phase begins when the input stage is finished, and the
+display phase happens when the calculations have been performed.  Your
+program must calculate the following collective data:-
+  <ol> 
+    <li> Unemployment rate.  Store it
+          as a fraction.  This is a floating point value.
+    </li><li> Average age in years for unemployed men.  This is a floating
+    point value.
+    </li><li> Average age in years for unemployed women.  This is a floating
+    point value.
+  </li></ol> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+ <h3 id="display"> The Display Phase </h3> 
+ <p>
+ Your output will be written to the document using document.write() or
+ document.writeln().  The use of alert() is not
+ acceptable, and any occurrences of console.log() will be assumed to be
+ debugging.
+ </p> <p>
+  If your dataset is the empty set, then this must be stated.
+ </p> <p>
+ Otherwise, your program must state the collective calculated data,
+ followed by a HTML table with all person's details, complete with
+ headings, one person per table row.
+ </p>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h2 id="requirements"> Requirements </h2>
+
+  <h3 id="indentation">Indentation</h3>
+   <p> 
+    </p><ol> 
+      <li> The code needs to be indented in one of 
+        <ul> 
+          <li> <a href="https://en.wikipedia.org/wiki/Indentation_style#K&amp;R_style">K&amp;R</a> 
+          </li><li> <a href="https://en.wikipedia.org/wiki/Indentation_style#Allman_style">Allman</a> 
+          </li><li> <a href="https://en.wikipedia.org/wiki/Indentation_style#Horstmann_style">Horstmann</a> 
+        </li></ul> 
+       <p></p> 
+     </li><li> The indentation needs to be consistent throughout the code.
+          One of the above styles needs to be applied to all of your
+          code.  It is permissible to mix Horstmann and Allman styles.
+    </li></ol> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="blockComment">Block Commented</h3>
+   <p> 
+      Your code needs to be block commented throughout:-
+      </p><ul>
+        <li> Code blocks separated by a single blank line.
+        </li><li> Comment for block on lines immediately before block.
+        </li><li> No blank line between comment and block that it applies to.
+      </li></ul>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="naming">Naming Conventions</h3>
+   <p> 
+      Naming conventions should be observed for identifiers:-
+      </p><ul> 
+        <li> Constants are all <b>UPPER_CASE</b>. 
+        </li><li> Variable and function names should be <b>camelCased</b>. 
+      </li></ul> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="valueTypes">Value Types</h3>
+      You must demonstrate control over your value types:-
+      <ul> 
+        <li> Convert your strings to numbers using
+              <tt>parseInt()</tt> or <tt>parseFloat()</tt> where appropriate.
+        </li><li> Do not apply 
+              <tt>parseInt()</tt> or <tt>parseFloat()</tt>
+              to things that are already numbers or to things that are
+              meant to be strings.
+        </li><li> Do not apply arithmetic operations to strings or string
+              operations to numbers.
+      </li></ul> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="codeOrder">Order of code in your source code file</h3>
+  <p>
+      Variables need to be declared (possibly with initialisation)
+      before they are used.
+  </p>
+  <ul>
+    <li>Put the Javascript code in a single <tt>&lt;script&gt;</tt> tag
+        in the <tt>&lt;head&gt;</tt> tag section of your HTML document.
+        Do not write any HTML in the body of the document. This will be
+        generated by your JavaScript code.
+    </li><li>In the script order your content as follows:</li>
+      <ol>
+        <li>Constants.
+        </li><li>Functions.
+        </li><li>Global code.
+      </li></ol>
+  </ul>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+  <h3 id="forbidden">Dont use advanced features of not yet taught in class</h3>
+  Forbidden features of Javascript for Assignment 2 include:-
+  <ul>
+    <li> Arrow function syntax
+    </li><li> For in loop
+    </li><li> For of loop
+    </li><li> Maps (unless you make a very good case for doing so).
+    </li><li> Classes, constructors, inheritance.
+    </li><li> Javascript hoisting.
+  </li></ul>
+  <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a><p></p>
+
+
+<h2 id="Submission"> Assignment Submission </h2>
+ You need to submit two files:-
+ <ol> 
+ <li>  You need to submit a plain text HTML file with a file extension
+       of ".html".  Your marker will
+       inspect the HTML, and test your code with the Firefox web browser.
+ </li><li>  
+  <p> The second file is (called the pcheck) is for plagiarism detection using Turnitin.  Copy
+       and paste the content of your HTML document into a word processing
+       document.  The following formats are acceptable:-
+ </p> 
+   <ul> 
+     <li>Libre Office Write (.odt)
+     </li><li>Miscrosoft Word (.docx).  
+   </li></ul> 
+   <p>
+    The marker will view your word processing file, but only to make sure
+    it contains the same content as your HTML file, so please dont
+    waste time formatting it to make it look pretty.
+   </p> <p>
+    Marks will be removed if your word processing file does not contain
+    the same content as your HTML.
+   </p>
+ </li></ol> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+<h2 id="suggestions"> Suggestions</h2>
+
+ <h3 id="HowtoApproach"> How to approach this assignment</h3>
+ <p> 
+ The assignment asks much:-  Do not attempt to do it all at once.
+ Implement it a bit at a time, testing as you go.   Dont be too ambitious.
+  </p><ul>
+    <li> Initially, do the input phase <b>without</b> validation, and
+          using the <b>simplest</b> scheme.
+    </li><li> Initially, do not attempt the challenges.
+  </li></ul>
+ <h4> Before you Start </h4> 
+ <ul> 
+  <li> Read the assignment specification.
+  </li><li> Read it again taking notes.
+  </li><li> If something is not clear, then ask in the forums.
+ </li></ul> 
+ <h4> Then </h4> 
+ <ul> 
+  <li> 
+    While you have time, and you have not finished the assignment
+    <ul> 
+  <li> Implement something else. 
+     </li><li> Test what you just implemented
+  </li><li> While it does not work as expected:-
+    <ul> 
+     <li> Fix it.
+     </li><li> Test it again.
+    </li></ul> 
+  </li><li> Save a copy of that which worked, so you can go back to it if
+        your next effort proves to be a disaster.
+    </li></ul> 
+ </li></ul> 
+ <p></p> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+ <h3 id="HowtoFinishInput"> How to know when the user has finished inputting</h3>
+ The following are commonly used methods:-
+ <ol> 
+  <li> The program might explicitly ask whether the user wishes to enter
+      data for another person.  E.g.:-
+      <p> <tt> 
+        while (confirm("Do you wish to enter data for another person"))<br>
+        {
+      </tt> </p> 
+      <i> <small> 
+        <ul>
+          <li> Note marks lost for use of a string literal.
+          </li><li> This is simple, so you should do it this way first.
+        </li></ul>
+      </small> </i> 
+  </li><li> 
+     <p> 
+       The user may simply enter the surname name, and the user terminates
+       the input by entering an agreed string (e.g.a blank string) for the
+       surname of the person.
+     </p> 
+     <i> <small>(This may be a little harder)</small> </i> 
+  </li> 
+ </ol> 
+ <p></p> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+<h2 id="challenges">Challenges</h2>
+  <p>
+    The following are challenges.  They are meant to be challenging, and the
+    marks here are definitely not "low hanging fruit", offering few
+    marks for much work.  Even so, you cannot get a "high distinction"
+    in the assignment without attempting at least one of them.
+  </p> <p>
+    It is recommended that you only attempt these if you have finished
+    the non-challenge parts and are confident with your program thus
+    far.  Don't forget to save a working copy of what works.
+   </p>
+   <h3 id="sortRecs"> Sort the Records </h3>
+   <p>
+    This challenge will give experience sorting an array of records and
+    using a custom comparison function to achieve that.
+   </p> <p>
+    As part of the calculation phase, sort the records using the surname
+    as a primary field, and the given name as a secondary field.  Your
+    marker will be able to view the sorted records in the tabular output
+    of your program.
+   </p>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+   <h3 id="dob"> Day of Birth </h3>
+    <p>
+      This challenge will give experience in extracting components from
+      a string as well as extra validation experience.
+    </p>
+    In place of "years of age" you should request the date of birth.
+    <ul>
+      <li>
+        The date of birth must be in the form "dd/mmm/yyyy", (e.g.
+        "05/Nov/1978").
+      </li><li> The date string must be fully validated:-
+      <ol>
+        <li>Split the string into its components:- 
+          <ul>
+            <li> Convert the day to a number.
+            </li><li> Convert the month string to a month index.
+            </li><li> Convert the year to a number.
+          </li></ul>
+        </li><li>Use the components in a constructor for a date object.
+        </li><li>Use isNaN(date.getTime()) as a thorough validation for the date.
+      </li></ol>
+      </li><li> Store the date object, not a string.
+    </li></ul>
+    <p>
+    It is suggested that you write a function called getDate() that
+    performs the input and validation of a date.
+    </p>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+   <h3 id="under"> Unemployed and Under-employed </h3>
+    <img src="./ass2 contents_files/questStruct2.png" width="500"><br>
+    <i> Diagram 4: The Expanded Employment Status.  </i> 
+ <p>
+      The entry of the employment status given above is simplistic.
+      This challenge introduces a more realistic determination of
+      employment status.
+   </p> <p>
+      The entry of the employment status is to be expanded:-
+    </p><ol>
+      <li> There are two additional values for the employment status.
+            Please implement and call a function to input the employment
+            status as depicted in Diagram 4.
+      </li><li> Your function should not use global variables.
+      </li><li> Instead of just "employed" or "unemployed" your table will
+          now show one of 4 possible employment status values as
+          depicted.
+      </li><li> Calculate and display both an unemployed rate and an under-employed rate.
+    </li></ol>
+<p></p>
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+
+<h2 id="criteria">Marking Criteria</h2>
+  The assignment is marked out of 130.  It is worth 12% of the marks for the
+  course.
+  <ol> 
+    <li> Data Input Phase  <!-- 40 -->
+      <ul> 
+        <li> (10 marks) The main loop. An appropriate loop structure has
+                        been used for the data entry, and it works.  
+        </li><li> (5 marks) The user must enter the surname
+                        and the program does not allow it to be an empty string.
+        </li><li> (5 marks) The user must enter the given name
+                        and the program does not allow it to be an empty string.
+        </li><li> (5 marks) The user must enter the gender, and it must be
+                        one of the two possible values.
+        </li><li> (5 marks) The user must enter the age in years, and it 
+                        must be between 15 and 100 (inclusive).
+        </li><li> (5 marks) The user must enter the post code, and it 
+                        must consist of exactly 4 digits.
+        </li><li> (5 marks) The user must enter whether employed, and it must be
+                        one of the two possible values.
+      </li></ul> 
+    </li><li> Calculation Phase  <!-- 20 -->
+      <ul> 
+        <li> (10 marks) The rate of unemployment.
+        </li><li> (10 marks) The average unemployed age for men and the
+                        average unemployed age for women.
+      </li></ul> 
+    </li><li> Display Phase <!-- 15 -->
+      <ul> 
+        <li> (10 marks) The inputted data is correctly presented in a
+                        HTML table complete with headings.
+        </li><li> (5 marks)  The unemployment rate, and average ages for
+                        unemployed men and unemployed women is presented.
+      </li></ul>  
+    </li><li> Non-Functional Requirements
+      <p>
+        No challenge here.  The marks here are "low hanging fruit", i.e.
+        easy marks.  It would be sad to lose them.
+      </p>
+      <ul>  <!-- 35 -->
+        <li> (5 marks) Proper variable naming conventions are used.
+        </li><li> (5 marks) Constants are used in place of numeric and string literals.
+        </li><li> (5 marks) Correct use of value types.
+        </li><li> (10 marks) Correct and consistent code indentation.
+        </li><li> (10 marks) Block commenting.
+      </li></ul>
+      
+    </li><li> Challenge marks  <!-- 20 -->
+      <ul>
+        <li> (7 marks) The "Sort the Records" challenge.
+        </li><li> (7 marks) The "Day of Birth" challenge.
+        </li><li> (6 marks) The "Unemployed and Under-employed" challenge.
+      </li></ul>
+  </li></ol> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+
+<h2 id="plagiarism">Plagiarism</h2>
+ <ul> 
+  <li> If you copy and submit someone else's work, then someone else is doing the learning.
+  </li><li> Further details:-
+  <a href="https://policy.usq.edu.au/documents/13752PL">University Policy</a> 
+</li><li>	Your marker will be on the alert for copied work.
+</li><li> We use
+ <a href="https://www.turnitin.com/">Turnitin</a> to assist the apprehension of plagiarism.
+</li><li>	If you are caught:-
+ <ul> 
+	<li> You can be given zero for the assignment or your entire course.
+	</li><li> Your name will go on a register, and future employers may access it.
+ </li></ul> 
+</li></ul> 
+ <p> <a href="https://usqstudydesk.usq.edu.au/m2/pluginfile.php/3219086/mod_resource/content/4/ass2.html?embed=1#top">Top</a></p>
+    
+   
+  
+</body></html>
