@@ -3,7 +3,27 @@
         <meta charset="UTF-8">
         <title>Function Practice</title> 
         <script> 
+            // function squareNumber(n) {
+            //     return n ** 2;
+            // }
 
+            // for (let i=1;i<11;i++) {
+            //     console.log(`${i} squared is ${squareNumber(i)}`);
+            // }
+
+            // userInput = parseInt(prompt("Enter a number"));
+            // console.log(`Your number of ${userInput} squared is ${squareNumber(userInput)}`);
+
+            function promptBool(str) {
+                let userInput = prompt("Enter 'yes' or 'no'");
+                while (userInput !== "yes" && userInput !== "no") {
+                    alert('Bad input, try again')
+                    userInput = prompt("Enter 'yes' or 'no'");
+                }
+                return userInput == "yes";
+            }
+
+            console.log(promptBool());
             
         </script> 
     </head> 
