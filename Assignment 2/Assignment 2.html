@@ -3,7 +3,128 @@
         <meta charset="UTF-8">
         <title>Assignment 2 Jacky</title> 
         <script> 
+        // TODO
+        // check ln 25 for loop exit on empty surname str
+
+
+
+        // 1. CONSTANTS
+            const regIsName = /^[a-zA-Z]{2,}$/;
+            const regIsPCode = /^\d\d\d\d$/;
+            let INPUTPHASE = true;
+
+            let personDB = [];
+
+
+        // 2. FUNCTIONS
+            // Surname input function
+            function promptSName(str) {
+                str = prompt("Enter Surname. (Letters only)").trim();
+                // Surname input validation. Letters only and not empty
+                while (!regIsName.test(str)) {
+                    if (str.length == 0) {
+                    break
+                    }
+                    console.log("Error. Non-letters found or empty input")
+                    str = prompt("Enter Surname. (Letters only)").trim();
+                }
+                return str;
+            }
+
+            // First name input function
+            function promptFName(str) {
+                str = prompt("Enter First Name. (Letters only)").trim();
+                // Surname input validation. Letters only and not empty
+                while (!regIsName.test(str) || str.length == 0) {
+                    console.log("Error. Non-letters found or empty input")
+                    str = prompt("Enter First Name. (Letters only)").trim();
+                }
+                return str;
+            }
+
+            // Gender input function
+            function promptGender(str) {
+                str = prompt("Enter Gender 'M' or 'F'").toUpperCase().trim();
+                // Gender validation, M or F only
+                while (str !== 'M' && str !== "F") {
+                    console.log("Error. Expects 'M' or 'F'");
+                    str = prompt("Enter Gender 'M' or 'F'").toUpperCase().trim();
+                }
+                return str;
+            }
+
+            // Age input function
+            function promptAge(x) {
+                str = parseInt(prompt("Enter age in years"));
+                // Age validation, between 15 and 100
+                while (x < 15 || x > 100 || isNaN(x)) {
+                    console.log("Error. Age must be a number between 15 and 100.")
+                    x = parseInt(prompt("Enter age in years"));
+                }
+                return x;
+            }
+
+            // Postcode input function
+            function promptPCode(x) {
+                x = prompt("Enter 4-digit postcode").trim();
+                while (!regIsPCode.test(x)) {
+                    console.log("Error. Postcode must be a 4 digit input");
+                    x = prompt("Enter postcode").trim();
+                }
+                return x;
+            }
+
+            // Employment status input function
+            function confirmEmployStat(bool) {
+                bool = confirm("Employment status. 'Ok' for employed, 'Cancel' for unemployed");
+                if (bool) {
+                    bool = 'employed';
+                }
+                if (bool === null) {
+                    bool = confirm("Employment status. 'Ok' for employed, 'Cancel' for unemployed");
+                }
+                else {
+                    bool = 'unemployed';
+                }
+                return bool;
+            }
+
+
             
+
+
+        // 3. GLOBAL CODE
+
+        // INPUT PHASE
+            // Create person object to fill 
+            let person = new Object();
+            // Loop to start input phase
+            while (INPUTPHASE) {
+                // 1. Surname input
+                person.sName = promptSName();
+                // // 2. First name input
+                // person.FName = promptFName();
+                // // 3. Gender input
+                // person.gender = promptGender();
+                // // 4. Age input
+                // person.ageYrs = promptAge();
+                // // 5. Postcode Input 
+                // person.pCode = promptPCode();
+                // 6. Employment status input
+                person.employStat = confirmEmployStat();
+
+                // Add person to DB
+                personDB.push(person);
+
+                // Ask user if they want to add another person
+                INPUTPHASE = confirm("Do you want to enter another person?");
+            }
+
+            console.log(personDB);
+
+
+
+
         </script> 
     </head> 
     <body> 
