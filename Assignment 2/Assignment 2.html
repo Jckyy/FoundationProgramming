@@ -4,12 +4,12 @@
         <title>Assignment 2 Jacky</title> 
         <script> 
         // TODO
-        // check ln 25 for loop exit on empty surname str
+        // break loop on empty surname string
 
 
 
         // 1. CONSTANTS
-            const regIsName = /^[a-zA-Z]{2,}$/;
+            const regIsName = /^[A-Za-z]+/;
             const regIsPCode = /^\d\d\d\d$/;
             let INPUTPHASE = true;
 
@@ -17,14 +17,20 @@
 
 
         // 2. FUNCTIONS
+            // Surname input loop exit
+            // function sNameExit(str) {
+            //     if (str === 'abc') {
+            //         break;
+            //     }
+                
+            // }
+
+        
             // Surname input function
             function promptSName(str) {
                 str = prompt("Enter Surname. (Letters only)").trim();
                 // Surname input validation. Letters only and not empty
                 while (!regIsName.test(str)) {
-                    if (str.length == 0) {
-                    break
-                    }
                     console.log("Error. Non-letters found or empty input")
                     str = prompt("Enter Surname. (Letters only)").trim();
                 }
@@ -55,7 +61,7 @@
 
             // Age input function
             function promptAge(x) {
-                str = parseInt(prompt("Enter age in years"));
+                x = parseInt(prompt("Enter age in years"));
                 // Age validation, between 15 and 100
                 while (x < 15 || x > 100 || isNaN(x)) {
                     console.log("Error. Age must be a number between 15 and 100.")
@@ -102,14 +108,19 @@
             while (INPUTPHASE) {
                 // 1. Surname input
                 person.sName = promptSName();
-                // // 2. First name input
-                // person.FName = promptFName();
-                // // 3. Gender input
-                // person.gender = promptGender();
-                // // 4. Age input
-                // person.ageYrs = promptAge();
-                // // 5. Postcode Input 
-                // person.pCode = promptPCode();
+                // 1.1 Check loop exit
+                if (person.sName == 'abc') {
+                    INPUTPHASE = false;
+                }
+                // sNameExit(person.sName);
+                // 2. First name input
+                person.FName = promptFName();
+                // 3. Gender input
+                person.gender = promptGender();
+                // 4. Age input
+                person.ageYrs = promptAge();
+                // 5. Postcode Input 
+                person.pCode = promptPCode();
                 // 6. Employment status input
                 person.employStat = confirmEmployStat();
 

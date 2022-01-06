@@ -14,16 +14,42 @@
             // userInput = parseInt(prompt("Enter a number"));
             // console.log(`Your number of ${userInput} squared is ${squareNumber(userInput)}`);
 
-            function promptBool(str) {
-                let userInput = prompt("Enter 'yes' or 'no'");
-                while (userInput !== "yes" && userInput !== "no") {
-                    alert('Bad input, try again')
-                    userInput = prompt("Enter 'yes' or 'no'");
-                }
-                return userInput == "yes";
-            }
+            // function promptBool(str) {
+            //     let userInput = prompt("Enter 'yes' or 'no'");
+            //     while (userInput !== "yes" && userInput !== "no") {
+            //         alert('Bad input, try again')
+            //         userInput = prompt("Enter 'yes' or 'no'");
+            //     }
+            //     return userInput == "yes";
+            // }
 
-            console.log(promptBool());
+            // Compound interest function
+            // A = P(1+(r/n))^(n*t)
+
+            function compoundInterest() {
+                let time, rate, principal, frequency, final, accrued;
+                principal = parseFloat(prompt('Principal/Starting Amount'));
+                rate = parseFloat(prompt('Rate % (__%)'))/100;
+                frequency = parseInt(prompt('Compound/Frequency per year',1));
+                time = parseInt(prompt('How many years?'));
+
+                base = (1 + (rate/frequency));
+                exponent = frequency*time;
+                accrued = Math.pow(base,exponent);
+                final = principal * accrued;
+                // principal * (1+(rate/frequency)) ^ (frequency*time);
+
+                console.log(principal);
+                console.log(rate);
+                console.log(frequency);
+                console.log(time);
+                console.log(base);
+                console.log(exponent);
+                console.log(final);
+
+
+            }
+            compoundInterest();
             
         </script> 
     </head> 
