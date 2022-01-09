@@ -9,73 +9,75 @@
 
 
         // 1. CONSTANTS
-            const regIsName = /^[A-Za-z]+/;
+            const regIsName = /^[A-Za-z]/;
             const regIsPCode = /^\d\d\d\d$/;
+            const EXITINPUT = "0";
             let INPUTPHASE = true;
 
             let personDB = [];
 
+            const STR_SNAME = "Enter Surname. (Letters only, type exit to stop input)";
+            const STR_FNAME = "Enter First Name. (Letters only)";
+            const STR_NAME_ERROR = "Error. Non-letters found or empty input"
+            const STR_GENDER = "Enter Gender 'M' or 'F'";
+            const STR_GENDER_ERROR = "Error. Expects 'M' or 'F'";
+            const STR_AGE = "Enter age in years";
+            const STR_AGE_ERROR = "Error. Age must be a number between 15 and 100.";
+            const STR_PCODE = "Enter 4-digit postcode";
+            const STR_PCODE_ERROR = "Error. Postcode must be a 4 digit input";
 
         // 2. FUNCTIONS
-            // Surname input loop exit
-            // function sNameExit(str) {
-            //     if (str === 'abc') {
-            //         break;
-            //     }
-                
-            // }
-
-        
+       
             // Surname input function
             function promptSName(str) {
-                str = prompt("Enter Surname. (Letters only)").trim();
+                str = prompt(STR_SNAME).trim();
                 // Surname input validation. Letters only and not empty
                 while (!regIsName.test(str)) {
-                    console.log("Error. Non-letters found or empty input")
-                    str = prompt("Enter Surname. (Letters only)").trim();
+                    alert(STR_NAME_ERROR);
+                    str = prompt(STR_SNAME).trim();
                 }
                 return str;
             }
 
             // First name input function
             function promptFName(str) {
-                str = prompt("Enter First Name. (Letters only)").trim();
+                str = prompt(STR_FNAME).trim();
                 // Surname input validation. Letters only and not empty
                 while (!regIsName.test(str) || str.length == 0) {
-                    console.log("Error. Non-letters found or empty input")
-                    str = prompt("Enter First Name. (Letters only)").trim();
+                    alert(STR_NAME_ERROR);
+                    str = prompt(STR_FNAME).trim();
                 }
                 return str;
             }
 
             // Gender input function
             function promptGender(str) {
-                str = prompt("Enter Gender 'M' or 'F'").toUpperCase().trim();
+                str = prompt(STR_GENDER).toUpperCase().trim();
                 // Gender validation, M or F only
                 while (str !== 'M' && str !== "F") {
-                    console.log("Error. Expects 'M' or 'F'");
-                    str = prompt("Enter Gender 'M' or 'F'").toUpperCase().trim();
+                    alert(STR_GENDER_ERROR);
+                    str = prompt(STR_G).toUpperCase().trim();
                 }
                 return str;
             }
 
             // Age input function
             function promptAge(x) {
-                x = parseInt(prompt("Enter age in years"));
+                x = parseInt(prompt(STR_AGE));
                 // Age validation, between 15 and 100
                 while (x < 15 || x > 100 || isNaN(x)) {
-                    console.log("Error. Age must be a number between 15 and 100.")
-                    x = parseInt(prompt("Enter age in years"));
+                    alert(STR_AGE_ERROR);
+                    x = parseInt(prompt(STR_AGE));
                 }
                 return x;
             }
 
             // Postcode input function
             function promptPCode(x) {
-                x = prompt("Enter 4-digit postcode").trim();
+                x = prompt(STR_PCODE).trim();
                 while (!regIsPCode.test(x)) {
-                    console.log("Error. Postcode must be a 4 digit input");
-                    x = prompt("Enter postcode").trim();
+                    console.log(STR_PCODE_ERROR);
+                    x = prompt(STR_PCODE).trim();
                 }
                 return x;
             }
@@ -108,21 +110,19 @@
             while (INPUTPHASE) {
                 // 1. Surname input
                 person.sName = promptSName();
-                // 1.1 Check loop exit
-                if (person.sName == 'abc') {
-                    INPUTPHASE = false;
+                if (person.sName == "exit") {
+                    break
                 }
-                // sNameExit(person.sName);
-                // 2. First name input
-                person.FName = promptFName();
-                // 3. Gender input
-                person.gender = promptGender();
-                // 4. Age input
-                person.ageYrs = promptAge();
-                // 5. Postcode Input 
-                person.pCode = promptPCode();
-                // 6. Employment status input
-                person.employStat = confirmEmployStat();
+                // // 2. First name input
+                // person.FName = promptFName();
+                // // 3. Gender input
+                // person.gender = promptGender();
+                // // 4. Age input
+                // person.ageYrs = promptAge();
+                // // 5. Postcode Input 
+                // person.pCode = promptPCode();
+                // // 6. Employment status input
+                // person.employStat = confirmEmployStat();
 
                 // Add person to DB
                 personDB.push(person);
@@ -132,8 +132,6 @@
             }
 
             console.log(personDB);
-
-
 
 
         </script> 
