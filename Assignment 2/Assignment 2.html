@@ -1,142 +1,263 @@
-<html> 
-    <head> 
-        <meta charset="UTF-8">
-        <title>Assignment 2 Jacky</title> 
-        <script> 
-        // TODO
-        // break loop on empty surname string
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Assignment 2 Jacky</title>
+		<script>
+			// TODO
+			// break loop on empty surname string
 
+			// 1. CONSTANTS
+			const regIsName = /^[A-Za-z]/;
+			const regIsPCode = /^\d\d\d\d$/;
+			const EXITINPUT = "0";
+			let INPUTPHASE = true;
+			let CALCPHASE = true;
 
+			let personDB = [];
 
-        // 1. CONSTANTS
-            const regIsName = /^[A-Za-z]/;
-            const regIsPCode = /^\d\d\d\d$/;
-            const EXITINPUT = "0";
-            let INPUTPHASE = true;
+			const STR_SNAME = "Enter Surname. (Letters only, type exit to stop input)";
+			const STR_FNAME = "Enter First Name. (Letters only)";
+			const STR_NAME_ERROR = "Error. Non-letters found or empty input";
+			const STR_GENDER = "Enter Gender 'M' or 'F'";
+			const STR_GENDER_ERROR = "Error. Expects 'M' or 'F'";
+			const STR_AGE = "Enter age in years";
+			const STR_AGE_ERROR = "Error. Age must be a number between 15 and 100.";
+			const STR_PCODE = "Enter 4-digit postcode";
+			const STR_PCODE_ERROR = "Error. Postcode must be a 4 digit input";
 
-            let personDB = [];
+			const STR_EMPLOYSTATUS =
+				"Employment status. 'Ok' for employed, 'Cancel' for unemployed";
 
-            const STR_SNAME = "Enter Surname. (Letters only, type exit to stop input)";
-            const STR_FNAME = "Enter First Name. (Letters only)";
-            const STR_NAME_ERROR = "Error. Non-letters found or empty input"
-            const STR_GENDER = "Enter Gender 'M' or 'F'";
-            const STR_GENDER_ERROR = "Error. Expects 'M' or 'F'";
-            const STR_AGE = "Enter age in years";
-            const STR_AGE_ERROR = "Error. Age must be a number between 15 and 100.";
-            const STR_PCODE = "Enter 4-digit postcode";
-            const STR_PCODE_ERROR = "Error. Postcode must be a 4 digit input";
+			// 2. FUNCTIONS
 
-        // 2. FUNCTIONS
-       
-            // Surname input function
-            function promptSName(str) {
-                str = prompt(STR_SNAME).trim();
-                // Surname input validation. Letters only and not empty
-                while (!regIsName.test(str)) {
-                    alert(STR_NAME_ERROR);
-                    str = prompt(STR_SNAME).trim();
-                }
-                return str;
-            }
+			// Fill personDB for testing
+			function fillDB(population) {
+				// Generate random integer
+				function getRandomIntInclusive(min, max) {
+					min = Math.ceil(min);
+					max = Math.floor(max);
+					return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+				}
+				// Generate random string
+				function makeName(length) {
+					let result = [];
+					let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+					for (var i = 0; i < length; i++) {
+						result.push(
+							characters.charAt(Math.floor(Math.random() * characters.length))
+						);
+					}
+					return result.join("");
+				}
+				for (let i = 0; i < population; i++) {
+					let person = new Object();
 
-            // First name input function
-            function promptFName(str) {
-                str = prompt(STR_FNAME).trim();
-                // Surname input validation. Letters only and not empty
-                while (!regIsName.test(str) || str.length == 0) {
-                    alert(STR_NAME_ERROR);
-                    str = prompt(STR_FNAME).trim();
-                }
-                return str;
-            }
+					// 1. Surname input
+					person.sName = makeName(getRandomIntInclusive(3, 10));
+					// 2. First name input
+					person.FName = makeName(getRandomIntInclusive(3, 15));
+					// 3. Gender input
+					genderBool = Math.random() < 0.5;
+					if (genderBool) {
+						person.gender = "M";
+					} else if (genderBool === false) {
+						person.gender = "F";
+					}
+					// 4. Age input
+					person.ageYrs = getRandomIntInclusive(16, 99);
+					// 5. Postcode Input
+					person.pCode = getRandomIntInclusive(1000, 9999);
+					// 6. Employment status input
+					employStatBool = Math.random() < 0.8;
+					if (employStatBool) {
+						person.employStat = "employed";
+					} else if (employStatBool === false) {
+						person.employStat = "unemployed";
+					}
 
-            // Gender input function
-            function promptGender(str) {
-                str = prompt(STR_GENDER).toUpperCase().trim();
-                // Gender validation, M or F only
-                while (str !== 'M' && str !== "F") {
-                    alert(STR_GENDER_ERROR);
-                    str = prompt(STR_G).toUpperCase().trim();
-                }
-                return str;
-            }
+					// Add person to DB
+					personDB.push(person);
+				}
+			}
 
-            // Age input function
-            function promptAge(x) {
-                x = parseInt(prompt(STR_AGE));
-                // Age validation, between 15 and 100
-                while (x < 15 || x > 100 || isNaN(x)) {
-                    alert(STR_AGE_ERROR);
-                    x = parseInt(prompt(STR_AGE));
-                }
-                return x;
-            }
+			// Surname input function
+			function promptSName(str) {
+				str = prompt(STR_SNAME).trim();
+				// Surname input validation. Letters only and not empty
+				while (!regIsName.test(str)) {
+					alert(STR_NAME_ERROR);
+					str = prompt(STR_SNAME).trim();
+				}
+				return str;
+			}
 
-            // Postcode input function
-            function promptPCode(x) {
-                x = prompt(STR_PCODE).trim();
-                while (!regIsPCode.test(x)) {
-                    console.log(STR_PCODE_ERROR);
-                    x = prompt(STR_PCODE).trim();
-                }
-                return x;
-            }
+			// First name input function
+			function promptFName(str) {
+				str = prompt(STR_FNAME).trim();
+				// Surname input validation. Letters only and not empty
+				while (!regIsName.test(str) || str.length == 0) {
+					alert(STR_NAME_ERROR);
+					str = prompt(STR_FNAME).trim();
+				}
+				return str;
+			}
 
-            // Employment status input function
-            function confirmEmployStat(bool) {
-                bool = confirm("Employment status. 'Ok' for employed, 'Cancel' for unemployed");
-                if (bool) {
-                    bool = 'employed';
-                }
-                if (bool === null) {
-                    bool = confirm("Employment status. 'Ok' for employed, 'Cancel' for unemployed");
-                }
-                else {
-                    bool = 'unemployed';
-                }
-                return bool;
-            }
+			// Gender input function
+			function promptGender(str) {
+				str = prompt(STR_GENDER).toUpperCase().trim();
+				// Gender validation, M or F only
+				while (str !== "M" && str !== "F") {
+					alert(STR_GENDER_ERROR);
+					str = prompt(STR_G).toUpperCase().trim();
+				}
+				return str;
+			}
 
+			// Age input function
+			function promptAge(x) {
+				x = parseInt(prompt(STR_AGE));
+				// Age validation, between 15 and 100
+				while (x < 15 || x > 100 || isNaN(x)) {
+					alert(STR_AGE_ERROR);
+					x = parseInt(prompt(STR_AGE));
+				}
+				return x;
+			}
 
-            
+			// Postcode input function
+			function promptPCode(x) {
+				x = prompt(STR_PCODE).trim();
+				while (!regIsPCode.test(x)) {
+					console.log(STR_PCODE_ERROR);
+					x = prompt(STR_PCODE).trim();
+				}
+				return x;
+			}
 
+			// Employment status input function
+			function confirmEmployStat(bool) {
+				bool = confirm(STR_EMPLOYSTATUS);
+				if (bool) {
+					bool = "employed";
+				} else if (bool === false) {
+					bool = "unemployed";
+				}
+				return bool;
+			}
 
-        // 3. GLOBAL CODE
+			// Count the number of employed in DB
+			function sumEmployed() {
+				let employedCounter = 0;
+				for (let i = 0; i < personDB.length; i++) {
+					if (personDB[i].employStat == "employed") {
+						employedCounter++;
+					}
+				}
+				return employedCounter;
+			}
 
-        // INPUT PHASE
-            // Create person object to fill 
-            let person = new Object();
-            // Loop to start input phase
-            while (INPUTPHASE) {
-                // 1. Surname input
-                person.sName = promptSName();
-                if (person.sName == "exit") {
-                    break
-                }
-                // // 2. First name input
-                // person.FName = promptFName();
-                // // 3. Gender input
-                // person.gender = promptGender();
-                // // 4. Age input
-                // person.ageYrs = promptAge();
-                // // 5. Postcode Input 
-                // person.pCode = promptPCode();
-                // // 6. Employment status input
-                // person.employStat = confirmEmployStat();
+			// Employment rate
+			function calcEmployRate(x, DB) {
+				let rate;
+				rate = x / DB.length;
+				return rate;
+			}
 
-                // Add person to DB
-                personDB.push(person);
+			// Find Unemployed
+			function unemployedSearch() {
+				let unemployed = [];
+				for (let i = 0; i < personDB.length; i++) {
+					if (personDB[i].employStat.includes("unemployed")) {
+						unemployed.push(personDB[i]);
+					}
+				}
+				return unemployed;
+			}
 
-                // Ask user if they want to add another person
-                INPUTPHASE = confirm("Do you want to enter another person?");
-            }
+			// Find men & female in unemployed
+			function getUnemployedByGender() {
+				let unemployed = unemployedSearch();
+				let unemployedMale = [],
+					unemployedFemale = [];
+				// let unemployedFemale = [];
+				for (let i = 0; i < unemployed.length; i++) {
+					if (unemployed[i].gender === "M") {
+						unemployedMale.push(unemployed[i]);
+					} else if (unemployed[i].gender === "F") {
+						unemployedFemale.push(unemployed[i]);
+					}
+				}
+				return { unemployedMale, unemployedFemale };
+			}
 
-            console.log(personDB);
+			// Find average age of unemployed genders
+			function calcAverageAge(array) {
+				let sum = 0;
+				let averageAge;
+				let n = array.length;
+				for (let i = 0; i < n; i++) {
+					sum += array[i].ageYrs;
+				}
+				averageAge = sum / n;
+				return averageAge;
+			}
+			function getAverageUnemployedAge() {
+				let { unemployedMale, unemployedFemale } = getUnemployedByGender();
+				let averageMaleAge = calcAverageAge(unemployedMale);
+				let averageFemaleAge = calcAverageAge(unemployedFemale);
+				return { averageMaleAge, averageFemaleAge };
+			}
 
+			// 3. GLOBAL CODE
 
-        </script> 
-    </head> 
-    <body> 
-        <!-- Not much to see here. -->
-    </body> 
-</html> 
+			// // INPUT PHASE
+
+			// // Create person object to fill
+			// let person;
+
+			fillDB(50);
+			// // Loop to start input phase
+			// while (INPUTPHASE) {
+			// 	person = new Object();
+			// 	// 1. Surname input
+			// 	person.sName = promptSName();
+			// 	if (person.sName == "exit") {
+			// 		break;
+			// 	}
+			// 	// // 2. First name input
+			// 	// person.FName = promptFName();
+			// 	// // 3. Gender input
+			// 	// person.gender = promptGender();
+			// 	// // 4. Age input
+			// 	// person.ageYrs = promptAge();
+			// 	// // 5. Postcode Input
+			// 	// person.pCode = promptPCode();
+			// 	// 6. Employment status input
+			// 	person.employStat = confirmEmployStat();
+
+			// 	// Add person to DB
+			// 	personDB.push(person);
+
+			// 	// Ask user if they want to add another person
+			// 	INPUTPHASE = confirm("Do you want to enter another person?");
+			// }
+
+			console.log(personDB);
+
+			//CALCULATION PHASE
+			// Sum unemployed
+			let workforce = sumEmployed();
+			// Employment rate
+			let employmentRate = console.log(
+				"Unemployment rate: " + calcEmployRate(workforce, personDB)
+			);
+			// Testing output for full unemployed array
+			// console.log(unemployedSearch());
+			console.log(getUnemployedByGender());
+			console.log(getAverageUnemployedAge());
+		</script>
+	</head>
+	<body>
+		<!-- Not much to see here. -->
+	</body>
+</html>
