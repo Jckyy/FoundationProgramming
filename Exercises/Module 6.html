@@ -1,163 +1,159 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Module 6</title>
-        <script>
-            // Constants and variables
-            const SENTINEL = -1;
-            let sum = 0;    // Sum of user inputs
-            let userInput, message;   // Input from user
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 6</title>
+		<script>
+			// Constants and variables
+			const SENTINEL = -1;
+			let sum = 0; // Sum of user inputs
+			let userInput, message; // Input from user
 
-            // Process inputs until sentinel
-            while (userInput != SENTINEL) {
-            message = 'Enter an integer (' + SENTINEL + ') to end: ';
-            userInput = parseInt(prompt(message));
-            sum += userInput;
-            }
+			// Process inputs until sentinel
+			while (userInput != SENTINEL) {
+				message = "Enter an integer (" + SENTINEL + ") to end: ";
+				userInput = parseInt(prompt(message));
+				sum += userInput;
+			}
 
-            // Output the sum
-            alert('Sum: ' + sum);
+			// Output the sum
+			alert("Sum: " + sum);
 
+			// Constants and variables
+			const SENTINEL = -1;
+			const message = "Enter an integer (" + SENTINEL + ") to end: ";
+			let userInput, sum;
 
-            // Constants and variables
-            const SENTINEL = -1;
-            const message = 'Enter an integer (' + SENTINEL + ') to end: ';
-            let userInput, sum;
+			// Process inputs until sentinel
+			sum = 0; // Sum of user inputs
+			while (true) {
+				userInput = parseInt(prompt(message));
+				if (userInput == SENTINEL) {
+					break;
+				}
+				sum += userInput;
 
-            // Process inputs until sentinel
-            sum = 0;    // Sum of user inputs
-            while (true) {
-            userInput = parseInt(prompt(message));
-            if (userInput == SENTINEL) {
-                break
-            }
-            sum += userInput;
+				// Output the sum
+				document.write("Sum " + sum + "<br>");
+			}
 
-            // Output the sum
-            document.write('Sum ' + sum + '<br>')
-            }
+			// Exercise 1 & 2 & 3: Input heights
+			const ZODIARK = 0;
+			let heights = [];
+			let userInput;
 
+			// Open infinite loop
+			while (true) {
+				userInput = parseInt(prompt("Enter height (cm). Input " + ZODIARK + " to stop"));
+				// Setup SENTINEL to indicate end loop
+				if (userInput == ZODIARK) {
+					break;
+				}
+				// Process user input
+				heights.push(userInput);
+				console.log("Added " + userInput + "cm");
+			}
 
+			// Sum and average the array
+			let average = 0,
+				sum = 0;
+			for (let j = 0; j < heights.length; j++) {
+				sum += heights[j];
+				average = sum / heights.length;
+			}
 
-            // Exercise 1 & 2 & 3: Input heights
-            const ZODIARK = 0;
-            let heights = [];
-            let userInput;
-        
+			// Output the sum and average
+			if (heights.length > 0) {
+				console.log(`Sum: ${sum} \nAverage: ${average}`);
+			}
+			if (heights.length == 0) {
+				console.log("No samples. Can't calculate average");
+			}
 
-            // Open infinite loop
-            while (true) {
-                userInput = parseInt(prompt('Enter height (cm). Input ' + ZODIARK + ' to stop'));
-                // Setup SENTINEL to indicate end loop
-                if (userInput == ZODIARK) {
-                    break
-                }
-                // Process user input
-                heights.push(userInput);
-                console.log("Added " + userInput +"cm");
-            }
+			// Find the minimum of the array
+			let min = Number.POSITIVE_INFINITY;
+			let max = Number.NEGATIVE_INFINITY;
 
-            // Sum and average the array
-            let average = 0, sum = 0;
-            for (let j = 0; j <heights.length; j++) {
-                sum += heights[j];
-                average = sum / heights.length;
-            }
+			for (let i = 0; i < heights.length; i++) {
+				if (heights[i] < min) {
+					min = heights[i];
+				}
+				if (heights[i] > max) {
+					max = heights[i];
+				}
+			}
+			console.log(`Minimum: ${min}cm \nMaximum: ${max}cm`);
 
-            // Output the sum and average
-            if (heights.length > 0) {
-                console.log(`Sum: ${sum} \nAverage: ${average}`);
-            }
-            if (heights.length == 0) {
-                console.log("No samples. Can't calculate average")
-            }
+			// Exercise 4: Write table from Array of Objects
+			// Declare variables and arrays for populating Objects
+			let cities = [];
+			let citiesName = ["Tokyo", "Delhi", "Shanghai", "Sao Paulo"];
+			let citiesPop = [37400000, 28500000, 25600000, 21650000];
 
+			// Loop to populate the cities array
+			let city;
+			for (i = 0; i < citiesName.length; i++) {
+				city = new Object();
+				city.name = citiesName[i];
+				city.pop = citiesPop[i];
+				cities.push(city);
+			}
 
-            // Find the minimum of the array
-            let min = Number.POSITIVE_INFINITY;
-            let max = Number.NEGATIVE_INFINITY;
+			// Logging what is being added to the cities array
+			for (let i = 0; i < cities.length; i++) {
+				console.log(cities[i]);
+			}
 
-            for (let i = 0;i < heights.length; i++) {
-                if (heights[i] < min) {
-                    min = heights[i];
-                }
-                if (heights[i] > max) {
-                    max = heights[i];
-                }
-            }
-            console.log(`Minimum: ${min}cm \nMaximum: ${max}cm`);
+			// Open table and column headers
+			document.write("<table border=1>");
+			document.write("<tr>");
+			document.write("<td><strong>City</strong></td>");
+			document.write("<td><strong>Population</strong></td>");
+			document.write("</tr>");
 
+			// Open row
+			for (let i = 0; i < cities.length; i++) {
+				// Open row
+				document.write("<tr>");
+				// Print City name
+				document.write("<td>" + cities[i].name + "</td>");
+				// Print City pop
+				document.write("<td>" + cities[i].pop + "</td>");
+				// Close row
+				document.write("</tr>");
+			}
+			document.write("</table>");
 
+			// Exercise 5: Find name of largest city
+			let max = Number.NEGATIVE_INFINITY;
+			let iMax = -1;
+			// Loop through every value in the array
+			for (let i = 0; i < cities.length; i++) {
+				// If statement to find the largest population
+				if (cities[i].pop > max) {
+					max = cities[i].pop;
+					iMax = i;
+				}
+			}
+			document.write(
+				`The city with the largest population is ${cities[iMax].name} with ${cities[iMax].pop} people.`
+			);
 
-            // Exercise 4: Write table from Array of Objects
-            // Declare variables and arrays for populating Objects
-            let cities = [];
-            let citiesName = ['Tokyo', 'Delhi', 'Shanghai', 'Sao Paulo'];
-            let citiesPop = [37400000, 28500000, 25600000, 21650000];
-            
-            // Loop to populate the cities array
-            let city;
-            for (i=0;i<citiesName.length;i++) {
-                city = new Object();
-                city.name = citiesName[i];
-                city.pop = citiesPop[i];
-                cities.push(city);
-            }
-            
-            // Logging what is being added to the cities array
-            for (let i=0;i<cities.length;i++) {
-                console.log(cities[i]);
-            }
-
-            // Open table and column headers
-            document.write("<table border=1>");
-            document.write("<tr>");
-            document.write("<td><strong>City</strong></td>");
-            document.write("<td><strong>Population</strong></td>");
-            document.write("</tr>");
-
-            // Open row
-            for (let i=0;i<cities.length;i++) {
-                // Open row
-                document.write("<tr>")
-                // Print City name
-                document.write("<td>" + cities[i].name + "</td>");
-                // Print City pop
-                document.write("<td>" + cities[i].pop + "</td>");
-                // Close row
-                document.write("</tr>")
-            }
-            document.write("</table>");
-            // Exercise 5: Find name of largest city
-            let max = Number.NEGATIVE_INFINITY;
-            let iMax = -1
-            // Loop through every value in the array
-            for (let i=0; i<cities.length;i++) {
-                // If statement to find the largest population
-                if (cities[i].pop > max) {
-                    max = cities[i].pop;
-                    iMax = i;
-                }
-            }
-            document.write(`The city with the largest population is ${cities[iMax].name} with ${cities[iMax].pop} people.`)
-
-
-
-            // Exercise 7: Validation by Lookup
-            const DAYS = ['sunday'
-                        , 'monday'
-                        , 'tuesday'
-                        , 'wednesday'
-                        , 'thursday'
-                        , 'friday'
-                        , 'saturday'
-                        ];
-            let userInput = prompt('Enter day').toLowerCase();
-            while (!DAYS.includes(userInput)) {
-                userInput = prompt('Enter day').toLowerCase(); 
-            }
-            document.write(`Day: ${userInput} <br>`);
-            document.write(`Day Index: ${DAYS.indexOf(userInput)}`);
-        </script>
-    </head>
+			// Exercise 7: Validation by Lookup
+			const DAYS = [
+				"sunday",
+				"monday",
+				"tuesday",
+				"wednesday",
+				"thursday",
+				"friday",
+				"saturday",
+			];
+			let userInput = prompt("Enter day").toLowerCase();
+			while (!DAYS.includes(userInput)) {
+				userInput = prompt("Enter day").toLowerCase();
+			}
+			document.write(`Day: ${userInput} <br>`);
+			document.write(`Day Index: ${DAYS.indexOf(userInput)}`);
+		</script>
+	</head>
 </html>
