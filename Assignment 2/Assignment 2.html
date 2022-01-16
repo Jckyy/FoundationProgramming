@@ -3,6 +3,7 @@
 		<meta charset="UTF-8" />
 		<title>Assignment 2 Jacky</title>
 		<script>
+			"use strict";
 			// 1. CONSTANTS
 
 			const regIsName = /^[A-Za-z]/;
@@ -53,7 +54,7 @@
 					// 2. First name input
 					person.fName = makeName(getRandomIntInclusive(3, 15));
 					// 3. Gender input
-					genderBool = Math.random() < 0.5;
+					let genderBool = Math.random() < 0.5;
 					if (genderBool) {
 						person.gender = "M";
 					} else if (genderBool === false) {
@@ -64,7 +65,7 @@
 					// 5. Postcode Input
 					person.pCode = getRandomIntInclusive(1000, 9999);
 					// 6. Employment status input
-					employStatBool = Math.random() < 0.85;
+					let employStatBool = Math.random() < 0.85;
 					if (employStatBool) {
 						person.employStat = "employed";
 					} else if (employStatBool === false) {
@@ -203,12 +204,66 @@
 				return { averageMaleAge, averageFemaleAge };
 			}
 
+			function makePeopleDBTable() {
+				// State table is empty
+				if (personDB.length === 0) {
+					document.write("<h1>Table is mf empty</h1>");
+				} else {
+					// Employment rate
+					document.write("<h2>Unemployment rate</h2>");
+					document.write("<p>" + unemploymentRate + "</p>");
+
+					// Table for unemployment
+					document.write("<h2>Average age of unemployed</h2>");
+					document.write("<table border=1>");
+					document.write("<tr>");
+					document.write("<td><strong>Group</strong></td>");
+					document.write("<td><strong>Average Age</strong></td>");
+					document.write("</tr>");
+					// Male Unemployment Average Age
+					document.write("<tr>");
+					document.write("<td>Male</td>");
+					document.write("<td>" + maleAvgAgeUnemployed + "</td>");
+					document.write("</tr>");
+					// Female Unemployment Average Age
+					document.write("<tr>");
+					document.write("<td>Female</td>");
+					document.write("<td>" + femaleAvgAgeUnemployed + "</td>");
+					document.write("</tr>");
+					document.write("</table>");
+
+					// Open table for entire DB and column headers
+					document.write("<h2>Person Database</h2>");
+					document.write("<table border=1>");
+					document.write("<tr>");
+					document.write("<td><strong>#</strong></td>");
+					document.write("<td><strong>Surname</strong></td>");
+					document.write("<td><strong>First Name</strong></td>");
+					document.write("<td><strong>Age</strong></td>");
+					document.write("<td><strong>Postcode</strong></td>");
+					document.write("<td><strong>Employment Status</strong></td>");
+					document.write("</tr>");
+					// Open row and fill across with all the Object's parameters
+					for (let i = 0; i < personDB.length; i++) {
+						document.write("<tr>");
+						document.write("<td>" + i + "</td>");
+						document.write("<td>" + personDB[i].sName + "</td>");
+						document.write("<td>" + personDB[i].fName + "</td>");
+						document.write("<td>" + personDB[i].ageYrs + "</td>");
+						document.write("<td>" + personDB[i].pCode + "</td>");
+						document.write("<td>" + personDB[i].employStat + "</td>");
+						document.write("</tr>");
+					}
+					document.write("</table>");
+				}
+			}
+
 			// INPUT PHASE
 
-			fillDB(100);
+			fillDB(10);
 			// Create person object to fill
 			// let person;
-			// Loop to start input phase
+			// // Loop to start input phase
 			// while (INPUTPHASE) {
 			// 	person = new Object();
 			// 	// 1. Surname input
@@ -238,19 +293,41 @@
 
 			//CALCULATION PHASE
 
+			let sortedPersonDB = [];
+			let personDBLengthIndex = personDB.length - 1;
+			let minPerson = personDB[personDB.length - 1];
+			let minPersonNdx = -1;
+
+			for (let j = personDBLengthIndex; j >= 0; j--) {
+				for (let i = personDBLengthIndex; i >= 0; i--) {
+					// Compare Surname
+					console.log("starting loop at " + i);
+					if (personDB[i].sName.localeCompare(minPerson.sName) === 1) {
+						console.log("ye it's smaller");
+						minPerson = personDB[i];
+						minPersonNdx = i;
+					}
+				}
+				sortedPersonDB.push(minPerson);
+				personDB.pop(minPersonNdx);
+				console.log("added person to sorted db");
+			}
+
+			console.log(sortedPersonDB);
+
 			// Sum unemployed
 			let workforce = sumEmployed();
 
 			// Employment rate
 			let unemploymentRate = calcUnemployRate(workforce, personDB);
-			console.log("Unemployment rate: " + calcUnemployRate(workforce, personDB));
+			// console.log("Unemployment rate: " + calcUnemployRate(workforce, personDB));
 
 			// Testing output for full unemployed array
 			// console.log(unemployedSearch());
 
 			// Test for
-			console.log(getUnemployedByGender());
-			console.log(getAverageUnemployedAge());
+			// console.log(getUnemployedByGender());
+			// console.log(getAverageUnemployedAge());
 			// Create object storing the average age of unemployed people split by gender
 			let unemployedAgeByGender = getAverageUnemployedAge();
 			// Store average unemployment ages in variables
@@ -259,57 +336,7 @@
 
 			// DISPLAY PHASE
 
-			// State table is empty
-			if (personDB.length === 0) {
-				document.write("<h1>Table is mf empty</h1>");
-			} else {
-				// Employment rate
-				document.write("<h2>Unemployment rate</h2>");
-				document.write("<p>" + unemploymentRate + "</p>");
-
-				// Table for unemployment
-				document.write("<h2>Average age of unemployed</h2>");
-				document.write("<table border=1>");
-				document.write("<tr>");
-				document.write("<td><strong>Group</strong></td>");
-				document.write("<td><strong>Average Age</strong></td>");
-				document.write("</tr>");
-				// Male Unemployment Average Age
-				document.write("<tr>");
-				document.write("<td>Male</td>");
-				document.write("<td>" + maleAvgAgeUnemployed + "</td>");
-				document.write("</tr>");
-				// Female Unemployment Average Age
-				document.write("<tr>");
-				document.write("<td>Female</td>");
-				document.write("<td>" + femaleAvgAgeUnemployed + "</td>");
-				document.write("</tr>");
-				document.write("</table>");
-
-				// Open table for entire DB and column headers
-				document.write("<h2>Person Database</h2>");
-				document.write("<table border=1>");
-				document.write("<tr>");
-				document.write("<td><strong>#</strong></td>");
-				document.write("<td><strong>Surname</strong></td>");
-				document.write("<td><strong>First Name</strong></td>");
-				document.write("<td><strong>Age</strong></td>");
-				document.write("<td><strong>Postcode</strong></td>");
-				document.write("<td><strong>Employment Status</strong></td>");
-				document.write("</tr>");
-				// Open row and fill across with all the Object's parameters
-				for (let i = 0; i < personDB.length; i++) {
-					document.write("<tr>");
-					document.write("<td>" + i + "</td>");
-					document.write("<td>" + personDB[i].sName + "</td>");
-					document.write("<td>" + personDB[i].fName + "</td>");
-					document.write("<td>" + personDB[i].ageYrs + "</td>");
-					document.write("<td>" + personDB[i].pCode + "</td>");
-					document.write("<td>" + personDB[i].employStat + "</td>");
-					document.write("</tr>");
-				}
-				document.write("</table>");
-			}
+			makePeopleDBTable();
 		</script>
 	</head>
 	<body>
