@@ -1,0 +1,82 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 8</title>
+		<script>
+			"use strict";
+			// Exercise 1: Is target in array
+			let arr = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+			function isInArr(arr, target) {
+				let isFound = false;
+
+				for (let i = 0; i < arr.length; i++) {
+					if (arr[i] === target) {
+						isFound = true;
+						console.log("Target found");
+						break;
+					}
+				}
+				return isFound;
+			}
+
+			function test_isInArr() {
+				document.write("isInARR <br>");
+				document.write("wed: " + isInArr(arr, "wed") + "<br>");
+				document.write("woden: " + isInArr(arr, "woden") + "<br>");
+			}
+
+			test_isInArr();
+
+			// Exercise 2: What index is target in array
+			function ndxOf(arr, target) {
+				let i;
+				for (i = 0; i < arr.length; i++) {
+					if (arr[i] === target) {
+						break;
+					}
+				}
+				if (i < arr.length) {
+					console.log(target + " found at index: " + i);
+				} else {
+					console.log(target + " not found");
+					console.log(i);
+				}
+			}
+
+			ndxOf(arr, "mogn");
+
+			// Exercise 3: Associative Array
+			let arrMap = new Map();
+
+			for (let i = 0; i < arr.length; i++) {
+				arrMap.set(arr[i], { Weather: "Sunny", Rain: 0 });
+			}
+
+			function isValidState(str) {
+				let day = arrMap.get(str);
+				// console.log(day);
+				if (day !== undefined) {
+					console.log(day.Weather, day.Rain);
+				}
+			}
+			isValidState("tue");
+
+			// Exercise 4: Count of target in array
+			let arr2 = [5, 2, 6, 9, 5, 6, 4, 8, 7, 5, 7, 2, 1, 3, 6];
+			function countOf(arr, target) {
+				let counter = 0;
+				for (let i = 0; i < arr2.length; i++) {
+					if (arr2[i] === target) {
+						counter++;
+						console.log("Target found ++ ");
+					}
+				}
+				return counter;
+			}
+			console.log(`6 is in [arr2] ${countOf(arr2, 6)} times`);
+		</script>
+	</head>
+	<body>
+		<!-- Not much to see here. -->
+	</body>
+</html>
