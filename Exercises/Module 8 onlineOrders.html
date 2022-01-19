@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<script>
+			// Possible products to be ordered.
+			let products = [
+				{ pCode: "pc12345", description: "colorful diary", price: 5.25 },
+				{ pCode: "pc12346", description: "plain diary", price: 4.25 },
+				{ pCode: "pc12347", description: "sticky notes", price: 3.25 },
+				{ pCode: "pc12348", description: "stapler", price: 5.25 },
+				{ pCode: "pc12349", description: "staples", price: 2.25 },
+				{ pCode: "pc12350", description: "black pen", price: 1.25 },
+				{ pCode: "pc12351", description: "blue pen", price: 1.25 },
+				{ pCode: "pc12352", description: "red pen", price: 1.25 },
+				{ pCode: "pc12353", description: "pencil", price: 1.25 },
+				{ pCode: "pc12354", description: "ruler", price: 1.25 },
+			];
+
+			// Today's orders.
+			let orders = [
+				{ customer: "cn001", pCode: "pc12353", qty: 2 },
+				{ customer: "cn001", pCode: "pc12354", qty: 5 },
+				{ customer: "cn002", pCode: "pc12345", qty: 3 },
+				{ customer: "cn002", pCode: "pc12346", qty: 3 },
+				{ customer: "cn002", pCode: "pc12345", qty: 3 },
+				{ customer: "cn003", pCode: "pc12344", qty: 3 },
+				{ customer: "cn004", pCode: "pc12345", qty: 3 },
+			];
+
+			// Create an associative array "tally" with a
+			// count of zero for each product code.
+			// let tally = new Map();
+
+			// function tallyPurchased(arr) {
+			// 	for (let i = 0; i < products.length; i++) {
+			// 		tally.set(products[i].pCode), 0;
+			// 	}
+			// 	console.log(tally);
+			// 	for (let i = 0; i < arr.length; i++) {
+			// 		let value = arr[i].pCode;
+			// 		console.log(value);
+			// 		tally.get(value) += arr[i].qty;
+			// 		// tally.set(sale.qty);
+			// 	}
+			// }
+
+			// console.log(tallyPurchased(orders));
+
+			// Tally the quantities of product purchased.
+
+			// Print the tallies of each product in the form of a table.
+
+			// Create an associative array "tally" with a
+			// count of zero for each product code.
+			let tally = new Map();
+			for (let i = 0; i < products.length; i++) {
+				let countObj = new Object();
+				countObj.count = 0;
+				tally.set(products[i].pCode, countObj);
+			}
+
+			// Tally the quantities of product purchased.
+			for (let i = 0; i < orders.length; i++) {
+				countObj = tally.get(orders[i].pCode);
+				if (countObj == undefined) alert("Bad pcode: " + orders[i].pCode);
+				else countObj.count += orders[i].qty;
+			}
+
+			// Print the tallies of each product in the form of a table.
+			document.write("<table border=1>");
+			for (let i = 0; i < products.length; i++) {
+				document.write(
+					"<tr><td>" +
+						products[i].pCode +
+						"</td><td>" +
+						tally.get(products[i].pCode).count +
+						"</td></tr>"
+				);
+			}
+			document.write("</table>");
+		</script>
+	</head>
+	<body></body>
+</html>
