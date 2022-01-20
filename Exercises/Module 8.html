@@ -75,35 +75,71 @@
 			// }
 			// console.log(`6 is in [arr2] ${countOf(arr2, 6)} times`);
 
-			//Exercise 5: Tally
-			let arr3 = [5, 2, 6, 9, 5, 6, 4, 8, 7, 5, 7, 2, 1, 3, 6];
-			console.log("arr3", arr3);
-			function tallyNumbers(arr) {
-				let tally = [];
-				// Set all tallies to 0
-				for (let i = 0; i < 10; i++) {
-					tally.push(0);
-				}
+			// //Exercise 5: Tally
+			// let arr3 = [5, 2, 6, 9, 5, 6, 4, 8, 7, 5, 7, 2, 1, 3, 6];
+			// console.log("arr3", arr3);
+			// function tallyNumbers(arr) {
+			// 	let tally = [];
+			// 	// Set all tallies to 0
+			// 	for (let i = 0; i < 10; i++) {
+			// 		tally.push(0);
+			// 	}
 
-				for (let i = 0; i < arr3.length; i++) {
-					let value = arr[i];
-					tally[value]++;
-				}
-				return tally;
+			// 	for (let i = 0; i < arr3.length; i++) {
+			// 		let value = arr[i];
+			// 		tally[value]++;
+			// 	}
+			// 	return tally;
+			// }
+			// console.log("tallied arr3", tallyNumbers(arr3));
+
+			// // Exercise 6: Swapping Two Numbers
+			// let arr4 = [2, 6, 3, 8, 3];
+			// let i = parseInt(prompt("Enter first index"));
+			// let j = parseInt(prompt("Enter second index"));
+			// let t = -1;
+
+			// t = arr4[j];
+			// arr4[j] = arr4[i];
+			// arr4[i] = t;
+
+			// console.log(arr4);
+
+			function swapTwoNums(x, y) {
+				t = y;
+				y = x;
+				x = t;
+				return x, y;
 			}
-			console.log("tallied arr3", tallyNumbers(arr3));
 
-			// Exercise 6: Swapping Two Numbers
-			let arr4 = [2, 6, 3, 8, 3];
-			let i = parseInt(prompt("Enter first index"));
-			let j = parseInt(prompt("Enter second index"));
-			let t = -1;
+			// Exercise 7: Code a Bubble Sort
+			let arr5 = [5, 2, 6, 9, 5, 6, 4, 8, 7, 5, 7, 2, 1, 3, 6];
+			function bsort(arr, cmpr) {
+				for (let i = arr.length; i >= 2; i--) {
+					for (let j = 1; j < i; j++) {
+						if (cmpr(arr[j - 1], arr[j]) == 1) {
+							let temp = arr[j - 1];
+							arr[j - 1] = arr[j];
+							arr[j] = temp;
+						}
+					}
+				}
+			}
+			bsort(arr5, compare);
+			console.log(arr5);
 
-			t = arr4[j];
-			arr4[j] = arr4[i];
-			arr4[i] = t;
-
-			console.log(arr4);
+			// Exercise 8: Use a comparison function
+			function compare(a, b) {
+				if (a < b) {
+					return -1;
+				} else if (a === b) {
+					return 0;
+				}
+				// If j-1 is bigger then j, then swap
+				else if (a > b) {
+					return 1;
+				}
+			}
 		</script>
 	</head>
 	<body>
