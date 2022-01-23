@@ -103,18 +103,18 @@
 			// arr4[j] = arr4[i];
 			// arr4[i] = t;
 
-			console.log(arr4);
+			// console.log(arr4);
 
-			function swapTwoNums(x, y) {
-				let t = y;
-				y = x;
-				x = t;
-				console.log(x, y);
-				return x, y;
-			}
+			// function swapTwoNums(x, y) {
+			// 	let t = y;
+			// 	y = x;
+			// 	x = t;
+			// 	console.log(x, y);
+			// 	return x, y;
+			// }
 
-			swapTwoNums(arr4[0], arr4[1]);
-			console.log(arr4);
+			// swapTwoNums(arr4[0], arr4[1]);
+			// console.log(arr4);
 
 			// // Exercise 7: Code a Bubble Sort
 			// let arr5 = [5, 2, 6, 9, 5, 6, 4, 8, 7, 5, 7, 2, 1, 3, 6];
@@ -144,6 +144,54 @@
 			// 		return 1;
 			// 	}
 			// }
+
+			// Exercise 9: Sort Objects
+			let arr6 = [
+				{ fname: "Mirajane", sname: "Strauss" },
+				{ fname: "Lisanna", sname: "Strauss" },
+				{ fname: "Lucy", sname: "Heartfillia" },
+				{ fname: "Erza", sname: "Scarlet" },
+				{ fname: "Natsu", sname: "Dragneel" },
+				{ fname: "Juvia", sname: "Lockser" },
+				{ fname: "Grey", sname: "Fullbuster" },
+			];
+
+			function twoCompares(a, b) {
+				// If surname of A is greater than B
+				if (a.sname > b.sname) {
+					return 1;
+				}
+				// If surname of A is less than B
+				else if (a.sname < b.sname) {
+					return -1;
+				}
+				// If firstname of A is greater than B
+				else if (a.fname > b.fname) {
+					return 1;
+				}
+				// If firstname of A is less than B
+				else if (a.fname < b.fname) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+
+			function bsort2(arr, cmpr) {
+				for (let i = arr.length; i >= 2; i--) {
+					console.log("i: ", i);
+					for (let j = 1; j < i; j++) {
+						console.log(j - 1, j);
+						if (cmpr(arr[j - 1], arr[j]) === 1) {
+							let temp = arr[j - 1];
+							arr[j - 1] = arr[j];
+							arr[j] = temp;
+						}
+					}
+				}
+			}
+			bsort2(arr6, twoCompares);
+			console.log(arr6);
 		</script>
 	</head>
 	<body>

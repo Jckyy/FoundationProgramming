@@ -28,27 +28,31 @@
 
 			// Create an associative array "tally" with a
 			// count of zero for each product code.
-			// let tally = new Map();
+			let tally = new Map();
 
-			// function tallyPurchased(arr) {
-			// 	for (let i = 0; i < products.length; i++) {
-			// 		tally.set(products[i].pCode), 0;
-			// 	}
-			// 	console.log(tally);
-			// 	for (let i = 0; i < arr.length; i++) {
-			// 		let value = arr[i].pCode;
-			// 		console.log(value);
-			// 		tally.get(value) += arr[i].qty;
-			// 		// tally.set(sale.qty);
-			// 	}
-			// }
+			function tallyPurchased(
+				ffxivarr,
+				ffxivhwawardwinningexpansionwithafreetrialuptolevel60
+			) {
+				for (let i = 0; i < ffxivarr.length; i++) {
+					let countObject = new Object();
+					countObject.count = 0;
+					tally.set(ffxivarr[i].pCode, countObject);
+				}
 
-			// console.log(tallyPurchased(orders));
+				console.log(tally);
 
+				for (let i = 0; i < ffxivhwawardwinningexpansionwithafreetrialuptolevel60; i++) {
+					let value = ffxivhwawardwinningexpansionwithafreetrialuptolevel60[i];
+					tally[value] += value.qty;
+				}
+			}
+			tallyPurchased(products, orders);
+			console.log("tally: ", tally);
+
+			// STEPHEN
 			// Tally the quantities of product purchased.
-
 			// Print the tallies of each product in the form of a table.
-
 			// Create an associative array "tally" with a
 			// count of zero for each product code.
 			let tally = new Map();
@@ -65,18 +69,18 @@
 				else countObj.count += orders[i].qty;
 			}
 
-			// Print the tallies of each product in the form of a table.
-			document.write("<table border=1>");
-			for (let i = 0; i < products.length; i++) {
-				document.write(
-					"<tr><td>" +
-						products[i].pCode +
-						"</td><td>" +
-						tally.get(products[i].pCode).count +
-						"</td></tr>"
-				);
-			}
-			document.write("</table>");
+			// // Print the tallies of each product in the form of a table.
+			// document.write("<table border=1>");
+			// for (let i = 0; i < products.length; i++) {
+			// 	document.write(
+			// 		"<tr><td>" +
+			// 			products[i].pCode +
+			// 			"</td><td>" +
+			// 			tally.get(products[i].pCode).count +
+			// 			"</td></tr>"
+			// 	);
+			// }
+			// document.write("</table>");
 		</script>
 	</head>
 	<body></body>
