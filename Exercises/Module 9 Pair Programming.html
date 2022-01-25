@@ -66,31 +66,33 @@
 				for (let l = 0; l < totalHash; l++) {
 					document.write("#");
 				}
-				// Change number for next row
+				// Change number for next row. 1 less space, 2 more hashes
 				startHash--;
 				totalHash += 2;
 				document.write("<br>");
 			}
 
 			// Reverse Triangle
+			// Revert 2 rows of startHash and totalHash
+			// Decrease size of diamond and subtract the final rows' increment
 			startHash += 2;
 			totalHash -= 4;
 
 			for (let i = 1; i <= userInput - 1; i++) {
+				// Draw spaces
 				for (let j = 0; j < startHash; j++) {
 					document.write("&nbsp;");
 				}
+				// Draw #
 				for (let l = 0; l < totalHash; l++) {
 					document.write("#");
 				}
 
+				// Change start and total hash. Opposite of top half of diamond
 				startHash++;
 				totalHash -= 2;
 				document.write("<br>");
 			}
-
-			// console.log(startHash, totalHash);
-
 			document.write("</div>");
 		</script>
 	</head>
