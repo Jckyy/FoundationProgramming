@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module</title>
+		<script>
+			// Old sort function
+			for (let j = personDB.length - 1; j >= 0; j--) {
+				let minPerson = personDB[personDB.length - 1];
+				let minPersonNdx = personDB.length - 1;
+				// personDBLengthIndex = personDB.length - 1;
+				for (let i = personDB.length - 1; i >= 0; i--) {
+					console.log("i = " + i);
+					// Compare Surname
+					// console.log("starting loop at " + i);
+					if (personDB[i].sName.localeCompare(minPerson.sName) === -1) {
+						console.log("ye it's smaller");
+						minPerson = personDB[i];
+						minPersonNdx = i;
+					} else {
+					}
+				}
+				sortedPersonDB.push(personDB[minPersonNdx]);
+				personDB.splice(minPersonNdx, 1);
+				console.log("sorted person db", sortedPersonDB);
+				console.log("original person db", personDB);
+			}
+		</script>
+	</head>
+	<body>
+		<!-- Not much to see here. -->
+	</body>
+</html>

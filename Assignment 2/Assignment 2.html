@@ -38,12 +38,13 @@
 				// Generate random string
 				function makeName(length) {
 					let result = [];
-					let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+					let characters = "abcdefghijklmnopqrstuvwxyz";
 					for (var i = 0; i < length; i++) {
 						result.push(
 							characters.charAt(Math.floor(Math.random() * characters.length))
 						);
 					}
+					result[0] = result[0].toUpperCase();
 					return result.join("");
 				}
 				// Loop to create multiple person Objects to add to DB
@@ -310,35 +311,75 @@
 			let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge.toFixed(1);
 			let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge.toFixed(1);
 
-			makePeopleDBTable();
+			// makePeopleDBTable();
 
 			let sortedPersonDB = [];
-			// let personDBLengthIndex = personDB.length;
 
-			for (let j = personDB.length - 1; j >= 0; j--) {
-				let minPerson = personDB[personDB.length - 1];
-				let minPersonNdx = personDB.length - 1;
-				// personDBLengthIndex = personDB.length - 1;
-				for (let i = personDB.length - 1; i >= 0; i--) {
-					console.log("i = " + i);
-					// Compare Surname
-					// console.log("starting loop at " + i);
-					if (personDB[i].sName.localeCompare(minPerson.sName) === -1) {
-						console.log("ye it's smaller");
-						minPerson = personDB[i];
-						minPersonNdx = i;
-					} else {
+			function bsort2(arr, cmpr) {
+				for (let i = arr.length; i >= 2; i--) {
+					for (let j = 1; j < i; j++) {
+						if (cmpr(arr[j - 1], arr[j]) > 0) {
+							let temp = arr[j - 1];
+							arr[j - 1] = arr[j];
+							arr[j] = temp;
+							console.log("swapped", arr[j - 1].sName, arr[j].sName);
+							console.log(personDB);
+						}
 					}
 				}
-				sortedPersonDB.push(personDB[minPersonNdx]);
-				personDB.splice(minPersonNdx, 1);
-				console.log("sorted person db", sortedPersonDB);
-				console.log("original person db", personDB);
 			}
+
+			function twoCompares(a, b) {
+				console.log("comparing", a.sName, b.sName);
+				// If surname of A is greater than B
+				if (a.sName > b.sName) {
+					return 1;
+				}
+				// If surname of A is less than B
+				else if (a.sName < b.sName) {
+					return -1;
+				}
+				// If firstname of A is greater than B
+				else if (a.fName > b.fName) {
+					return 1;
+				}
+				// If firstname of A is less than B
+				else if (a.fName < b.fName) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+
+			bsort2(personDB, twoCompares);
+			console.log(personDB);
+
+			// let personDBLengthIndex = personDB.length;
+
+			// for (let j = personDB.length - 1; j >= 0; j--) {
+			// 	let minPerson = personDB[personDB.length - 1];
+			// 	let minPersonNdx = personDB.length - 1;
+			// 	// personDBLengthIndex = personDB.length - 1;
+			// 	for (let i = personDB.length - 1; i >= 0; i--) {
+			// 		console.log("i = " + i);
+			// 		// Compare Surname
+			// 		// console.log("starting loop at " + i);
+			// 		if (personDB[i].sName.localeCompare(minPerson.sName) === -1) {
+			// 			console.log("ye it's smaller");
+			// 			minPerson = personDB[i];
+			// 			minPersonNdx = i;
+			// 		} else {
+			// 		}
+			// 	}
+			// 	sortedPersonDB.push(personDB[minPersonNdx]);
+			// 	personDB.splice(minPersonNdx, 1);
+			// 	console.log("sorted person db", sortedPersonDB);
+			// 	console.log("original person db", personDB);
+			// }
 
 			// DISPLAY PHASE
 
-			// makePeopleDBTable();
+			makePeopleDBTable();
 		</script>
 	</head>
 	<body>
