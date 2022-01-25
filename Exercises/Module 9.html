@@ -3,14 +3,56 @@
 		<meta charset="UTF-8" />
 		<title>Module 9 Exercises</title>
 		<script>
-			// Exercise 3: Number range #2
-			let u1 = parseInt(prompt("Enter 1st number"));
-			let u2 = parseInt(prompt("Enter 2nd number"));
-			let u3 = parseInt(prompt("Enter 3rd number"));
-			let min = Math.min(u1, u2, u3);
-			let max = Math.max(u1, u2, u3);
-			let range = max - min;
-			document.write(range);
+			"use strict";
+			// // Exercise 3: Number range #2
+			// let u1 = parseInt(prompt("Enter 1st number"));
+			// let u2 = parseInt(prompt("Enter 2nd number"));
+			// let u3 = parseInt(prompt("Enter 3rd number"));
+			// let min = Math.min(u1, u2, u3);
+			// let max = Math.max(u1, u2, u3);
+			// let range = max - min;
+			// document.write(range);
+
+			// 	// Exercise 4 & 5: Sorting Strings and Numbers
+			// 	const COLOURS = ["blue", "white", "yellow", "black", "red", "green"];
+			// 	COLOURS.sort();
+			// 	console.log(COLOURS);
+
+			// 	arr1 = ["5", "123", "23", "32", "7", "132"];
+			// 	arr1.sort();
+
+			// 	arr2 = [5, 123, 23, 32, 7, 132];
+			// 	arr2.sort();
+			// 	console.log(arr1, arr2);
+
+			// 	arr1.sort(function (a, b) {
+			// 		return a - b;
+			// 	});
+			// 	arr2.sort(function (a, b) {
+			// 		return a - b;
+			// 	});
+			// 	console.log(arr1, arr2);
+
+			// Exercise 7: Number Range #2
+			let SENTINEL = -1;
+			let arr3 = [];
+			while (true) {
+				let userInput = parseInt(prompt("Enter a number. Enter -1 to stop input."));
+				if (userInput === SENTINEL) {
+					break;
+				} else if (userInput != -1) {
+					arr3.push(userInput);
+				}
+			}
+			console.log(arr3);
+
+			arr3.sort(function (a, b) {
+				return a - b;
+			});
+			console.log(arr3);
+
+			let range = arr3[arr3.length - 1] - arr3[0];
+			document.write("Range of arr3: " + range + "<br>");
 		</script>
 	</head>
 	<body>

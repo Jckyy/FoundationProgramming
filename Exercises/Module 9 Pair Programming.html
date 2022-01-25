@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 9 Pair Programming</title>
+		<script>
+			"use strict";
+
+			// // Pair Programming 1: Extract Filename Extension
+			// let files = [
+			// 	"meme.jpg",
+			// 	"anime.mkv",
+			// 	"booba.html",
+			// 	"crazyscreaming.flac",
+			// 	"rightclicksavenft.js",
+			// ];
+			// let fileTypes = [];
+
+			// for (let i = 0; i < files.length; i++) {
+			// 	const splitter = ".";
+			// 	let splitterIndex = files[i].lastIndexOf(splitter);
+			// 	let extension = files[i].slice(++splitterIndex);
+			// 	fileTypes.push(extension);
+			// }
+			// console.log(fileTypes);
+
+			// document.write("<div style=\"font-family: 'Lucida Console', Courier, monospace;\">");
+			// // document.write("aajkjkjiigg");
+			// document.write("</div>");
+
+			// Jackyyy and Lempika making a diamond together - The Movie
+			// PSEUDO:
+			// bribe prompt user to enter the size of diamond
+			// calculate width = (prompt * 2 - 1 lol)
+			// set startHash to width/2 (round up)
+			// set totalHash to 1
+			// for each row in diamond, until prompt
+			//     draw spaces until startHash-1
+			//     draw totalHash
+
+			//     decrement startHash
+			//     add 2 to totalHash
+			//     <br>
+
+			// revert two rows of startHash and totalHash
+			// for each row in diamond, until prompt-1
+			//     draw spaces until startHash-1
+			//     draw totalHash
+
+			//     increment startHash
+			//     subtract 2 from totalHash
+			//     <br>
+
+			document.write("<div style=\"font-family: 'Lucida Console', Courier, monospace;\">");
+
+			let userInput = parseInt(prompt("how beeg do you want diamond?"));
+			const WIDTH = userInput * 2 - 1;
+			let startHash = Math.ceil(WIDTH / 2);
+			let totalHash = 1;
+
+			for (let i = 1; i <= userInput; i++) {
+				// Draw spaces
+				for (let j = 0; j < startHash; j++) {
+					document.write("&nbsp;");
+				}
+				// Draw #
+				for (let l = 0; l < totalHash; l++) {
+					document.write("#");
+				}
+				// Change number for next row
+				startHash--;
+				totalHash += 2;
+				document.write("<br>");
+			}
+
+			// Reverse Triangle
+			startHash += 2;
+			totalHash -= 4;
+
+			for (let i = 1; i <= userInput - 1; i++) {
+				for (let j = 0; j < startHash; j++) {
+					document.write("&nbsp;");
+				}
+				for (let l = 0; l < totalHash; l++) {
+					document.write("#");
+				}
+
+				startHash++;
+				totalHash -= 2;
+				document.write("<br>");
+			}
+
+			// console.log(startHash, totalHash);
+
+			document.write("</div>");
+		</script>
+	</head>
+	<body>
+		<!-- Not much to see here. -->
+	</body>
+</html>
