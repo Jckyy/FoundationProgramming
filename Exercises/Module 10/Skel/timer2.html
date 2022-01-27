@@ -1,0 +1,23 @@
+
+    <html> 
+      <head> 
+        <script> 
+    var img_skel;
+
+    function initialize()
+    {   img_skel = document.getElementById("img_skel");
+        animate(0);
+    }
+
+    function animate(iSkel)
+    {   img_skel.src = "skeleton" + iSkel + ".gif";
+        setTimeout("animate(" + (iSkel+1)%10 + ");", 150);
+    }
+        </script> 
+      </head> 
+      <body onload="initialize();"> 
+        <img id="img_skel" src="skeleton0.gif"> 
+      </body> 
+    </html> 
+
+

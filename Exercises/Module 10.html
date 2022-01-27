@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 10 Exercises</title>
+		<script>
+			// Exercise 1: Use a button
+			let counter = 0;
+			function buttonClicked() {
+				counter++;
+				document.write("DEEZ NUTS Counter:" + counter);
+			}
+
+			// Exercise 2: Dynamic HTML
+			function run() {
+				myDiv = document.getElementById("myDiv");
+				myDiv.innerHTML = "<b>Dynamic</b> <br> man wtf";
+			}
+
+			// Exercise 3: Use a text box
+			function initialise() {
+				txt_numDeaths = document.getElementById("txt_numDeaths");
+			}
+
+			function btnClick() {
+				document.write('You entered "' + txt_numDeaths.value + '"');
+			}
+		</script>
+	</head>
+	<body onload="run();" onload="initialise();">
+		<!-- Exercise 1 -->
+		<form>
+			<input
+				type="button"
+				src="stop-red-button-big-md.png"
+				value="Click"
+				onclick="buttonClicked();"
+			/>
+		</form>
+		<br />
+
+		<!-- Exercise 2 -->
+		<div id="myDiv" style="display: inline">
+			<!-- <form>
+				<input type="button" value="Click on" onclick="buttonClicked();" />
+			</form> -->
+		</div>
+		<br />
+		<br />
+		<!-- Exercise 3 -->
+		<form>
+			<input type="text" required pattern="^\d$" id="txt_numDeaths" />
+			<br />
+			<input type="button" value="Done" onclick="btnClick();" />
+		</form>
+	</body>
+</html>

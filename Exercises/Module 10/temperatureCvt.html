@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<script>
+			let txt_degIn;
+			let txt_degOut;
+
+			function initialize() {
+				// Initialise references to text boxes.
+				txt_degC = document.getElementById("Celsius");
+				txt_degF = document.getElementById("Fahrenheit");
+			}
+
+			function btnClick() {
+				if (txt_degC.value !== 0) {
+					// Get degrees in.
+					degC = txt_degC.value;
+					// Calculate degrees out.
+					degF = degC * 2 + 30;
+					// Display result.
+					txt_degF.value = degF;
+				}
+				if (!isNaN(txt_degF.value)) {
+					// Get degrees in.
+					degF = txt_degF.value;
+					// Calculate degrees out.
+					degC = degF.value - 30 / 2;
+					// Display result.
+					txt_degC.value = degC;
+				}
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<form>
+			<table>
+				<tr>
+					<th>From Celsius</th>
+					<th></th>
+					<th>To Fahrenheit</th>
+				</tr>
+				<tr>
+					<td>
+						<!-- This is for the input -->
+						<input id="Celsius" type="text" />
+					</td>
+					<td>
+						<!-- It happens when you press this button. -->
+						<input type="button" value="convert" onclick="btnClick();" />
+					</td>
+					<td>
+						<!-- Output.  You should disable this text box. -->
+						<input id="Fahrenheit" type="text" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>
