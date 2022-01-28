@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 10 Second Try</title>
+		<script>
+			"use strict";
+			// Exercise 1: Use a button
+			let counter = 0;
+			function buttonClicked() {
+				counter++;
+				document.getElementById("counter").innerHTML = counter;
+			}
+
+			// Exercise 2: Dynamic HTML
+			function ex2run() {
+				myDiv = document.getElementById("myDiv");
+				myDiv.innerHTML = "<b>Dynamic HTML Div<b>";
+				myDiv2 = document.getElementById("myDiv2");
+			}
+		</script>
+	</head>
+	<body onload="ex2run()">
+		<!-- Exercise 1: Use a button -->
+		<form>
+			<input type="button" value="Click on DEEZ NUTS" onclick="buttonClicked();" />
+			<p id="counter">0</p>
+		</form>
+		<br />
+
+		<!-- Exercise 2: Dynamic HTML -->
+		<div id="myDiv" style="display: inline"></div>
+		<div id="myDiv2" style="display: inline"></div>
+	</body>
+</html>
