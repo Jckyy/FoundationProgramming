@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 10 - Exercise 3</title>
+		<script>
+			function e3Initialise() {
+				e3Input = document.getElementById("e3textbox");
+			}
+			function e3Click() {
+				alert(`You have entered ${e3Input.value}`);
+			}
+		</script>
+	</head>
+	<body onload="e3Initialise();">
+		<form>
+			<input type="text" id="e3textbox" required pattern="[0-9]+" />
+			<input type="button" value="Done" onclick="e3Click();" />
+			<br />
+			<input type="date" id="e3textbox" /><br />
+			<input type="color" id="e3textbox" /><br />
+			<input type="file" id="e3textbox" />
+		</form>
+	</body>
+</html>
