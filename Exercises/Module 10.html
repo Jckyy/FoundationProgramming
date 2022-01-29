@@ -25,10 +25,76 @@
 			function btnClick() {
 				document.write('You entered "' + txt_numDeaths.value + '"');
 			}
+
+			// Exercise 4: Select
+			function e4Click() {
+				let selection = document.getElementById("e4Select").value;
+				alert("You have selected: " + selection);
+			}
+
+			// Exercise 5: Radio
+			function e5Initialise() {
+				radio_sizes = document.Exercise5Radio.state;
+			}
+			function e5Click() {
+				let i;
+				for (i = 0; i < radio_sizes.length; i++) {
+					if (radio_sizes[i].checked) {
+						break;
+					}
+				}
+				if (i < radio_sizes.length) {
+					alert("You entered: " + radio_sizes[i].value);
+				} else {
+					alert("Nothing entered");
+				}
+			}
+
+			// Exercise 6: Highlighting a Button
+			let img_powerButton;
+			function e6Initialise() {
+				img_powerButton = document.getElementById("powerButton");
+			}
+			function touchButton(x) {
+				if (x === 2) {
+					img_powerButton.src = "Module 10/powerButton2.png";
+				} else {
+					img_powerButton.src = "Module 10/powerButton1.png";
+				}
+			}
+			function e6clickButton() {
+				alert("You clicked that shit? Ewwwwwww");
+			}
+
+			// Skeleton Animation
+			let img_skel;
+
+			function skeleInitialise() {
+				img_skel = document.getElementById("img_skel");
+				animate(0);
+			}
+
+			function animate(iSkel) {
+				img_skel.src = "Module 10/Skel/skeleton" + iSkel + ".gif";
+				setTimeout("animate(" + ((iSkel + 1) % 10) + ");", 150);
+			}
+
+			// Exercise 7: This may take time
+			function e7Initialise() {
+				document.write("This may take time");
+				e7wait();
+			}
+			function e7wait() {
+				document.writeln(".");
+				setTimeout("e7wait();", 1000);
+			}
 		</script>
 	</head>
-	<body onload="run();" onload="initialise();">
+	<body
+		onload="run(); initialise(); e6Initialise(); e5Initialise(); skeleInitialise(); e7Initialise();"
+	>
 		<!-- Exercise 1 -->
+		<h1>Exercise 1</h1>
 		<form>
 			<input
 				type="button"
@@ -40,18 +106,75 @@
 		<br />
 
 		<!-- Exercise 2 -->
+		<h1>Exercise 2</h1>
 		<div id="myDiv" style="display: inline">
-			<!-- <form>
+			<form>
 				<input type="button" value="Click on" onclick="buttonClicked();" />
-			</form> -->
+			</form>
 		</div>
 		<br />
 		<br />
 		<!-- Exercise 3 -->
+		<h1>Exercise 3</h1>
 		<form>
 			<input type="text" required pattern="^\d$" id="txt_numDeaths" />
 			<br />
 			<input type="button" value="Done" onclick="btnClick();" />
 		</form>
+		<br /><br />
+
+		<!-- Exercise 4 -->
+		<h1>Exercise 4</h1>
+		<form>
+			<select id="e4Select">
+				<option value="">Choose state</option>
+				<option value="vic">Victoria</option>
+				<option value="nsw">New South Wales</option>
+				<option value="tas">Tasmania</option>
+				<option value="act">Australian Capital Territory</option>
+				<option value="qld">Queensland</option>
+				<option value="nt">Northen Territory</option>
+				<option value="wa">Western Australia</option>
+				<option value="sa">South Australia</option>
+			</select>
+			<input type="button" value="Enter" onclick="e4Click();" />
+		</form>
+		<br /><br />
+
+		<!-- Exercise 5 -->
+		<h1>Exercise 5</h1>
+		<form name="Exercise5Radio">
+			<input type="radio" name="state" value="vic" />Victoria &nbsp;
+			<input type="radio" name="state" value="nsw" />New South Wales &nbsp;
+			<input type="radio" name="state" value="tas" />Tasmania &nbsp;
+			<input type="radio" name="state" value="act" />Australian Capital Territory &nbsp;
+			<input type="radio" name="state" value="qld" />Queensland &nbsp;
+			<input type="radio" name="state" value="nt" />Northern Territory &nbsp;
+			<input type="radio" name="state" value="wa" />Western Australia &nbsp;
+			<input type="radio" name="state" value="sa" />South Australia &nbsp;
+			<input type="button" value="Enter" onclick="e5Click();" />
+		</form>
+		<br /><br />
+
+		<!-- Exercise 6 -->
+		<h1>Exercise 6</h1>
+		<img
+			id="powerButton"
+			src="Module 10/powerButton1.png"
+			onmouseenter="touchButton(2);"
+			onmouseleave="touchButton(1);"
+			onclick="e6clickButton();"
+		/>
+
+		<br /><br />
+
+		<!-- Skeleton Animation -->
+		<h1>Skeleton Animation</h1>
+		<img id="img_skel" src="Module 10/Skel/skeleton0.gif" />
+		<br /><br />
+
+		<!-- Exercise 7 -->
+		<h1>Exercise 7</h1>
+		<div id="e7Div"></div>
 	</body>
 </html>
