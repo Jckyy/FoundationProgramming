@@ -4,11 +4,16 @@
 		<meta charset="UTF-8" />
 		<title>Module 10 - Exercise 3</title>
 		<script>
+			let reg_isInt = /^[0-9]+$/;
 			function e3Initialise() {
 				e3Input = document.getElementById("e3textbox");
 			}
 			function e3Click() {
-				alert(`You have entered ${e3Input.value}`);
+				if (reg_isInt.test(e3Input.value)) {
+					alert(`You have entered ${e3Input.value}`);
+				} else {
+					e3textbox.style.borderColor = "red";
+				}
 			}
 		</script>
 	</head>
