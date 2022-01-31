@@ -1,0 +1,359 @@
+<-- Use of this template is completely optional, and use of anything you find in the template is
+completely optional. Please delete any part of the template that you do not use. Please delete this
+HTML comment. -->
+
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>template.html</title>
+		<style>
+			.myButton {
+				border: 0;
+				line-height: 2.5;
+				padding: 0 20px;
+				font-size: 1rem;
+				text-align: center;
+				color: #fff;
+				text-shadow: 1px 1px 1px #000;
+				border-radius: 10px;
+				background-color: #6b5639;
+				background-image: linear-gradient(
+					to top left,
+					rgba(0, 0, 0, 0.2),
+					rgba(0, 0, 0, 0.2) 30%,
+					rgba(0, 0, 0, 0)
+				);
+				box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+					inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+			}
+
+			.myButton:hover {
+				background-color: #000000;
+			}
+
+			.section {
+				border: 4px solid black;
+				border-radius: 25px;
+				padding-bottom: 15px;
+				padding-left: 15px;
+				margin: 15px;
+				background-color: #bca27e;
+			}
+
+			body {
+				background-color: #6b5639;
+			}
+
+			h1 {
+				text-align: center;
+				background-color: #dddddd;
+			}
+
+			input[type="text"] {
+				box-sizing: border-box;
+				height: 24px;
+				line-height: 18px;
+				padding: 2px;
+				border: 1px solid gray;
+			}
+		</style>
+		<script>
+			const MONTH_STR = [
+				"jan",
+				"feb",
+				"mar",
+				"apr",
+				"may",
+				"jun",
+				"jul",
+				"aug",
+				"sep",
+				"oct",
+				"nov",
+				"dec",
+			];
+
+			// If you had a way of representing the categories as an index, then
+			// this array might come in handy.  Also, if the employment category
+			// can be reduced to an index then we can perform tallying to calculate the
+			// count of each category.
+			const EMP_STAT_NAME = ["Not in Workforce", "Unemployed", "UnderEmployed", "Employed"];
+
+			// The data is to be input from the user, so why have I included this
+			// data in the template?  You could use it to develop the other sections
+			// while the input section is still being written.  You could also use it
+			// as part of your testing.
+			let testData = [
+				{
+					fName: "Fred",
+					sName: "Bloggs",
+					gender: "male",
+					dob: new Date(1983, 4, 22),
+					pCode: 2635,
+					curStat: "part",
+					desired: "part",
+				},
+				{
+					fName: "Jane",
+					sName: "Doe",
+					gender: "female",
+					dob: new Date(1985, 5, 22),
+					pCode: 2636,
+					curStat: "full",
+					desired: "full",
+				},
+				{
+					fName: "John",
+					sName: "Smith",
+					gender: "male",
+					dob: new Date(1977, 4, 13),
+					pCode: 2635,
+					curStat: "part",
+					desired: "part",
+				},
+				{
+					fName: "John",
+					sName: "Citizen",
+					gender: "male",
+					dob: new Date(1999, 9, 13),
+					pCode: 2636,
+					curStat: "none",
+					desired: "full",
+				},
+				{
+					fName: "Julie",
+					sName: "Brown",
+					gender: "female",
+					dob: new Date(1963, 11, 2),
+					pCode: 2635,
+					curStat: "none",
+					desired: "part",
+				},
+				{
+					fName: "Fanny",
+					sName: "Mae",
+					gender: "female",
+					dob: new Date(1977, 4, 2),
+					pCode: 2875,
+					curStat: "part",
+					desired: "part",
+				},
+				{
+					fName: "Gale",
+					sName: "Bloggs",
+					gender: "female",
+					dob: new Date(2001, 5, 22),
+					pCode: 2136,
+					curStat: "full",
+					desired: "full",
+				},
+				{
+					fName: "David",
+					sName: "Smith",
+					gender: "male",
+					dob: new Date(1972, 4, 12),
+					pCode: 2635,
+					curStat: "part",
+					desired: "full",
+				},
+				{
+					fName: "Jane",
+					sName: "Citizen",
+					gender: "male",
+					dob: new Date(1989, 9, 3),
+					pCode: 2638,
+					curStat: "none",
+					desired: "none",
+				},
+				{
+					fName: "Charles",
+					sName: "Brown",
+					gender: "male",
+					dob: new Date(1992, 1, 29),
+					pCode: 2635,
+					curStat: "none",
+					desired: "full",
+				},
+			];
+
+			// A function that converts the raw employment data into
+			// an index could be handy for tallying.
+			function empStat(rec) {
+				if (rec.curStat == "full") return 3;
+				if (rec.desired == "none" && rec.curStat == "none") return 0;
+				if (rec.curStat == "none") return 1;
+				if (rec.desired == "full") return 2;
+				return 3;
+			}
+
+			// -------------------------------------------------------------------------
+			// showResults() and showDetails() both use the functions getFiltCriteria()
+			// and filterData(), which, like htmlPeopleTable(), calcResults() and
+			// htmlResutlsTable() are not provided in this template.
+			//
+			// To use showDetails() and showResults(), you would need to figure out a
+			// way so that getFiltCriteria() can ignore the surname and given name text
+			// boxes if they happened not to be present.  Perhaps the empty string
+			// would do.  Or perhaps you can arrange for the text boxes to always be
+			// present, but always hidden.
+			//
+			// As we learned in the workshops, an array only holds references to the
+			// data.  So filtData[] only holds references to some of the objects in
+			// rawData[].  The selected data is not actually duplicated.
+			// -------------------------------------------------------------------------
+
+			// You might call this from the show() button in the details section.
+			function showDetails() {
+				// Get the filter criteria from from the details section.
+				let filtCrit = getFiltCriteria("dtl");
+
+				// Apply the filter criteria to the data generating a subset of the data.
+				let filtData = filterData(rawData, filtCrit);
+
+				// Create the HTML that presents data subset in a table.
+				let tableHtml = htmlPeopleTable(filtData);
+
+				// Display the HTML table.
+				let div = document.getElementById("dtl_table");
+				div.innerHTML = tableHtml;
+			}
+
+			// You might call this from the show() button in the results section.
+			function showResults() {
+				// Get the filter criteria from from the results section.
+				let filtCrit = getFiltCriteria("rslt");
+
+				// Apply the filter criteria to the data generating a subset of the data.
+				let filtData = filterData(rawData, filtCrit);
+
+				// Calculated the results from the data subset.
+				let results = calcResults(filtData);
+
+				// Create the HTML that presents the results in a table.
+				let tableHtml = htmlResultsTable(filtData);
+
+				// Display the HTML table.
+				let div = document.getElementById("rslt_table");
+				div.innerHTML = tableHtml;
+			}
+
+			// Somthing to be called by the body onload event.
+			function initialize() {}
+
+			// Might be handy for error reporting.
+			function highlightLabel(id, isOn) {
+				let lbl = document.getElementById(id);
+				if (isOn) {
+					lbl.style.color = "red";
+					lbl.style.fontWeight = "bold";
+				} else {
+					lbl.style.color = "black";
+					lbl.style.fontWeight = "normal";
+				}
+			}
+		</script>
+	</head>
+	<body onload="initialize();">
+		<h1>Exoplanets</h1>
+
+		<div class="section" id="inputRecord">
+			<h2>Input Planet Record</h2>
+			<table>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<label for="inRec_um" id="lblInRec_um"> Um </label><br />
+									<input id="um" type="text" size="20" />
+								</td>
+								<td>
+									<label for="inRec_tut" id="lblInRec_tut"> tut </label><br />
+									<input class="textbox" id="inRec_tut" type="text" size="10" />
+								</td>
+								<td>
+									<label for="inRec_sut" id="lblInRec_sut"> sut. </label><br />
+									<input class="textbox" id="inRec_sut" type="text" size="20" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td>
+									<label for="inRec_sure" id="lblInRec_sure"> Sure, </label><br />
+									<input id="sure" type="text" size="10" />
+								</td>
+								<td>
+									<label for="inRec_why" id="lblInRec_why"> why </label><br />
+									<input class="textbox" id="inRec_why" type="text" size="20" />
+								</td>
+								<td>
+									<label for="inRec_not" id="lblInRec_not"> not? </label><br />
+									<input class="textbox" id="inRec_not" type="text" size="10" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input
+							class="myButton"
+							type="button"
+							value="Enter"
+							onclick="highlightLabel('lblInRec_tut', true);"
+						/>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="section" id="recList">
+			<h2>List Exoplanets</h2>
+			<table>
+				<tr>
+					<td>
+						<input
+							class="myButton"
+							type="button"
+							value="List"
+							onclick="highlightLabel('lblInRec_tut', false);"
+						/>
+					</td>
+				</tr>
+			</table>
+			<br />
+			<div id="ssList"><!-- A place to put your table. --></div>
+		</div>
+
+		<div class="section" id="recTally">
+			<h2>Tallies of Planet by Discovery Method</h2>
+			<table>
+				<tr>
+					<td>
+						<input class="myButton" type="button" value="Tally" />
+					</td>
+				</tr>
+			</table>
+			<br />
+			<div id="tallies"><!-- A place to put your table. --></div>
+		</div>
+
+		<div class="section" id="recList">
+			<h2>Show All Details</h2>
+			<table>
+				<tr>
+					<td>
+						<input class="myButton" type="button" value="Show" />
+					</td>
+				</tr>
+			</table>
+			<br />
+			<div id="showAll"><!-- A place to put your table. --></div>
+		</div>
+	</body>
+</html>

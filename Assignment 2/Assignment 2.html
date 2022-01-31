@@ -258,10 +258,77 @@
 					document.write("</table>");
 				}
 			}
+			function bsort2(arr, cmpr) {
+				for (let i = arr.length; i >= 2; i--) {
+					for (let j = 1; j < i; j++) {
+						if (cmpr(arr[j - 1], arr[j]) > 0) {
+							let temp = arr[j - 1];
+							arr[j - 1] = arr[j];
+							arr[j] = temp;
+							// console.log("swapped", arr[j - 1].sName, arr[j].sName);
+							// console.log(personDB);
+						}
+					}
+				}
+			}
+
+			function twoCompares(a, b) {
+				console.log("comparing", a.sName, b.sName);
+				// If surname of A is greater than B
+				if (a.sName > b.sName) {
+					return 1;
+				}
+				// If surname of A is less than B
+				else if (a.sName < b.sName) {
+					return -1;
+				}
+				// If firstname of A is greater than B
+				else if (a.fName > b.fName) {
+					return 1;
+				}
+				// If firstname of A is less than B
+				else if (a.fName < b.fName) {
+					return -1;
+				} else {
+					return 0;
+				}
+			}
+
+			function InputFormInitialise() {
+				// let fNameInput = document.getElementById("fNameTxtBox");
+				// console.log("gender_radio", gender_radio.length);
+				// return gender_radio;
+			}
+
+			let formDB = [];
+			let formPerson;
+			function addPersonButton() {
+				// alert(fNameTxtBox.value + " Person added");
+				formPerson = new Object();
+				formPerson.fName = fNameTxtBox.value;
+				formPerson.sName = sNameTxtBox.value;
+				formPerson.gender = document.personForm.gender.value;
+				formPerson.birthday = birthday.value; // String
+				formPerson.pCode = PCodeTxtBox.value; // String
+				formPerson.employStat = document.personForm.employStat.value;
+				formDB.push(formPerson);
+				console.log("formDB", formDB);
+			}
+
+			function highlightLabel(id, isOn) {
+				let label = document.getElementById(id);
+				if (isOn) {
+					label.style.color = "red";
+					label.style.fontWeight = "bold";
+				} else {
+					label.style.color = "black";
+					label.style.fontWeight = "normal";
+				}
+			}
 
 			// INPUT PHASE
 
-			fillDB(10);
+			fillDB(0);
 			// Create person object to fill
 			// let person;
 			// // Loop to start input phase
@@ -315,74 +382,48 @@
 
 			let sortedPersonDB = [];
 
-			function bsort2(arr, cmpr) {
-				for (let i = arr.length; i >= 2; i--) {
-					for (let j = 1; j < i; j++) {
-						if (cmpr(arr[j - 1], arr[j]) > 0) {
-							let temp = arr[j - 1];
-							arr[j - 1] = arr[j];
-							arr[j] = temp;
-							console.log("swapped", arr[j - 1].sName, arr[j].sName);
-							console.log(personDB);
-						}
-					}
-				}
-			}
-
-			function twoCompares(a, b) {
-				console.log("comparing", a.sName, b.sName);
-				// If surname of A is greater than B
-				if (a.sName > b.sName) {
-					return 1;
-				}
-				// If surname of A is less than B
-				else if (a.sName < b.sName) {
-					return -1;
-				}
-				// If firstname of A is greater than B
-				else if (a.fName > b.fName) {
-					return 1;
-				}
-				// If firstname of A is less than B
-				else if (a.fName < b.fName) {
-					return -1;
-				} else {
-					return 0;
-				}
-			}
-
 			bsort2(personDB, twoCompares);
-			console.log(personDB);
-
-			// let personDBLengthIndex = personDB.length;
-
-			// for (let j = personDB.length - 1; j >= 0; j--) {
-			// 	let minPerson = personDB[personDB.length - 1];
-			// 	let minPersonNdx = personDB.length - 1;
-			// 	// personDBLengthIndex = personDB.length - 1;
-			// 	for (let i = personDB.length - 1; i >= 0; i--) {
-			// 		console.log("i = " + i);
-			// 		// Compare Surname
-			// 		// console.log("starting loop at " + i);
-			// 		if (personDB[i].sName.localeCompare(minPerson.sName) === -1) {
-			// 			console.log("ye it's smaller");
-			// 			minPerson = personDB[i];
-			// 			minPersonNdx = i;
-			// 		} else {
-			// 		}
-			// 	}
-			// 	sortedPersonDB.push(personDB[minPersonNdx]);
-			// 	personDB.splice(minPersonNdx, 1);
-			// 	console.log("sorted person db", sortedPersonDB);
-			// 	console.log("original person db", personDB);
-			// }
 
 			// DISPLAY PHASE
 
 			makePeopleDBTable();
 		</script>
 	</head>
-	<body>
-		<!-- Not much to see here. -->
+	<body onload="InputFormInitialise();">
+		<!-- Input form -->
+		<form name="personForm">
+			<label for="fNameTxtBox" id="fNameLabel">First Name</label><br />
+			<input type="text" id="fNameTxtBox" required />
+			<br />
+			<br />
+			<label for="sNameTxtBox" id="sNameLabel">Surname</label><br />
+			<input type="text" id="sNameTxtBox" required />
+			<br /><br />
+			<label for="GenderRadio" id="GenderRadioLabel">Gender</label><br />
+			<input type="radio" name="gender" value="M" /> Male &nbsp;
+			<input type="radio" name="gender" value="F" /> Female &nbsp; <br /><br />
+			<label for="AgeTxtBox" id="AgeLabel">Age</label><br />
+			<input type="text" id="AgeTxtBox" />
+			<br /><br />
+			<label for="DOB" id="DOBLabel">Date of Birth</label><br />
+			<input type="date" id="birthday" /> <br /><br />
+			<label for="PCodeTxtBox" id="PCodeLabel">Postcode</label><br />
+			<input type="text" id="PCodeTxtBox" />
+			<br /><br />
+			<label for="employStat" id="employStatLabel">Employment Status</label><br />
+			<input type="radio" name="employStat" value="employed" /> Employed &nbsp; &nbsp; &nbsp;
+			&nbsp;&nbsp; &nbsp;
+			<input type="radio" name="employStat" value="unemployed" /> Unemployed &nbsp;
+			<br />
+			<input type="radio" name="employStat" value="underemployed" /> Underemployed &nbsp;
+			<input type="radio" name="employStat" value="notinworkforce" /> Not in workforce &nbsp;
+			<br /><br />
+			<input
+				type="button"
+				value="Add Person"
+				onclick="addPersonButton(); highlightLabel('sNameLabel', true);"
+			/>
+			<!-- onclick="highlightLabel('lblInRec_tut', true);" -->
+		</form>
 	</body>
 </html>
