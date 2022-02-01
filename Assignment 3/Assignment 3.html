@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
@@ -57,7 +58,7 @@
 			"use strict";
 			// 1. CONSTANTS
 
-			const regIsName = /^[A-Za-z]/;
+			const regIsName = /^[a-z ,.'-]+$/i;
 			const regIsPCode = /^\d\d\d\d$/;
 			const EXITINPUT = "0";
 			let INPUTPHASE = true;
@@ -128,26 +129,31 @@
 				}
 			}
 
-			// Surname input function
-			function promptSName(str) {
-				str = prompt(STR_SNAME).trim();
+			// Surname validation function
+			function validateSName(str) {
+				str.trim();
 				// Surname input validation. Letters only and not empty
-				while (!regIsName.test(str)) {
-					alert(STR_NAME_ERROR);
-					str = prompt(STR_SNAME).trim();
+				if (!regIsName.test(str) || str.length == 0) {
+					return false;
+				} else {
+					return str;
 				}
-				return str;
+				// while (!regIsName.test(str)) {
+				// 	alert(STR_NAME_ERROR);
+				// 	str = prompt(STR_SNAME).trim();
+				// }
+				// return str;
 			}
 
 			// First name input function
-			function promptFName(str) {
-				str = prompt(STR_FNAME).trim();
+			function validateFName(str) {
+				str.trim();
 				// Surname input validation. Letters only and not empty
-				while (!regIsName.test(str) || str.length == 0) {
-					alert(STR_NAME_ERROR);
-					str = prompt(STR_FNAME).trim();
+				if (!regIsName.test(str) || str.length == 0) {
+					return false;
+				} else {
+					return str;
 				}
-				return str;
 			}
 
 			// Gender input function
@@ -354,17 +360,29 @@
 			let formDB = [];
 			let formPerson;
 			function addPersonButton() {
-				// alert(fNameTxtBox.value + " Person added");
 				formPerson = new Object();
-				formPerson.fName = fNameTxtBox.value;
-				formPerson.sName = sNameTxtBox.value;
+				if (validateFName(fNameTxtBox.value) !== false) {
+					formPerson.fName = validateFName(fNameTxtBox.value);
+				}
+				if (validateSName(sNameTxtBox.value) !== false) {
+					formPerson.sName = validateSName(sNameTxtBox.value);
+				}
 				formPerson.gender = document.personForm.gender.value;
 				formPerson.birthday = birthday.value; // String
 				formPerson.pCode = PCodeTxtBox.value; // String
 				formPerson.employStat = document.personForm.employStat.value;
-				formDB.push(formPerson);
-				console.log("formDB", formDB);
-				alert(`${formPerson.fName} ${formPerson.sName} added`);
+
+				if (formPerson.sName !== undefined && formPerson.fName !== undefined) {
+					formDB.push(formPerson);
+					alert(`${formPerson.fName} ${formPerson.sName} added`);
+					console.log("formDB", formDB);
+				} else if (formPerson.sName == undefined && formPerson.fName == undefined) {
+					highlightLabel("sNameLabel", true);
+					highlightLabel("fNameLabel", true);
+				}
+
+				// console.log("formDB", formDB);
+				// alert(`${formPerson.fName} ${formPerson.sName} added`);
 			}
 
 			function highlightLabel(id, isOn) {
@@ -400,12 +418,12 @@
 			// while (INPUTPHASE) {
 			// 	person = new Object();
 			// 	// 1. Surname input
-			// 	person.sName = promptSName();
+			// 	person.sName = validateSName();
 			// 	if (person.sName == "exit") {
 			// 		break;
 			// 	}
 			// 	// 2. First name input
-			// 	person.fName = promptFName();
+			// 	person.fName = validateFName();
 			// 	// 3. Gender input
 			// 	person.gender = promptGender();
 			// 	// 4. Age input
