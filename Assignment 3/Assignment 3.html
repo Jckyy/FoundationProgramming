@@ -359,8 +359,28 @@
 
 			let formDB = [];
 			let formPerson;
+
+			// Function to add a person to formDB
 			function addPersonButton() {
+				const LABEL_IDS = [
+					"fNameLabel",
+					"sNameLabel",
+					"GenderRadioLabel",
+					"DOBLabel",
+					"PCodeLabel",
+					"employStatLabel",
+				];
+				const FIELD_ERROR_STR = [
+					"Please enter First Name",
+					"Please enter Surname",
+					"Please choose gender",
+					"Please enter Date of Birth",
+					"Please enter a Postcode",
+					"Please choose an employment status",
+				];
 				formPerson = new Object();
+
+				// Validate fields and set keys to formPerson
 				if (validateFName(fNameTxtBox.value) !== false) {
 					formPerson.fName = validateFName(fNameTxtBox.value);
 				}
@@ -372,17 +392,52 @@
 				formPerson.pCode = PCodeTxtBox.value; // String
 				formPerson.employStat = document.personForm.employStat.value;
 
-				if (formPerson.sName !== undefined && formPerson.fName !== undefined) {
-					formDB.push(formPerson);
-					alert(`${formPerson.fName} ${formPerson.sName} added`);
-					console.log("formDB", formDB);
-				} else if (formPerson.sName == undefined && formPerson.fName == undefined) {
-					highlightLabel("sNameLabel", true);
-					highlightLabel("fNameLabel", true);
+				// Set all the labels back to black again
+				for (let i = 0; i < LABEL_IDS.length; i++) {
+					highlightLabel(LABEL_IDS[i], false);
 				}
 
-				// console.log("formDB", formDB);
-				// alert(`${formPerson.fName} ${formPerson.sName} added`);
+				// Check for empty fName and sName, the the rest of the keys and
+				// adds person if all fields are okay
+				if (formPerson.fName == undefined || formPerson.sName == undefined) {
+					if (formPerson.fName == undefined) {
+						highlightLabel("fNameLabel", true);
+						alert("Please enter First Name");
+					} else if (formPerson.sName == undefined) {
+						highlightLabel("sNameLabel", true);
+						alert("Please enter Surname");
+					}
+				} else if (
+					formPerson.gender === "" ||
+					formPerson.birthday === "" ||
+					formPerson.pCode === "" ||
+					formPerson.employStat === ""
+				) {
+					if (formPerson.gender === "") {
+						highlightLabel("GenderRadioLabel", true);
+						alert("Please choose gender");
+					} else if (formPerson.birthday === "") {
+						highlightLabel("DOBLabel", true);
+						alert("Please enter Date of Birth");
+					} else if (formPerson.pCode === "") {
+						highlightLabel("PCodeLabel", true);
+						alert("Please enter a Postcode");
+					} else if (formPerson.employStat === "") {
+						highlightLabel("employStatLabel", true);
+						alert("Please choose an employment status");
+					}
+				} else {
+					// (formPerson.sName !== undefined && formPerson.fName !== undefined)
+					formDB.push(formPerson);
+					for (let i = 0; i < LABEL_IDS.length; i++) {
+						highlightLabel(LABEL_IDS[i], false);
+					}
+					alert(`${formPerson.fName} ${formPerson.sName} added`);
+					console.log("formDB", formDB);
+					for (const key in formPerson) {
+						console.log(`${key}: ${formPerson[key]}`);
+					}
+				}
 			}
 
 			function highlightLabel(id, isOn) {
@@ -399,14 +454,14 @@
 			function clearInputFormFields() {
 				fNameTxtBox.value = "";
 				sNameTxtBox.value = "";
-				document.personForm.gender[0].checked = null;
-				document.personForm.gender[1].checked = null;
+				for (let i = 0; i < document.personForm.gender.length; i++) {
+					document.personForm.gender[i].checked = null;
+				}
 				birthday.value = "";
 				PCodeTxtBox.value = "";
-				document.personForm.employStat[0].checked = null;
-				document.personForm.employStat[1].checked = null;
-				document.personForm.employStat[2].checked = null;
-				document.personForm.employStat[3].checked = null;
+				for (let i = 0; i < document.personForm.employStat.length; i++) {
+					document.personForm.employStat[i].checked = null;
+				}
 			}
 
 			// INPUT PHASE
@@ -506,13 +561,21 @@
 					type="button"
 					class="myButton"
 					value="Add Person"
-					onclick="addPersonButton(); highlightLabel('sNameLabel', true)"
+					onclick="addPersonButton();"
 				/>
 				<input
 					type="button"
 					class="myButton"
 					value="Clear Fields"
 					onclick="clearInputFormFields()"
+				/>
+				<br />
+				<input type="button" class="myButton" value="Generate random person" onclick="" />
+				<input
+					type="button"
+					class="myButton"
+					value="Generate a bunch of random people"
+					onclick=""
 				/>
 
 				<!-- onclick="highlightLabel('lblInRec_tut', true);" -->
