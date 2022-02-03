@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Module 10 Exercise 4</title>
+		<script>
+			// TODO
+			// Dynamic table for results
+			let covidData = [];
+			let state;
+			function initialise() {
+				let numberCases = document.getElementById("numberCases");
+				let deathCount = document.getElementById("deathCount");
+				let inputDiv = document.getElementById("inputDiv");
+				let resultDiv = document.getElementById("resultDiv");
+			}
+
+			function submitState() {
+				state = new Object();
+				state.abb = document.getElementById("userState").value;
+				state.numberCases = numberCases.value;
+				state.deathCount = deathCount.value;
+				if (state.abb === "") {
+					return;
+				} else {
+					covidData.push(state);
+					console.log(covidData);
+				}
+			}
+
+			function finishInput() {
+				stateResult.innerHTML = covidData[0].abb;
+				casesResult.innerHTML = covidData[0].numberCases;
+				deathResult.innerHTML = covidData[0].deathCount;
+				stateResult.innerHTML = covidData[1].abb;
+				casesResult.innerHTML = covidData[1].numberCases;
+				deathResult.innerHTML = covidData[1].deathCount;
+				inputDiv.style.display = "none";
+				resultDiv.style.display = "block";
+			}
+
+			function goBack() {
+				inputDiv.style.display = "block";
+				resultDiv.style.display = "none";
+			}
+		</script>
+	</head>
+	<body onload="initialise();">
+		<div id="inputDiv">
+			<h1>Covid 19 Report</h1>
+			<form>
+				<table>
+					<tr>
+						<td>
+							<label for="userState">State</label>
+						</td>
+						<td>
+							<label for="numberCases">Number of cases</label>
+						</td>
+						<td>
+							<label for="deathCount">Death count</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<select id="userState">
+								<option value="">Choose a state</option>
+								<option value="vic">Victoria</option>
+								<option value="nsw">New South Wales</option>
+								<option value="act">Australian Capital Territory</option>
+								<option value="qld">Queensland</option>
+								<option value="nt">Northern Territory</option>
+								<option value="wa">Western Australia</option>
+								<option value="sa">South Australia</option>
+								<option value="tas">Tasmania</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" id="numberCases" />
+						</td>
+						<td>
+							<input type="text" id="deathCount" />
+							<input type="button" value="Add" onclick="submitState();" />
+						</td>
+					</tr>
+				</table>
+				<br />
+				<input type="button" value="Finished" onclick="finishInput();" />
+			</form>
+		</div>
+		<div id="resultDiv" hidden>
+			<table id="resultTable" border="1">
+				<tr>
+					<th>State</th>
+					<th>Number of Cases</th>
+					<th>Number of Deaths</th>
+				</tr>
+				<tr>
+					<td id="stateResult"></td>
+					<td id="casesResult"></td>
+					<td id="deathResult"></td>
+				</tr>
+				<tr>
+					<td id="stateResult"></td>
+					<td id="casesResult"></td>
+					<td id="deathResult"></td>
+				</tr>
+			</table>
+			<input type="button" value="Go Back" onclick="goBack();" />
+		</div>
+	</body>
+</html>
