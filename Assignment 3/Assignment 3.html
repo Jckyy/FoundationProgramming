@@ -369,6 +369,7 @@
 					"DOBLabel",
 					"PCodeLabel",
 					"employStatLabel",
+					"desiredEmployStatLabel",
 				];
 				const FIELD_ERROR_STR = [
 					"Please enter First Name",
@@ -377,6 +378,7 @@
 					"Please enter Date of Birth",
 					"Please enter a Postcode",
 					"Please choose an employment status",
+					"Please choose a desired employment status",
 				];
 				formPerson = new Object();
 
@@ -389,42 +391,48 @@
 				}
 				formPerson.gender = document.personForm.gender.value;
 				formPerson.birthday = birthday.value; // String
+				formPerson.age = calcUserAge(birthday.value);
 				formPerson.pCode = PCodeTxtBox.value; // String
 				formPerson.employStat = document.personForm.employStat.value;
+				formPerson.desiredEmployStat = document.personForm.desiredEmployStat.value;
 
 				// Set all the labels back to black again
 				for (let i = 0; i < LABEL_IDS.length; i++) {
 					highlightLabel(LABEL_IDS[i], false);
 				}
 
-				// Check for empty fName and sName, the the rest of the keys and
+				// Check for empty fName and sName, then the rest of the keys and
 				// adds person if all fields are okay
 				if (formPerson.fName == undefined || formPerson.sName == undefined) {
 					if (formPerson.fName == undefined) {
 						highlightLabel("fNameLabel", true);
-						alert("Please enter First Name");
+						alert(FIELD_ERROR_STR[0]);
 					} else if (formPerson.sName == undefined) {
 						highlightLabel("sNameLabel", true);
-						alert("Please enter Surname");
+						alert(FIELD_ERROR_STR[1]);
 					}
 				} else if (
 					formPerson.gender === "" ||
 					formPerson.birthday === "" ||
 					formPerson.pCode === "" ||
-					formPerson.employStat === ""
+					formPerson.employStat === "" ||
+					formPerson.desiredEmployStat === ""
 				) {
 					if (formPerson.gender === "") {
 						highlightLabel("GenderRadioLabel", true);
-						alert("Please choose gender");
+						alert(FIELD_ERROR_STR[2]);
 					} else if (formPerson.birthday === "") {
 						highlightLabel("DOBLabel", true);
-						alert("Please enter Date of Birth");
+						alert(FIELD_ERROR_STR[3]);
 					} else if (formPerson.pCode === "") {
 						highlightLabel("PCodeLabel", true);
-						alert("Please enter a Postcode");
+						alert(FIELD_ERROR_STR[4]);
 					} else if (formPerson.employStat === "") {
 						highlightLabel("employStatLabel", true);
-						alert("Please choose an employment status");
+						alert(FIELD_ERROR_STR[5]);
+					} else if (formPerson.desiredEmployStat === "") {
+						highlightLabel("employStatLabel", true);
+						alert(FIELD_ERROR_STR[6]);
 					}
 				} else {
 					// (formPerson.sName !== undefined && formPerson.fName !== undefined)
@@ -434,9 +442,10 @@
 					}
 					alert(`${formPerson.fName} ${formPerson.sName} added`);
 					console.log("formDB", formDB);
-					for (const key in formPerson) {
-						console.log(`${key}: ${formPerson[key]}`);
-					}
+
+					// for (const key in formPerson) {
+					// 	console.log(`${key}: ${formPerson[key]}`);
+					// }
 				}
 			}
 
@@ -462,6 +471,17 @@
 				for (let i = 0; i < document.personForm.employStat.length; i++) {
 					document.personForm.employStat[i].checked = null;
 				}
+				for (let i = 0; i < document.personForm.desiredEmployStat.length; i++) {
+					document.personForm.desiredEmployStat[i].checked = null;
+				}
+			}
+
+			function calcUserAge(birthdate) {
+				const MILLISECONDS_YEAR = 1000 * 60 * 60 * 24 * 365.25;
+				let today = new Date();
+				let userBirthday = new Date(birthdate);
+				let age = (today - userBirthday) / MILLISECONDS_YEAR;
+				return age;
 			}
 
 			// INPUT PHASE
@@ -549,14 +569,22 @@
 				<label for="PCodeTxtBox" id="PCodeLabel">Postcode</label><br />
 				<input type="text" id="PCodeTxtBox" />
 				<br /><br />
-				<label for="employStat" id="employStatLabel">Employment Status</label><br />
-				<input type="radio" name="employStat" value="employed" /> Employed &nbsp; &nbsp;
-				&nbsp; &nbsp;&nbsp; &nbsp;
-				<input type="radio" name="employStat" value="unemployed" /> Unemployed &nbsp;
+				<fieldset>
+					<legend for="employStat" id="employStatLabel">Employment Status</legend>
+					<br />
+					<input type="radio" name="employStat" value="full" id="is-full-time" />
+					<label for="is-full-time">Full-time</label>
+					<input type="radio" name="employStat" value="part" /> Part-time
+					<input type="radio" name="employStat" value="none" /> Unemployed <br /><br />
+				</fieldset>
+
+				<label for="desiredEmployStat" id="desiredEmployStatLabel"
+					>Desired Employment Status</label
+				>
 				<br />
-				<input type="radio" name="employStat" value="underemployed" /> Underemployed &nbsp;
-				<input type="radio" name="employStat" value="notinworkforce" /> Not in workforce
-				&nbsp; <br /><br />
+				<input type="radio" name="desiredEmployStat" value="full" />Full-time &nbsp;
+				<input type="radio" name="desiredEmployStat" value="part" />Part-time
+				<input type="radio" name="desiredEmployStat" value="none" />Unemployed <br /><br />
 				<input
 					type="button"
 					class="myButton"
