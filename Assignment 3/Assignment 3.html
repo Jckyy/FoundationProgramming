@@ -87,6 +87,11 @@
 					max = Math.floor(max);
 					return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 				}
+				function getRandomFloatInclusive(min, max) {
+					min = Math.ceil(min);
+					max = Math.floor(max);
+					return Math.random() * (max - min + 1) + min; //The maximum is inclusive and the minimum is inclusive
+				}
 				// Generate random string
 				function makeName(length) {
 					let result = [];
@@ -99,6 +104,14 @@
 					result[0] = result[0].toUpperCase();
 					return result.join("");
 				}
+				function makeDOB() {
+					let year, month, day, DOB;
+					year = getRandomIntInclusive(1952, 2007); // 16 to 70 years old
+					month = getRandomIntInclusive(1, 12);
+					day = getRandomIntInclusive(1, 28);
+					DOB = year + "-" + month + "-" + day;
+					return DOB;
+				}
 				// Loop to create multiple person Objects to add to DB
 				for (let i = 0; i < population; i++) {
 					let person = new Object();
@@ -110,82 +123,28 @@
 					let genderBool = Math.random() < 0.5;
 					if (genderBool) {
 						person.gender = "M";
-					} else if (genderBool === false) {
+					} else if (!genderBool) {
 						person.gender = "F";
 					}
 					// 4. Age input
-					person.ageYrs = getRandomIntInclusive(16, 99);
+					// person.ageYrs = getRandomIntInclusive(16, 99);
+					person.DOB = makeDOB();
+					person.ageYrs = parseInt(calcUserAge(person.DOB));
 					// 5. Postcode Input
 					person.pCode = getRandomIntInclusive(1000, 9999);
-					// 6. Employment status input
-					let employStatBool = Math.random() < 0.85;
-					if (employStatBool) {
-						person.employStat = "employed";
-					} else if (employStatBool === false) {
-						person.employStat = "unemployed";
+					// 6. Employment status input assignment 3 versioon
+					let employStatBool = getRandomFloatInclusive(-1, 1);
+					if (employStatBool > 0) {
+						person.employStat = "full";
+					} else if (employStatBool < 0 && employStatBool > -0.7) {
+						person.employStat = "part";
+					} else if (employStatBool < -0.7) {
+						person.employStat = "none";
 					}
 					// Add person to DB
 					personDB.push(person);
 				}
-			}
-
-			// Surname validation function
-			function validateSName(str) {
-				str.trim();
-				// Surname input validation. Letters only and not empty
-				if (!regIsName.test(str) || str.length == 0) {
-					return false;
-				} else {
-					return str;
-				}
-				// while (!regIsName.test(str)) {
-				// 	alert(STR_NAME_ERROR);
-				// 	str = prompt(STR_SNAME).trim();
-				// }
-				// return str;
-			}
-
-			// First name input function
-			function validateFName(str) {
-				str.trim();
-				// Surname input validation. Letters only and not empty
-				if (!regIsName.test(str) || str.length == 0) {
-					return false;
-				} else {
-					return str;
-				}
-			}
-
-			// Gender input function
-			function promptGender(str) {
-				str = prompt(STR_GENDER).toUpperCase().trim();
-				// Gender validation, M or F only
-				while (str !== "M" && str !== "F") {
-					alert(STR_GENDER_ERROR);
-					str = prompt(STR_GENDER).toUpperCase().trim();
-				}
-				return str;
-			}
-
-			// Age input function
-			function promptAge(x) {
-				x = parseInt(prompt(STR_AGE));
-				// Age validation, between 15 and 100
-				while (x < 15 || x > 100 || isNaN(x)) {
-					alert(STR_AGE_ERROR);
-					x = parseInt(prompt(STR_AGE));
-				}
-				return x;
-			}
-
-			// Postcode input function
-			function promptPCode(x) {
-				x = prompt(STR_PCODE).trim();
-				while (!regIsPCode.test(x)) {
-					console.log(STR_PCODE_ERROR);
-					x = prompt(STR_PCODE).trim();
-				}
-				return x;
+				console.log(personDB);
 			}
 
 			// Employment status input function
@@ -203,7 +162,7 @@
 			function sumEmployed() {
 				let employedCounter = 0;
 				for (let i = 0; i < personDB.length; i++) {
-					if (personDB[i].employStat == "employed") {
+					if (personDB[i].employStat == "full" || personDB[i].employStat == "part") {
 						employedCounter++;
 					}
 				}
@@ -221,7 +180,7 @@
 			function unemployedSearch() {
 				let unemployed = [];
 				for (let i = 0; i < personDB.length; i++) {
-					if (personDB[i].employStat.includes("unemployed")) {
+					if (personDB[i].employStat.includes("none")) {
 						unemployed.push(personDB[i]);
 					}
 				}
@@ -251,9 +210,13 @@
 				let n = array.length;
 				for (let i = 0; i < n; i++) {
 					sum += array[i].ageYrs;
+					console.log(array[i].ageYrs);
 				}
 				averageAge = sum / n;
-				return averageAge;
+				if (isNaN(averageAge)) {
+					// console.log(averageAge);
+					return (averageAge = "None unemployed");
+				} else return averageAge.toFixed(1);
 			}
 			function getAverageUnemployedAge() {
 				let { unemployedMale, unemployedFemale } = getUnemployedByGender();
@@ -297,6 +260,8 @@
 					document.write("<td><strong>#</strong></td>");
 					document.write("<td><strong>Surname</strong></td>");
 					document.write("<td><strong>First Name</strong></td>");
+					document.write("<td><strong>Gender</strong></td>");
+					document.write("<td><strong>Date of Birth</strong></td>");
 					document.write("<td><strong>Age</strong></td>");
 					document.write("<td><strong>Postcode</strong></td>");
 					document.write("<td><strong>Employment Status</strong></td>");
@@ -307,12 +272,15 @@
 						document.write("<td>" + i + "</td>");
 						document.write("<td>" + personDB[i].sName + "</td>");
 						document.write("<td>" + personDB[i].fName + "</td>");
-						document.write("<td>" + personDB[i].ageYrs + "</td>");
+						document.write("<td>" + personDB[i].gender + "</td>");
+						document.write("<td>" + personDB[i].DOB + "</td>");
+						document.write("<td>" + personDB[i].ageYrs.toFixed(0) + "</td>");
 						document.write("<td>" + personDB[i].pCode + "</td>");
 						document.write("<td>" + personDB[i].employStat + "</td>");
 						document.write("</tr>");
 					}
 					document.write("</table>");
+					document.write("<br>");
 				}
 			}
 			function bsort2(arr, cmpr) {
@@ -322,15 +290,13 @@
 							let temp = arr[j - 1];
 							arr[j - 1] = arr[j];
 							arr[j] = temp;
-							// console.log("swapped", arr[j - 1].sName, arr[j].sName);
-							// console.log(personDB);
 						}
 					}
 				}
 			}
 
 			function twoCompares(a, b) {
-				console.log("comparing", a.sName, b.sName);
+				// console.log("comparing", a.sName, b.sName);
 				// If surname of A is greater than B
 				if (a.sName > b.sName) {
 					return 1;
@@ -357,10 +323,10 @@
 				// return gender_radio;
 			}
 
-			let formDB = [];
-			let formPerson;
+			// personDB = [];
+			let person;
 
-			// Function to add a person to formDB
+			// Function to add a person to personDB
 			function addPersonButton() {
 				const LABEL_IDS = [
 					"fNameLabel",
@@ -380,21 +346,21 @@
 					"Please choose an employment status",
 					"Please choose a desired employment status",
 				];
-				formPerson = new Object();
+				person = new Object();
 
-				// Validate fields and set keys to formPerson
+				// Validate fields and set keys to person
 				if (validateFName(fNameTxtBox.value) !== false) {
-					formPerson.fName = validateFName(fNameTxtBox.value);
+					person.fName = validateFName(fNameTxtBox.value);
 				}
 				if (validateSName(sNameTxtBox.value) !== false) {
-					formPerson.sName = validateSName(sNameTxtBox.value);
+					person.sName = validateSName(sNameTxtBox.value);
 				}
-				formPerson.gender = document.personForm.gender.value;
-				formPerson.birthday = birthday.value; // String
-				formPerson.age = calcUserAge(birthday.value);
-				formPerson.pCode = PCodeTxtBox.value; // String
-				formPerson.employStat = document.personForm.employStat.value;
-				formPerson.desiredEmployStat = document.personForm.desiredEmployStat.value;
+				person.gender = document.personForm.gender.value;
+				person.birthday = birthday.value; // String
+				person.age = calcUserAge(birthday.value);
+				person.pCode = PCodeTxtBox.value; // String
+				person.employStat = document.personForm.employStat.value;
+				person.desiredEmployStat = document.personForm.desiredEmployStat.value;
 
 				// Set all the labels back to black again
 				for (let i = 0; i < LABEL_IDS.length; i++) {
@@ -403,48 +369,48 @@
 
 				// Check for empty fName and sName, then the rest of the keys and
 				// adds person if all fields are okay
-				if (formPerson.fName == undefined || formPerson.sName == undefined) {
-					if (formPerson.fName == undefined) {
+				if (person.fName == undefined || person.sName == undefined) {
+					if (person.fName == undefined) {
 						highlightLabel("fNameLabel", true);
 						alert(FIELD_ERROR_STR[0]);
-					} else if (formPerson.sName == undefined) {
+					} else if (person.sName == undefined) {
 						highlightLabel("sNameLabel", true);
 						alert(FIELD_ERROR_STR[1]);
 					}
 				} else if (
-					formPerson.gender === "" ||
-					formPerson.birthday === "" ||
-					formPerson.pCode === "" ||
-					formPerson.employStat === "" ||
-					formPerson.desiredEmployStat === ""
+					person.gender === "" ||
+					person.birthday === "" ||
+					person.pCode === "" ||
+					person.employStat === "" ||
+					person.desiredEmployStat === ""
 				) {
-					if (formPerson.gender === "") {
+					if (person.gender === "") {
 						highlightLabel("GenderRadioLabel", true);
 						alert(FIELD_ERROR_STR[2]);
-					} else if (formPerson.birthday === "") {
+					} else if (person.birthday === "") {
 						highlightLabel("DOBLabel", true);
 						alert(FIELD_ERROR_STR[3]);
-					} else if (formPerson.pCode === "") {
+					} else if (person.pCode === "") {
 						highlightLabel("PCodeLabel", true);
 						alert(FIELD_ERROR_STR[4]);
-					} else if (formPerson.employStat === "") {
+					} else if (person.employStat === "") {
 						highlightLabel("employStatLabel", true);
 						alert(FIELD_ERROR_STR[5]);
-					} else if (formPerson.desiredEmployStat === "") {
+					} else if (person.desiredEmployStat === "") {
 						highlightLabel("employStatLabel", true);
 						alert(FIELD_ERROR_STR[6]);
 					}
 				} else {
-					// (formPerson.sName !== undefined && formPerson.fName !== undefined)
-					formDB.push(formPerson);
+					// (person.sName !== undefined && person.fName !== undefined)
+					personDB.push(person);
 					for (let i = 0; i < LABEL_IDS.length; i++) {
 						highlightLabel(LABEL_IDS[i], false);
 					}
-					alert(`${formPerson.fName} ${formPerson.sName} added`);
-					console.log("formDB", formDB);
+					alert(`${person.fName} ${person.sName} added`);
+					console.log("personDB", personDB);
 
-					// for (const key in formPerson) {
-					// 	console.log(`${key}: ${formPerson[key]}`);
+					// for (const key in person) {
+					// 	console.log(`${key}: ${person[key]}`);
 					// }
 				}
 			}
@@ -485,35 +451,7 @@
 			}
 
 			// INPUT PHASE
-
-			fillDB(0);
-			// Create person object to fill
-			// let person;
-			// // Loop to start input phase
-			// while (INPUTPHASE) {
-			// 	person = new Object();
-			// 	// 1. Surname input
-			// 	person.sName = validateSName();
-			// 	if (person.sName == "exit") {
-			// 		break;
-			// 	}
-			// 	// 2. First name input
-			// 	person.fName = validateFName();
-			// 	// 3. Gender input
-			// 	person.gender = promptGender();
-			// 	// 4. Age input
-			// 	person.ageYrs = promptAge();
-			// 	// 5. Postcode Input
-			// 	person.pCode = promptPCode();
-			// 	// 6. Employment status input
-			// 	person.employStat = confirmEmployStat();
-
-			// 	// Add person to DB
-			// 	personDB.push(person);
-
-			// 	// Ask user if they want to add another person
-			// 	INPUTPHASE = confirm("Do you want to enter another person?");
-			// }
+			fillDB(20);
 
 			//CALCULATION PHASE
 
@@ -533,58 +471,92 @@
 			// Create object storing the average age of unemployed people split by gender
 			let unemployedAgeByGender = getAverageUnemployedAge();
 			// Store average unemployment ages in variables
-			let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge.toFixed(1);
-			let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge.toFixed(1);
+			let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge;
+			let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge;
 
-			// makePeopleDBTable();
-
-			let sortedPersonDB = [];
-
+			// let sortedPersonDB = [];
 			bsort2(personDB, twoCompares);
 
 			// DISPLAY PHASE
-
 			makePeopleDBTable();
 		</script>
 	</head>
 	<body onload="InputFormInitialise();">
+		<h1>Unemployment Survey</h1>
 		<!-- Input form -->
-		<div id="inputForm">
+		<div id="inputForm" class="section">
+			<h2>Input Person Form</h2>
 			<form name="personForm">
-				<label for="fNameTxtBox" id="fNameLabel">First Name</label><br />
-				<input type="text" id="fNameTxtBox" required />
-				<br />
-				<br />
-				<label for="sNameTxtBox" id="sNameLabel">Surname</label><br />
-				<input type="text" id="sNameTxtBox" required />
-				<br /><br />
-				<label for="GenderRadio" id="GenderRadioLabel">Gender</label><br />
-				<input type="radio" name="gender" value="M" /> Male &nbsp;
-				<input type="radio" name="gender" value="F" /> Female &nbsp; <br /><br />
-				<!-- <label for="AgeTxtBox" id="AgeLabel">Age</label><br />
-				<input type="text" id="AgeTxtBox" />
-				<br /><br /> -->
-				<label for="DOB" id="DOBLabel">Date of Birth</label><br />
-				<input type="date" id="birthday" /> <br /><br />
-				<label for="PCodeTxtBox" id="PCodeLabel">Postcode</label><br />
-				<input type="text" id="PCodeTxtBox" />
-				<br /><br />
+				<fieldset>
+					<legend>Name</legend>
+					<label for="fNameTxtBox" id="fNameLabel">First Name</label> <br />
+					<input type="text" id="fNameTxtBox" required />
+					<br /><br />
+					<label for="sNameTxtBox" id="sNameLabel">Surname</label>
+					<br />
+					<input type="text" id="sNameTxtBox" required />
+				</fieldset>
+
+				<fieldset>
+					<legend for="GenderRadio" id="GenderRadioLabel">Gender</legend>
+					<br />
+					<input type="radio" name="gender" value="M" id="is-male" />
+					<label for="is-male">Male</label> &nbsp;
+					<input type="radio" name="gender" value="F" id="is-female" />
+					<label for="is-female">Female</label><br /><br />
+				</fieldset>
+
+				<fieldset>
+					<legend for="birthday" id="DOBLabel">Date of Birth</legend>
+					<input type="date" id="birthday" />
+				</fieldset>
+
+				<fieldset>
+					<legend for="PCodeTxtBox" id="PCodeLabel">Postcode</legend>
+					<input type="text" id="PCodeTxtBox" />
+				</fieldset>
+
 				<fieldset>
 					<legend for="employStat" id="employStatLabel">Employment Status</legend>
 					<br />
 					<input type="radio" name="employStat" value="full" id="is-full-time" />
 					<label for="is-full-time">Full-time</label>
-					<input type="radio" name="employStat" value="part" /> Part-time
-					<input type="radio" name="employStat" value="none" /> Unemployed <br /><br />
+					<input type="radio" name="employStat" value="part" id="is-part-time" />
+					<label for="is-part-time">Part-time</label>
+					<input type="radio" name="employStat" value="none" id="is-unemployed" />
+					<label for="is-unemployed">Unemployed</label>
+					<br /><br />
 				</fieldset>
 
-				<label for="desiredEmployStat" id="desiredEmployStatLabel"
-					>Desired Employment Status</label
-				>
-				<br />
-				<input type="radio" name="desiredEmployStat" value="full" />Full-time &nbsp;
-				<input type="radio" name="desiredEmployStat" value="part" />Part-time
-				<input type="radio" name="desiredEmployStat" value="none" />Unemployed <br /><br />
+				<fieldset>
+					<legend for="desiredEmployStat" id="desiredEmployStatLabel">
+						Desired Employment Status
+					</legend>
+					<br />
+					<input
+						type="radio"
+						name="desiredEmployStat"
+						value="full"
+						id="desired-full-time"
+					/>
+					<label for="desired-full-time">Full-time</label>
+					<input
+						type="radio"
+						name="desiredEmployStat"
+						value="part"
+						id="desired-part-time"
+					/>
+					<label for="desired-part-time">Part-time</label>
+					<input
+						type="radio"
+						name="desiredEmployStat"
+						value="none"
+						id="desired-unemployed"
+					/>
+					<label for="desired-unemployed">Unemployed</label>
+					<br /><br />
+				</fieldset>
+
 				<input
 					type="button"
 					class="myButton"
@@ -598,14 +570,68 @@
 					onclick="clearInputFormFields()"
 				/>
 				<br />
-				<input type="button" class="myButton" value="Generate random person" onclick="" />
+				<input
+					type="button"
+					class="myButton"
+					value="Generate random person"
+					onclick="fillDB(1)"
+				/>
 				<input
 					type="button"
 					class="myButton"
 					value="Generate a bunch of random people"
-					onclick=""
+					onclick="fillDB(20)"
 				/>
 			</form>
+		</div>
+		<div class="section">
+			<h2>Results</h2>
+			<form name="resultsForm">
+				<fieldset>
+					<legend>Filter Database</legend>
+					<label for="genderFilter" id="genderFilterLabel">Gender</label><br />
+					<select id="genderFilter">
+						<option value="mf">Male and Female</option>
+						<option value="m">Male</option>
+						<option value="f">Female</option></select
+					><br />
+					<table>
+						<tr>
+							<td>Min Age</td>
+							<td>Max Age</td>
+						</tr>
+						<br />
+						<tr>
+							<td>
+								<input type="text" id="minAgeFilterBox" />
+							</td>
+							<td>
+								<input type="text" id="maxAgeFilterBox" />
+							</td>
+						</tr>
+					</table>
+					<br />
+					<label for="pCodeFilterBox" id="pCodeFilterBoxLabel">Postcode</label><br />
+					<input type="text" id="pCodeFilterBox" />
+				</fieldset>
+				<br />
+				<input type="button" class="myButton" value="Show" id="filterDBButton" onclick="" />
+			</form>
+			<table></table>
+		</div>
+		<div class="section">
+			<h2>Person Details</h2>
+			<fieldset>
+				<legend>Sort Database</legend>
+				<label for="" id="">Sort by:</label> <br />
+				<select id="sortSelection">
+					<option value="">--No Particular Order---</option>
+					<option value="fnameSort">First Name</option>
+					<option value="snameSort">Surname</option>
+					<option value="dobSort">Date of Birth</option>
+					<option value="pcodeSort">Postcode</option>
+				</select>
+			</fieldset>
 		</div>
 	</body>
 </html>
