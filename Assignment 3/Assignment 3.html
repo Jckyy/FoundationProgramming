@@ -20,8 +20,7 @@
 					rgba(0, 0, 0, 0.2) 30%,
 					rgba(0, 0, 0, 0)
 				);
-				box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
-					inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+				box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6), inset -2px -2px 3px rgba(0, 0, 0, 0.6);
 			}
 
 			.myButton:hover {
@@ -57,61 +56,64 @@
 		<script>
 			"use strict";
 			// 1. CONSTANTS
-
 			const regIsName = /^[a-z ,.'-]+$/i;
 			const regIsPCode = /^\d\d\d\d$/;
-			const EXITINPUT = "0";
-			let INPUTPHASE = true;
-
 			let personDB = []; // Create DB to store all the input data
-			// String constants for questions
-			const STR_SNAME = "Enter Surname. (Letters only, type exit to stop input)";
-			const STR_FNAME = "Enter First Name. (Letters only)";
-			const STR_NAME_ERROR = "Error. Non-letters found or empty input";
-			const STR_GENDER = "Enter Gender 'M' or 'F'";
-			const STR_GENDER_ERROR = "Error. Expects 'M' or 'F'";
-			const STR_AGE = "Enter age in years";
-			const STR_AGE_ERROR = "Error. Age must be a number between 15 and 100.";
-			const STR_PCODE = "Enter 4-digit postcode";
-			const STR_PCODE_ERROR = "Error. Postcode must be a 4 digit input";
-			const STR_EMPLOYSTATUS =
-				"Employment status. 'Ok' for employed, 'Cancel' for unemployed";
 
 			// 2. FUNCTIONS
 
+			// Generate random integer
+			function getRandomIntInclusive(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+			}
+
+			function getRandomFloatInclusive(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				return Math.random() * (max - min + 1) + min; //The maximum is inclusive and the minimum is inclusive
+			}
+
+			// Generate random string
+			function makeName(length) {
+				let result = [];
+				let characters = "abcdefghijklmnopqrstuvwxyz";
+				for (var i = 0; i < length; i++) {
+					result.push(characters.charAt(Math.floor(Math.random() * characters.length)));
+				}
+				result[0] = result[0].toUpperCase();
+				return result.join("");
+			}
+
+			// Create random YYYY-MM-DD string
+			function makeDOB() {
+				let year, month, day, DOB;
+				year = getRandomIntInclusive(1952, 2007); // 16 to 70 years old
+				month = getRandomIntInclusive(1, 12);
+				day = getRandomIntInclusive(1, 28);
+				DOB = year + "-" + month + "-" + day;
+				return DOB;
+			}
+
+			// Compare current and desired employment status
+			function compareEmploymentStat(current, desired) {
+				let employCategory;
+				if (current === "full" && (desired === "full" || desired === "part" || desired === "none")) {
+					return "employed";
+				} else if (current === "part" && (desired === "part" || desired === "none")) {
+					return "employed";
+				} else if (current === "part" && desired === "full") {
+					return "underemployed";
+				} else if (current === "none" && (desired === "full" || desired === "part")) {
+					return "unemployed";
+				} else if (current === "none" && desired === "none") {
+					return "notinworkforce";
+				}
+			}
+
 			// Fill personDB for testing
 			function fillDB(population) {
-				// Generate random integer
-				function getRandomIntInclusive(min, max) {
-					min = Math.ceil(min);
-					max = Math.floor(max);
-					return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
-				}
-				function getRandomFloatInclusive(min, max) {
-					min = Math.ceil(min);
-					max = Math.floor(max);
-					return Math.random() * (max - min + 1) + min; //The maximum is inclusive and the minimum is inclusive
-				}
-				// Generate random string
-				function makeName(length) {
-					let result = [];
-					let characters = "abcdefghijklmnopqrstuvwxyz";
-					for (var i = 0; i < length; i++) {
-						result.push(
-							characters.charAt(Math.floor(Math.random() * characters.length))
-						);
-					}
-					result[0] = result[0].toUpperCase();
-					return result.join("");
-				}
-				function makeDOB() {
-					let year, month, day, DOB;
-					year = getRandomIntInclusive(1952, 2007); // 16 to 70 years old
-					month = getRandomIntInclusive(1, 12);
-					day = getRandomIntInclusive(1, 28);
-					DOB = year + "-" + month + "-" + day;
-					return DOB;
-				}
 				// Loop to create multiple person Objects to add to DB
 				for (let i = 0; i < population; i++) {
 					let person = new Object();
@@ -133,29 +135,55 @@
 					// 5. Postcode Input
 					person.pCode = getRandomIntInclusive(1000, 9999);
 					// 6. Employment status input assignment 3 versioon
-					let employStatBool = getRandomFloatInclusive(-1, 1);
-					if (employStatBool > 0) {
+					let employStatInt = getRandomFloatInclusive(-1, 1);
+					if (employStatInt > 0) {
 						person.employStat = "full";
-					} else if (employStatBool < 0 && employStatBool > -0.7) {
+					} else if (employStatInt < 0 && employStatInt > -0.7) {
 						person.employStat = "part";
-					} else if (employStatBool < -0.7) {
+					} else if (employStatInt < -0.7) {
 						person.employStat = "none";
 					}
+					// 7. Desired employment status
+					let desiredEmployStatInt = getRandomFloatInclusive(-1, 1);
+					if (desiredEmployStatInt > 0) {
+						person.desiredEmployStat = "full";
+					} else if (desiredEmployStatInt < 0 && desiredEmployStatInt > -0.7) {
+						person.desiredEmployStat = "part";
+					} else if (desiredEmployStatInt < -0.7) {
+						person.desiredEmployStat = "none";
+					}
+					// 8. Employment category
+					person.employCategory = compareEmploymentStat(
+						person.employStat,
+						person.desiredEmployStat
+					);
+
 					// Add person to DB
 					personDB.push(person);
 				}
 				console.log(personDB);
 			}
 
-			// Employment status input function
-			function confirmEmployStat(bool) {
-				bool = confirm(STR_EMPLOYSTATUS);
-				if (bool) {
-					bool = "employed";
-				} else if (bool === false) {
-					bool = "unemployed";
+			// Surname validation function
+			function validateSName(str) {
+				str.trim();
+				// Surname input validation. Letters only and not empty
+				if (!regIsName.test(str) || str.length == 0) {
+					return false;
+				} else {
+					return str;
 				}
-				return bool;
+			}
+
+			// First name input function
+			function validateFName(str) {
+				str.trim();
+				// Surname input validation. Letters only and not empty
+				if (!regIsName.test(str) || str.length == 0) {
+					return false;
+				} else {
+					return str;
+				}
 			}
 
 			// Count the number of employed in DB
@@ -170,9 +198,9 @@
 			}
 
 			// Unemployment rate
-			function calcUnemployRate(x, DB) {
+			function calcUnemployRate(unemployed, DB) {
 				let rate;
-				rate = 1 - x / DB.length;
+				rate = (1 - unemployed / DB.length) * 100;
 				return rate.toFixed(2);
 			}
 
@@ -210,11 +238,9 @@
 				let n = array.length;
 				for (let i = 0; i < n; i++) {
 					sum += array[i].ageYrs;
-					console.log(array[i].ageYrs);
 				}
 				averageAge = sum / n;
 				if (isNaN(averageAge)) {
-					// console.log(averageAge);
 					return (averageAge = "None unemployed");
 				} else return averageAge.toFixed(1);
 			}
@@ -225,14 +251,66 @@
 				return { averageMaleAge, averageFemaleAge };
 			}
 
+			function filterDBByGender(value) {
+				let filteredDB = [];
+				for (let i = 0; i < personDB.length; i++) {
+					if (personDB[i].gender.includes(value)) {
+						filteredDB.push(personDB[i]);
+						// console.log(personDB[i].gender);
+					}
+				}
+				return filteredDB;
+			}
+
+			function filterDBByAge(DB, min, max) {
+				let filteredDB2 = [];
+				if (min === "") {
+					min = 15;
+				}
+				if (max === "") {
+					max = 70;
+				}
+				for (let i = 0; i < DB.length; i++) {
+					if (DB[i].ageYrs > min && DB[i].ageYrs <= max) {
+						filteredDB2.push(DB[i]);
+					}
+				}
+				return filteredDB2;
+			}
+
+			function calculateEmploymentTable() {
+				let minAgeFilter = document.getElementById("minAgeFilterBox");
+				let maxAgeFilter = document.getElementById("maxAgeFilterBox");
+				// Filter the DB
+				// change the innerhtml
+
+				// Filter DB based on IDs from HTML
+				let filterGender = document.resultsForm.genderEmploymentFilter.value;
+				let filteredDB = [];
+				// Filter Gender
+				if (filterGender === "MF") {
+					filteredDB = personDB;
+				} else if (filterGender === "M") {
+					filteredDB = filterDBByGender("M");
+				} else if (filterGender === "F") {
+					filteredDB = filterDBByGender("F");
+				}
+
+				// Filter Age
+				let filteredDB2 = filterDBByAge(filteredDB, minAgeFilter.value, maxAgeFilter.value);
+				console.log("filteredDB2", filteredDB2);
+				let employedID = document.getElementById("employedID");
+				employedID.innerHTML = calcUnemployRate(workforce, personDB);
+			}
+
 			function makePeopleDBTable() {
 				// State table is empty
 				if (personDB.length === 0) {
 					document.write("<h1>Table is mf empty</h1>");
 				} else {
-					// Employment rate
-					document.write("<h2>Unemployment rate</h2>");
-					document.write("<p>" + unemploymentRate + "</p>");
+					// // Employment rate
+					// document.write("<h2>Unemployment rate</h2>");
+					// document.write("<p>" + unemploymentRate + "%</p>");
 
 					// Table for unemployment
 					document.write("<h2>Average age of unemployed</h2>");
@@ -265,6 +343,8 @@
 					document.write("<td><strong>Age</strong></td>");
 					document.write("<td><strong>Postcode</strong></td>");
 					document.write("<td><strong>Employment Status</strong></td>");
+					document.write("<td><strong>Desired employment Status</strong></td>");
+					document.write("<td><strong>Employment Category</strong></td>");
 					document.write("</tr>");
 					// Open row and fill across with all the Object's parameters
 					for (let i = 0; i < personDB.length; i++) {
@@ -277,6 +357,8 @@
 						document.write("<td>" + personDB[i].ageYrs.toFixed(0) + "</td>");
 						document.write("<td>" + personDB[i].pCode + "</td>");
 						document.write("<td>" + personDB[i].employStat + "</td>");
+						document.write("<td>" + personDB[i].desiredEmployStat + "</td>");
+						document.write("<td>" + personDB[i].employCategory + "</td>");
 						document.write("</tr>");
 					}
 					document.write("</table>");
@@ -318,9 +400,8 @@
 			}
 
 			function InputFormInitialise() {
-				// let fNameInput = document.getElementById("fNameTxtBox");
-				// console.log("gender_radio", gender_radio.length);
-				// return gender_radio;
+				let employedID = document.getElementById("employedID");
+				employedID.innerHTML = calcUnemployRate(workforce, personDB);
 			}
 
 			// personDB = [];
@@ -361,6 +442,7 @@
 				person.pCode = PCodeTxtBox.value; // String
 				person.employStat = document.personForm.employStat.value;
 				person.desiredEmployStat = document.personForm.desiredEmployStat.value;
+				person.employCategory = compareEmploymentStat(person.employStat, person.desiredEmployStat);
 
 				// Set all the labels back to black again
 				for (let i = 0; i < LABEL_IDS.length; i++) {
@@ -401,17 +483,12 @@
 						alert(FIELD_ERROR_STR[6]);
 					}
 				} else {
-					// (person.sName !== undefined && person.fName !== undefined)
 					personDB.push(person);
 					for (let i = 0; i < LABEL_IDS.length; i++) {
 						highlightLabel(LABEL_IDS[i], false);
 					}
 					alert(`${person.fName} ${person.sName} added`);
 					console.log("personDB", personDB);
-
-					// for (const key in person) {
-					// 	console.log(`${key}: ${person[key]}`);
-					// }
 				}
 			}
 
@@ -451,30 +528,20 @@
 			}
 
 			// INPUT PHASE
-			fillDB(20);
+			fillDB(30);
 
 			//CALCULATION PHASE
 
-			// Sum unemployed
-			let workforce = sumEmployed();
-
 			// Employment rate
+			let workforce = sumEmployed();
 			let unemploymentRate = calcUnemployRate(workforce, personDB);
-			// console.log("Unemployment rate: " + calcUnemployRate(workforce, personDB));
 
-			// Testing output for full unemployed array
-			// console.log(unemployedSearch());
-
-			// Test for
-			// console.log(getUnemployedByGender());
-			// console.log(getAverageUnemployedAge());
 			// Create object storing the average age of unemployed people split by gender
 			let unemployedAgeByGender = getAverageUnemployedAge();
 			// Store average unemployment ages in variables
 			let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge;
 			let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge;
 
-			// let sortedPersonDB = [];
 			bsort2(personDB, twoCompares);
 
 			// DISPLAY PHASE
@@ -533,49 +600,19 @@
 						Desired Employment Status
 					</legend>
 					<br />
-					<input
-						type="radio"
-						name="desiredEmployStat"
-						value="full"
-						id="desired-full-time"
-					/>
+					<input type="radio" name="desiredEmployStat" value="full" id="desired-full-time" />
 					<label for="desired-full-time">Full-time</label>
-					<input
-						type="radio"
-						name="desiredEmployStat"
-						value="part"
-						id="desired-part-time"
-					/>
+					<input type="radio" name="desiredEmployStat" value="part" id="desired-part-time" />
 					<label for="desired-part-time">Part-time</label>
-					<input
-						type="radio"
-						name="desiredEmployStat"
-						value="none"
-						id="desired-unemployed"
-					/>
+					<input type="radio" name="desiredEmployStat" value="none" id="desired-unemployed" />
 					<label for="desired-unemployed">Unemployed</label>
 					<br /><br />
 				</fieldset>
 
-				<input
-					type="button"
-					class="myButton"
-					value="Add Person"
-					onclick="addPersonButton();"
-				/>
-				<input
-					type="button"
-					class="myButton"
-					value="Clear Fields"
-					onclick="clearInputFormFields()"
-				/>
+				<input type="button" class="myButton" value="Add Person" onclick="addPersonButton();" />
+				<input type="button" class="myButton" value="Clear Fields" onclick="clearInputFormFields()" />
 				<br />
-				<input
-					type="button"
-					class="myButton"
-					value="Generate random person"
-					onclick="fillDB(1)"
-				/>
+				<input type="button" class="myButton" value="Generate random person" onclick="fillDB(1)" />
 				<input
 					type="button"
 					class="myButton"
@@ -588,12 +625,12 @@
 			<h2>Results</h2>
 			<form name="resultsForm">
 				<fieldset>
-					<legend>Filter Database</legend>
-					<label for="genderFilter" id="genderFilterLabel">Gender</label><br />
-					<select id="genderFilter">
-						<option value="mf">Male and Female</option>
-						<option value="m">Male</option>
-						<option value="f">Female</option></select
+					<legend>Calculate Employment Results</legend>
+					<label for="genderEmploymentFilter" id="genderEmploymentFilterLabel">Gender</label><br />
+					<select id="genderEmploymentFilter">
+						<option value="MF">Male and Female</option>
+						<option value="M">Male</option>
+						<option value="F">Female</option></select
 					><br />
 					<table>
 						<tr>
@@ -615,9 +652,36 @@
 					<input type="text" id="pCodeFilterBox" />
 				</fieldset>
 				<br />
-				<input type="button" class="myButton" value="Show" id="filterDBButton" onclick="" />
+				<input
+					type="button"
+					class="myButton"
+					value="Show"
+					id="filterDBButton"
+					onclick="calculateEmploymentTable();"
+				/>
 			</form>
-			<table></table>
+			<table border="1">
+				<tr>
+					<td><strong>Employment Status</strong></td>
+					<td><strong>Percent</strong></td>
+				</tr>
+				<tr>
+					<td>Employed</td>
+					<td id="employedID"></td>
+				</tr>
+				<tr>
+					<td>Underemployed</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Unemployed</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Not in Workforce</td>
+					<td></td>
+				</tr>
+			</table>
 		</div>
 		<div class="section">
 			<h2>Person Details</h2>
