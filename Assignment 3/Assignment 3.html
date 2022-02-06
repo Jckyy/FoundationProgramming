@@ -133,8 +133,8 @@
 					person.DOB = makeDOB();
 					person.ageYrs = parseInt(calcUserAge(person.DOB));
 					// 5. Postcode Input
-					person.pCode = getRandomIntInclusive(1000, 9999);
-					// 6. Employment status input assignment 3 versioon
+					person.pCode = getRandomIntInclusive(1000, 9999).toString();
+					// 6. Employment status input assignment 3 version
 					let employStatInt = getRandomFloatInclusive(-1, 1);
 					if (employStatInt > 0) {
 						person.employStat = "full";
@@ -187,14 +187,14 @@
 			}
 
 			// Count the number of employed in DB
-			function sumEmployed() {
-				let employedCounter = 0;
-				for (let i = 0; i < personDB.length; i++) {
-					if (personDB[i].employStat == "full" || personDB[i].employStat == "part") {
-						employedCounter++;
+			function sumEmployCategory(DB, employmentCategory) {
+				let employCategoryCounter = 0;
+				for (let i = 0; i < DB.length; i++) {
+					if (DB[i].employCategory === employmentCategory) {
+						employCategoryCounter++;
 					}
 				}
-				return employedCounter;
+				return employCategoryCounter;
 			}
 
 			// Unemployment rate
@@ -204,32 +204,32 @@
 				return rate.toFixed(2);
 			}
 
-			// Find Unemployed
-			function unemployedSearch() {
-				let unemployed = [];
-				for (let i = 0; i < personDB.length; i++) {
-					if (personDB[i].employStat.includes("none")) {
-						unemployed.push(personDB[i]);
-					}
-				}
-				return unemployed;
-			}
+			// // Find Unemployed
+			// function unemployedSearch() {
+			// 	let unemployed = [];
+			// 	for (let i = 0; i < personDB.length; i++) {
+			// 		if (personDB[i].employStat.includes("none")) {
+			// 			unemployed.push(personDB[i]);
+			// 		}
+			// 	}
+			// 	return unemployed;
+			// }
 
-			// Find men & female in unemployed
-			function getUnemployedByGender() {
-				let unemployed = unemployedSearch();
-				let unemployedMale = [],
-					unemployedFemale = [];
-				// let unemployedFemale = [];
-				for (let i = 0; i < unemployed.length; i++) {
-					if (unemployed[i].gender === "M") {
-						unemployedMale.push(unemployed[i]);
-					} else if (unemployed[i].gender === "F") {
-						unemployedFemale.push(unemployed[i]);
-					}
-				}
-				return { unemployedMale, unemployedFemale };
-			}
+			// // Find men & female in unemployed
+			// function getUnemployedByGender() {
+			// 	let unemployed = unemployedSearch();
+			// 	let unemployedMale = [],
+			// 		unemployedFemale = [];
+			// 	// let unemployedFemale = [];
+			// 	for (let i = 0; i < unemployed.length; i++) {
+			// 		if (unemployed[i].gender === "M") {
+			// 			unemployedMale.push(unemployed[i]);
+			// 		} else if (unemployed[i].gender === "F") {
+			// 			unemployedFemale.push(unemployed[i]);
+			// 		}
+			// 	}
+			// 	return { unemployedMale, unemployedFemale };
+			// }
 
 			// Find average age of unemployed genders
 			function calcAverageAge(array) {
@@ -244,26 +244,28 @@
 					return (averageAge = "None unemployed");
 				} else return averageAge.toFixed(1);
 			}
-			function getAverageUnemployedAge() {
-				let { unemployedMale, unemployedFemale } = getUnemployedByGender();
-				let averageMaleAge = calcAverageAge(unemployedMale);
-				let averageFemaleAge = calcAverageAge(unemployedFemale);
-				return { averageMaleAge, averageFemaleAge };
-			}
+			// function getAverageUnemployedAge() {
+			// 	let { unemployedMale, unemployedFemale } = getUnemployedByGender();
+			// 	let averageMaleAge = calcAverageAge(unemployedMale);
+			// 	let averageFemaleAge = calcAverageAge(unemployedFemale);
+			// 	return { averageMaleAge, averageFemaleAge };
+			// }
 
-			function filterDBByGender(value) {
-				let filteredDB = [];
-				for (let i = 0; i < personDB.length; i++) {
-					if (personDB[i].gender.includes(value)) {
-						filteredDB.push(personDB[i]);
+			// Filter 0: Gender
+			function filterDBByGender(DB, value) {
+				let filteredDBGender = [];
+				for (let i = 0; i < DB.length; i++) {
+					if (DB[i].gender.includes(value)) {
+						filteredDBGender.push(DB[i]);
 						// console.log(personDB[i].gender);
 					}
 				}
-				return filteredDB;
+				return filteredDBGender;
 			}
 
+			// Filter 1: Age
 			function filterDBByAge(DB, min, max) {
-				let filteredDB2 = [];
+				let filteredDBAge = [];
 				if (min === "") {
 					min = 15;
 				}
@@ -271,36 +273,80 @@
 					max = 70;
 				}
 				for (let i = 0; i < DB.length; i++) {
+					// console.log(`%c HERE`, "background: red; color:black", DB[i]);
 					if (DB[i].ageYrs > min && DB[i].ageYrs <= max) {
-						filteredDB2.push(DB[i]);
+						filteredDBAge.push(DB[i]);
 					}
 				}
-				return filteredDB2;
+				return filteredDBAge;
 			}
 
+			// Filter 2: Postcode
+			function filterDBByPostcode(DB, postcodeStr) {
+				let filteredDBPostcode = [];
+				let str_Length = postcodeStr.length;
+				if (str_Length === 5) {
+					for (let i = 0; i < DB.length; i++) {
+						if (DB[i].pCode == postcodeStr) {
+							filteredDBPostcode.push(DB[i]);
+						}
+					}
+				} else if (str_Length === 9) {
+					let min = parseInt(postcodeStr.slice(0, 4));
+					let max = parseInt(postcodeStr.slice(5, 9));
+					if (min < max) {
+						for (let i = 0; i < DB.length; i++) {
+							let pCodeInt = parseInt(DB[i].pCode);
+							if (pCodeInt >= min && pCodeInt <= max) {
+								filteredDBPostcode.push(DB[i]);
+							}
+						}
+					} else {
+						highlightLabel("pCodeFilterBoxLabel", true);
+						return;
+					}
+				} else if (str_Length === 0) {
+					filteredDBPostcode = DB;
+				}
+				return filteredDBPostcode;
+			}
+
+			// let workforce = sumEmployed();
+			// let unemploymentRate = calcUnemployRate(workforce, personDB);
+
 			function calculateEmploymentTable() {
-				let minAgeFilter = document.getElementById("minAgeFilterBox");
-				let maxAgeFilter = document.getElementById("maxAgeFilterBox");
+				highlightLabel("pCodeFilterBoxLabel", false);
 				// Filter the DB
 				// change the innerhtml
 
 				// Filter DB based on IDs from HTML
 				let filterGender = document.resultsForm.genderEmploymentFilter.value;
-				let filteredDB = [];
+				let filteredDBGender = [];
 				// Filter Gender
 				if (filterGender === "MF") {
-					filteredDB = personDB;
+					filteredDBGender = filterDBByGender(personDB, "MF");
 				} else if (filterGender === "M") {
-					filteredDB = filterDBByGender("M");
+					filteredDBGender = filterDBByGender(personDB, "M");
 				} else if (filterGender === "F") {
-					filteredDB = filterDBByGender("F");
+					filteredDBGender = filterDBByGender(personDB, "F");
 				}
 
 				// Filter Age
-				let filteredDB2 = filterDBByAge(filteredDB, minAgeFilter.value, maxAgeFilter.value);
-				console.log("filteredDB2", filteredDB2);
+				let minAgeFilter = document.getElementById("minAgeFilterBox");
+				let maxAgeFilter = document.getElementById("maxAgeFilterBox");
+				let filteredDBAge = filterDBByAge(filteredDBGender, minAgeFilter.value, maxAgeFilter.value);
+
+				// Filter Postcode
+				let pCodeFilterBox = document.getElementById("pCodeFilterBox");
+				let filteredDBPostcode = filterDBByPostcode(filteredDBAge, pCodeFilterBox.value);
+
+				console.log("filteredDBPostcode", filteredDBPostcode);
+
+				// Calculate Employed Percentages for Filter
+				console.log("employed", sumEmployCategory(filteredDBPostcode, "employed"));
+
 				let employedID = document.getElementById("employedID");
-				employedID.innerHTML = calcUnemployRate(workforce, personDB);
+				// employedID.innerHTML = calcUnemployRate(workforce, filteredDBPostcode);
 			}
 
 			function makePeopleDBTable() {
@@ -312,24 +358,24 @@
 					// document.write("<h2>Unemployment rate</h2>");
 					// document.write("<p>" + unemploymentRate + "%</p>");
 
-					// Table for unemployment
-					document.write("<h2>Average age of unemployed</h2>");
-					document.write("<table border=1>");
-					document.write("<tr>");
-					document.write("<td><strong>Group</strong></td>");
-					document.write("<td><strong>Average Age</strong></td>");
-					document.write("</tr>");
-					// Male Unemployment Average Age
-					document.write("<tr>");
-					document.write("<td>Male</td>");
-					document.write("<td>" + maleAvgAgeUnemployed + "</td>");
-					document.write("</tr>");
-					// Female Unemployment Average Age
-					document.write("<tr>");
-					document.write("<td>Female</td>");
-					document.write("<td>" + femaleAvgAgeUnemployed + "</td>");
-					document.write("</tr>");
-					document.write("</table>");
+					// // Table for unemployment
+					// document.write("<h2>Average age of unemployed</h2>");
+					// document.write("<table border=1>");
+					// document.write("<tr>");
+					// document.write("<td><strong>Group</strong></td>");
+					// document.write("<td><strong>Average Age</strong></td>");
+					// document.write("</tr>");
+					// // Male Unemployment Average Age
+					// document.write("<tr>");
+					// document.write("<td>Male</td>");
+					// document.write("<td>" + maleAvgAgeUnemployed + "</td>");
+					// document.write("</tr>");
+					// // Female Unemployment Average Age
+					// document.write("<tr>");
+					// document.write("<td>Female</td>");
+					// document.write("<td>" + femaleAvgAgeUnemployed + "</td>");
+					// document.write("</tr>");
+					// document.write("</table>");
 
 					// Open table for entire DB and column headers
 					document.write("<h2>Person Database</h2>");
@@ -401,7 +447,7 @@
 
 			function InputFormInitialise() {
 				let employedID = document.getElementById("employedID");
-				employedID.innerHTML = calcUnemployRate(workforce, personDB);
+				// employedID.innerHTML = calcUnemployRate(workforce, personDB);
 			}
 
 			// personDB = [];
@@ -438,7 +484,7 @@
 				}
 				person.gender = document.personForm.gender.value;
 				person.birthday = birthday.value; // String
-				person.age = calcUserAge(birthday.value);
+				person.ageYrs = calcUserAge(birthday.value);
 				person.pCode = PCodeTxtBox.value; // String
 				person.employStat = document.personForm.employStat.value;
 				person.desiredEmployStat = document.personForm.desiredEmployStat.value;
@@ -524,23 +570,19 @@
 				let today = new Date();
 				let userBirthday = new Date(birthdate);
 				let age = (today - userBirthday) / MILLISECONDS_YEAR;
-				return age;
+				return parseInt(age.toFixed(0));
 			}
 
 			// INPUT PHASE
-			fillDB(30);
+			fillDB(10);
 
 			//CALCULATION PHASE
 
-			// Employment rate
-			let workforce = sumEmployed();
-			let unemploymentRate = calcUnemployRate(workforce, personDB);
-
 			// Create object storing the average age of unemployed people split by gender
-			let unemployedAgeByGender = getAverageUnemployedAge();
+			// let unemployedAgeByGender = getAverageUnemployedAge();
 			// Store average unemployment ages in variables
-			let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge;
-			let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge;
+			// let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge;
+			// let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge;
 
 			bsort2(personDB, twoCompares);
 
@@ -617,7 +659,7 @@
 					type="button"
 					class="myButton"
 					value="Generate a bunch of random people"
-					onclick="fillDB(20)"
+					onclick="fillDB(10)"
 				/>
 			</form>
 		</div>
@@ -640,10 +682,10 @@
 						<br />
 						<tr>
 							<td>
-								<input type="text" id="minAgeFilterBox" />
+								<input type="number" id="minAgeFilterBox" />
 							</td>
 							<td>
-								<input type="text" id="maxAgeFilterBox" />
+								<input type="number" id="maxAgeFilterBox" />
 							</td>
 						</tr>
 					</table>
