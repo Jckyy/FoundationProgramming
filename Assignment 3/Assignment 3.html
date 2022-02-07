@@ -52,8 +52,18 @@
 				padding: 2px;
 				border: 1px solid gray;
 			}
+
+			p {
+				font-size: 0.8rem;
+			}
+			input:invalid {
+				border: red solid 3px;
+			}
 		</style>
 		<script>
+			// TODO
+			// Fix PCode Validation on filter
+
 			"use strict";
 			// 1. CONSTANTS
 			const regIsName = /^[a-z ,.'-]+$/i;
@@ -129,7 +139,6 @@
 						person.gender = "F";
 					}
 					// 4. Age input
-					// person.ageYrs = getRandomIntInclusive(16, 99);
 					person.DOB = makeDOB();
 					person.ageYrs = parseInt(calcUserAge(person.DOB));
 					// 5. Postcode Input
@@ -157,7 +166,6 @@
 						person.employStat,
 						person.desiredEmployStat
 					);
-
 					// Add person to DB
 					personDB.push(person);
 				}
@@ -197,59 +205,12 @@
 				return employCategoryCounter;
 			}
 
-			// Unemployment rate
-			function calcUnemployRate(unemployed, DB) {
+			// Calculate percentage of category in DB
+			function calcPercentRate(employCategory, DB) {
 				let rate;
-				rate = (1 - unemployed / DB.length) * 100;
-				return rate.toFixed(2);
+				rate = (employCategory / DB.length) * 100;
+				return rate.toFixed(0);
 			}
-
-			// // Find Unemployed
-			// function unemployedSearch() {
-			// 	let unemployed = [];
-			// 	for (let i = 0; i < personDB.length; i++) {
-			// 		if (personDB[i].employStat.includes("none")) {
-			// 			unemployed.push(personDB[i]);
-			// 		}
-			// 	}
-			// 	return unemployed;
-			// }
-
-			// // Find men & female in unemployed
-			// function getUnemployedByGender() {
-			// 	let unemployed = unemployedSearch();
-			// 	let unemployedMale = [],
-			// 		unemployedFemale = [];
-			// 	// let unemployedFemale = [];
-			// 	for (let i = 0; i < unemployed.length; i++) {
-			// 		if (unemployed[i].gender === "M") {
-			// 			unemployedMale.push(unemployed[i]);
-			// 		} else if (unemployed[i].gender === "F") {
-			// 			unemployedFemale.push(unemployed[i]);
-			// 		}
-			// 	}
-			// 	return { unemployedMale, unemployedFemale };
-			// }
-
-			// Find average age of unemployed genders
-			function calcAverageAge(array) {
-				let sum = 0;
-				let averageAge;
-				let n = array.length;
-				for (let i = 0; i < n; i++) {
-					sum += array[i].ageYrs;
-				}
-				averageAge = sum / n;
-				if (isNaN(averageAge)) {
-					return (averageAge = "None unemployed");
-				} else return averageAge.toFixed(1);
-			}
-			// function getAverageUnemployedAge() {
-			// 	let { unemployedMale, unemployedFemale } = getUnemployedByGender();
-			// 	let averageMaleAge = calcAverageAge(unemployedMale);
-			// 	let averageFemaleAge = calcAverageAge(unemployedFemale);
-			// 	return { averageMaleAge, averageFemaleAge };
-			// }
 
 			// Filter 0: Gender
 			function filterDBByGender(DB, value) {
@@ -265,6 +226,7 @@
 
 			// Filter 1: Age
 			function filterDBByAge(DB, min, max) {
+				console.log(min, max);
 				let filteredDBAge = [];
 				if (min === "") {
 					min = 15;
@@ -272,11 +234,18 @@
 				if (max === "") {
 					max = 70;
 				}
-				for (let i = 0; i < DB.length; i++) {
-					// console.log(`%c HERE`, "background: red; color:black", DB[i]);
-					if (DB[i].ageYrs > min && DB[i].ageYrs <= max) {
-						filteredDBAge.push(DB[i]);
+
+				if (min < max) {
+					for (let i = 0; i < DB.length; i++) {
+						// console.log(`%c HERE`, "background: red; color:black", DB[i]);
+						if (DB[i].ageYrs > min && DB[i].ageYrs <= max) {
+							filteredDBAge.push(DB[i]);
+						}
 					}
+				} else {
+					highlightLabel("minAgeFilterLabel", true);
+					highlightLabel("maxAgeFilterLabel", true);
+					return;
 				}
 				return filteredDBAge;
 			}
@@ -285,7 +254,7 @@
 			function filterDBByPostcode(DB, postcodeStr) {
 				let filteredDBPostcode = [];
 				let str_Length = postcodeStr.length;
-				if (str_Length === 5) {
+				if (str_Length === 4) {
 					for (let i = 0; i < DB.length; i++) {
 						if (DB[i].pCode == postcodeStr) {
 							filteredDBPostcode.push(DB[i]);
@@ -305,26 +274,35 @@
 						highlightLabel("pCodeFilterBoxLabel", true);
 						return;
 					}
+				} else if (str_Length === 14) {
+					let min = parseInt(postcodeStr.slice(0, 4));
+					let max = parseInt(postcodeStr.slice(5, 9));
+					let specifiedPcode = parseInt(postcodeStr.slice(10, 14));
+					console.log(specifiedPcode);
+					if (min < max) {
+						for (let i = 0; i < DB.length; i++) {
+							let pCodeInt = parseInt(DB[i].pCode);
+							if ((pCodeInt >= min && pCodeInt <= max) || pCodeInt === specifiedPcode) {
+								filteredDBPostcode.push(DB[i]);
+							}
+						}
+					}
 				} else if (str_Length === 0) {
 					filteredDBPostcode = DB;
 				}
 				return filteredDBPostcode;
 			}
 
-			// let workforce = sumEmployed();
-			// let unemploymentRate = calcUnemployRate(workforce, personDB);
-
+			// Filters the DB to user input and updates HTML table
 			function calculateEmploymentTable() {
-				highlightLabel("pCodeFilterBoxLabel", false);
-				// Filter the DB
-				// change the innerhtml
+				resetResultHighlights(); // Reset label colours
 
 				// Filter DB based on IDs from HTML
 				let filterGender = document.resultsForm.genderEmploymentFilter.value;
 				let filteredDBGender = [];
 				// Filter Gender
 				if (filterGender === "MF") {
-					filteredDBGender = filterDBByGender(personDB, "MF");
+					filteredDBGender = personDB;
 				} else if (filterGender === "M") {
 					filteredDBGender = filterDBByGender(personDB, "M");
 				} else if (filterGender === "F") {
@@ -343,10 +321,29 @@
 				console.log("filteredDBPostcode", filteredDBPostcode);
 
 				// Calculate Employed Percentages for Filter
-				console.log("employed", sumEmployCategory(filteredDBPostcode, "employed"));
+				// Sum of each employment category
+				let employedInFilter = sumEmployCategory(filteredDBPostcode, "employed");
+				let underemployedInFilter = sumEmployCategory(filteredDBPostcode, "underemployed");
+				let unemployedInFilter = sumEmployCategory(filteredDBPostcode, "unemployed");
+				let notinworkforceInFilter = sumEmployCategory(filteredDBPostcode, "notinworkforce");
 
-				let employedID = document.getElementById("employedID");
-				// employedID.innerHTML = calcUnemployRate(workforce, filteredDBPostcode);
+				// Count of each employment category / number of people in filter for percentage
+				let employedRate = calcPercentRate(employedInFilter, filteredDBPostcode);
+				let underemployedRate = calcPercentRate(underemployedInFilter, filteredDBPostcode);
+				let unemployedRate = calcPercentRate(unemployedInFilter, filteredDBPostcode);
+				let notinworkforceRate = calcPercentRate(notinworkforceInFilter, filteredDBPostcode);
+
+				// Get IDs of filter result table
+				let employedResultID = document.getElementById("employedCategoryResults");
+				let underemployedResultID = document.getElementById("underemployedCategoryResults");
+				let unemployedResultID = document.getElementById("unemployedCategoryResults");
+				let notinworkforceResultID = document.getElementById("notinworkforceCategoryResults");
+
+				// Fill html table with results
+				employedResultID.innerHTML = employedRate + "%";
+				underemployedResultID.innerHTML = underemployedRate + "%";
+				unemployedResultID.innerHTML = unemployedRate + "%";
+				notinworkforceResultID.innerHTML = notinworkforceRate + "%";
 			}
 
 			function makePeopleDBTable() {
@@ -354,29 +351,6 @@
 				if (personDB.length === 0) {
 					document.write("<h1>Table is mf empty</h1>");
 				} else {
-					// // Employment rate
-					// document.write("<h2>Unemployment rate</h2>");
-					// document.write("<p>" + unemploymentRate + "%</p>");
-
-					// // Table for unemployment
-					// document.write("<h2>Average age of unemployed</h2>");
-					// document.write("<table border=1>");
-					// document.write("<tr>");
-					// document.write("<td><strong>Group</strong></td>");
-					// document.write("<td><strong>Average Age</strong></td>");
-					// document.write("</tr>");
-					// // Male Unemployment Average Age
-					// document.write("<tr>");
-					// document.write("<td>Male</td>");
-					// document.write("<td>" + maleAvgAgeUnemployed + "</td>");
-					// document.write("</tr>");
-					// // Female Unemployment Average Age
-					// document.write("<tr>");
-					// document.write("<td>Female</td>");
-					// document.write("<td>" + femaleAvgAgeUnemployed + "</td>");
-					// document.write("</tr>");
-					// document.write("</table>");
-
 					// Open table for entire DB and column headers
 					document.write("<h2>Person Database</h2>");
 					document.write("<table border=1>");
@@ -549,6 +523,12 @@
 				}
 			}
 
+			function resetResultHighlights() {
+				highlightLabel("pCodeFilterBoxLabel", false);
+				highlightLabel("minAgeFilterLabel", false);
+				highlightLabel("maxAgeFilterLabel", false);
+			}
+
 			function clearInputFormFields() {
 				fNameTxtBox.value = "";
 				sNameTxtBox.value = "";
@@ -574,7 +554,7 @@
 			}
 
 			// INPUT PHASE
-			fillDB(10);
+			fillDB(100);
 
 			//CALCULATION PHASE
 
@@ -676,22 +656,27 @@
 					><br />
 					<table>
 						<tr>
-							<td>Min Age</td>
-							<td>Max Age</td>
+							<td>
+								<label for="minAgeFilterBox" id="minAgeFilterLabel">Min Age</label>
+							</td>
+							<td>
+								<label for="maxAgeFilterBox" id="maxAgeFilterLabel">Max Age</label>
+							</td>
 						</tr>
 						<br />
 						<tr>
 							<td>
-								<input type="number" id="minAgeFilterBox" />
+								<input type="number" id="minAgeFilterBox" value="" />
 							</td>
 							<td>
-								<input type="number" id="maxAgeFilterBox" />
+								<input type="number" id="maxAgeFilterBox" value="" />
 							</td>
 						</tr>
 					</table>
 					<br />
 					<label for="pCodeFilterBox" id="pCodeFilterBoxLabel">Postcode</label><br />
-					<input type="text" id="pCodeFilterBox" />
+					<p>'Min'-'Max','Specific Post Code' <br />DDDD-DDDD,DDDD</p>
+					<input type="text" id="pCodeFilterBox" value="" />
 				</fieldset>
 				<br />
 				<input
@@ -709,19 +694,19 @@
 				</tr>
 				<tr>
 					<td>Employed</td>
-					<td id="employedID"></td>
+					<td id="employedCategoryResults"></td>
 				</tr>
 				<tr>
 					<td>Underemployed</td>
-					<td></td>
+					<td id="underemployedCategoryResults"></td>
 				</tr>
 				<tr>
 					<td>Unemployed</td>
-					<td></td>
+					<td id="unemployedCategoryResults"></td>
 				</tr>
 				<tr>
 					<td>Not in Workforce</td>
-					<td></td>
+					<td id="notinworkforceCategoryResults"></td>
 				</tr>
 			</table>
 		</div>
@@ -731,7 +716,7 @@
 				<legend>Sort Database</legend>
 				<label for="" id="">Sort by:</label> <br />
 				<select id="sortSelection">
-					<option value="">--No Particular Order---</option>
+					<option value="">---No Particular Order---</option>
 					<option value="fnameSort">First Name</option>
 					<option value="snameSort">Surname</option>
 					<option value="dobSort">Date of Birth</option>
