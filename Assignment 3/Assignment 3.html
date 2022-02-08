@@ -62,7 +62,7 @@
 		</style>
 		<script>
 			// TODO
-			// Fix PCode Validation on filter
+			//
 
 			"use strict";
 			// 1. CONSTANTS
@@ -183,7 +183,7 @@
 				}
 			}
 
-			// First name input function
+			// First name validation function
 			function validateFName(str) {
 				str.trim();
 				// Surname input validation. Letters only and not empty
@@ -226,7 +226,6 @@
 
 			// Filter 1: Age
 			function filterDBByAge(DB, min, max) {
-				console.log(min, max);
 				let filteredDBAge = [];
 				if (min === "") {
 					min = 15;
@@ -255,20 +254,30 @@
 				let filteredDBPostcode = [];
 				let str_Length = postcodeStr.length;
 				if (str_Length === 4) {
-					for (let i = 0; i < DB.length; i++) {
-						if (DB[i].pCode == postcodeStr) {
-							filteredDBPostcode.push(DB[i]);
+					if (regIsPCode.test(parseInt(postcodeStr))) {
+						for (let i = 0; i < DB.length; i++) {
+							if (DB[i].pCode == postcodeStr) {
+								filteredDBPostcode.push(DB[i]);
+							}
 						}
+					} else {
+						highlightLabel("pCodeFilterBoxLabel", true);
+						return;
 					}
 				} else if (str_Length === 9) {
 					let min = parseInt(postcodeStr.slice(0, 4));
 					let max = parseInt(postcodeStr.slice(5, 9));
-					if (min < max) {
-						for (let i = 0; i < DB.length; i++) {
-							let pCodeInt = parseInt(DB[i].pCode);
-							if (pCodeInt >= min && pCodeInt <= max) {
-								filteredDBPostcode.push(DB[i]);
+					if (regIsPCode.test(parseInt(min) && parseInt(max))) {
+						if (min < max) {
+							for (let i = 0; i < DB.length; i++) {
+								let pCodeInt = parseInt(DB[i].pCode);
+								if (pCodeInt >= min && pCodeInt <= max) {
+									filteredDBPostcode.push(DB[i]);
+								}
 							}
+						} else {
+							highlightLabel("pCodeFilterBoxLabel", true);
+							return;
 						}
 					} else {
 						highlightLabel("pCodeFilterBoxLabel", true);
@@ -278,17 +287,31 @@
 					let min = parseInt(postcodeStr.slice(0, 4));
 					let max = parseInt(postcodeStr.slice(5, 9));
 					let specifiedPcode = parseInt(postcodeStr.slice(10, 14));
-					console.log(specifiedPcode);
-					if (min < max) {
-						for (let i = 0; i < DB.length; i++) {
-							let pCodeInt = parseInt(DB[i].pCode);
-							if ((pCodeInt >= min && pCodeInt <= max) || pCodeInt === specifiedPcode) {
-								filteredDBPostcode.push(DB[i]);
+					if (
+						regIsPCode.test(parseInt(min)) &&
+						regIsPCode.test(parseInt(max)) &&
+						regIsPCode.test(parseInt(specifiedPcode))
+					) {
+						if (min < max) {
+							for (let i = 0; i < DB.length; i++) {
+								let pCodeInt = parseInt(DB[i].pCode);
+								if ((pCodeInt >= min && pCodeInt <= max) || pCodeInt === specifiedPcode) {
+									filteredDBPostcode.push(DB[i]);
+								}
 							}
+						} else {
+							highlightLabel("pCodeFilterBoxLabel", true);
+							return;
 						}
+					} else {
+						highlightLabel("pCodeFilterBoxLabel", true);
+						return;
 					}
 				} else if (str_Length === 0) {
 					filteredDBPostcode = DB;
+				} else {
+					highlightLabel("pCodeFilterBoxLabel", true);
+					return;
 				}
 				return filteredDBPostcode;
 			}
@@ -297,10 +320,9 @@
 			function calculateEmploymentTable() {
 				resetResultHighlights(); // Reset label colours
 
-				// Filter DB based on IDs from HTML
+				// Filter Gender
 				let filterGender = document.resultsForm.genderEmploymentFilter.value;
 				let filteredDBGender = [];
-				// Filter Gender
 				if (filterGender === "MF") {
 					filteredDBGender = personDB;
 				} else if (filterGender === "M") {
@@ -318,7 +340,7 @@
 				let pCodeFilterBox = document.getElementById("pCodeFilterBox");
 				let filteredDBPostcode = filterDBByPostcode(filteredDBAge, pCodeFilterBox.value);
 
-				console.log("filteredDBPostcode", filteredDBPostcode);
+				console.log("filteredDBPostcode", filteredDBPostcode); // Log the final filtered DB
 
 				// Calculate Employed Percentages for Filter
 				// Sum of each employment category
@@ -374,7 +396,7 @@
 						document.write("<td>" + personDB[i].fName + "</td>");
 						document.write("<td>" + personDB[i].gender + "</td>");
 						document.write("<td>" + personDB[i].DOB + "</td>");
-						document.write("<td>" + personDB[i].ageYrs.toFixed(0) + "</td>");
+						document.write("<td>" + personDB[i].ageYrs + "</td>");
 						document.write("<td>" + personDB[i].pCode + "</td>");
 						document.write("<td>" + personDB[i].employStat + "</td>");
 						document.write("<td>" + personDB[i].desiredEmployStat + "</td>");
@@ -385,10 +407,12 @@
 					document.write("<br>");
 				}
 			}
-			function bsort2(arr, cmpr) {
+
+			// Bubble Sort
+			function bSort(arr, cmpr, property) {
 				for (let i = arr.length; i >= 2; i--) {
 					for (let j = 1; j < i; j++) {
-						if (cmpr(arr[j - 1], arr[j]) > 0) {
+						if (cmpr(property, arr[j - 1], arr[j]) > 0) {
 							let temp = arr[j - 1];
 							arr[j - 1] = arr[j];
 							arr[j] = temp;
@@ -397,32 +421,38 @@
 				}
 			}
 
-			function twoCompares(a, b) {
-				// console.log("comparing", a.sName, b.sName);
+			// Compare two values for bubble sort
+			function twoCompares(property, a, b) {
 				// If surname of A is greater than B
-				if (a.sName > b.sName) {
+				if (a[property] > b[property]) {
 					return 1;
 				}
 				// If surname of A is less than B
-				else if (a.sName < b.sName) {
+				else if (a[property] < b[property]) {
 					return -1;
 				}
-				// If firstname of A is greater than B
-				else if (a.fName > b.fName) {
-					return 1;
-				}
-				// If firstname of A is less than B
-				else if (a.fName < b.fName) {
-					return -1;
-				} else {
+				// // If firstname of A is greater than B
+				// else if (a.fName > b.fName) {
+				// 	return 1;
+				// }
+				// // If firstname of A is less than B
+				// else if (a.fName < b.fName) {
+				// 	return -1;
+				// }
+				else {
 					return 0;
 				}
 			}
 
-			function InputFormInitialise() {
-				let employedID = document.getElementById("employedID");
-				// employedID.innerHTML = calcUnemployRate(workforce, personDB);
+			function sortEmploymentTable() {
+				// Get IDs from Sorting fields
+				let sortTableBy = document.getElementById("sortSelect").value;
+
+				bSort(personDB, twoCompares, sortTableBy);
+				console.log(personDB);
 			}
+
+			function InputFormInitialise() {}
 
 			// personDB = [];
 			let person;
@@ -554,7 +584,7 @@
 			}
 
 			// INPUT PHASE
-			fillDB(100);
+			fillDB(20);
 
 			//CALCULATION PHASE
 
@@ -564,7 +594,7 @@
 			// let maleAvgAgeUnemployed = unemployedAgeByGender.averageMaleAge;
 			// let femaleAvgAgeUnemployed = unemployedAgeByGender.averageFemaleAge;
 
-			bsort2(personDB, twoCompares);
+			// bSort(personDB, twoCompares, "pCode");
 
 			// DISPLAY PHASE
 			makePeopleDBTable();
@@ -579,11 +609,11 @@
 				<fieldset>
 					<legend>Name</legend>
 					<label for="fNameTxtBox" id="fNameLabel">First Name</label> <br />
-					<input type="text" id="fNameTxtBox" required />
+					<input type="text" id="fNameTxtBox" />
 					<br /><br />
 					<label for="sNameTxtBox" id="sNameLabel">Surname</label>
 					<br />
-					<input type="text" id="sNameTxtBox" required />
+					<input type="text" id="sNameTxtBox" />
 				</fieldset>
 
 				<fieldset>
@@ -715,13 +745,20 @@
 			<fieldset>
 				<legend>Sort Database</legend>
 				<label for="" id="">Sort by:</label> <br />
-				<select id="sortSelection">
+				<select id="sortSelect">
 					<option value="">---No Particular Order---</option>
-					<option value="fnameSort">First Name</option>
-					<option value="snameSort">Surname</option>
-					<option value="dobSort">Date of Birth</option>
-					<option value="pcodeSort">Postcode</option>
+					<option value="fName">First Name</option>
+					<option value="sName">Surname</option>
+					<option value="DOB">Date of Birth</option>
+					<option value="pCode">Postcode</option>
 				</select>
+				<input
+					type="button"
+					class="myButton"
+					value="Show"
+					id="filterDBButton"
+					onclick="sortEmploymentTable();"
+				/>
 			</fieldset>
 		</div>
 	</body>
