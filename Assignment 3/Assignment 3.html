@@ -62,13 +62,24 @@
 		</style>
 		<script>
 			// TODO
-			//
 
 			"use strict";
 			// 1. CONSTANTS
 			const regIsName = /^[a-z ,.'-]+$/i;
 			const regIsPCode = /^\d\d\d\d$/;
 			let personDB = []; // Create DB to store all the input data
+			let userFilterDB = [];
+			const personKeyStr = [
+				"First Name",
+				"Surname",
+				"Gender",
+				"Date of Birth",
+				"Age",
+				"Postcode",
+				"Current Employment Status",
+				"Desired Employment Status",
+				"Employment Category",
+			];
 
 			// 2. FUNCTIONS
 
@@ -127,10 +138,10 @@
 				// Loop to create multiple person Objects to add to DB
 				for (let i = 0; i < population; i++) {
 					let person = new Object();
-					// 1. Surname input
-					person.sName = makeName(getRandomIntInclusive(3, 10));
-					// 2. First name input
+					// 1. First name input
 					person.fName = makeName(getRandomIntInclusive(3, 15));
+					// 2. Surname input
+					person.sName = makeName(getRandomIntInclusive(3, 10));
 					// 3. Gender input
 					let genderBool = Math.random() < 0.5;
 					if (genderBool) {
@@ -316,10 +327,7 @@
 				return filteredDBPostcode;
 			}
 
-			// Filters the DB to user input and updates HTML table
-			function calculateEmploymentTable() {
-				resetResultHighlights(); // Reset label colours
-
+			function filterDBByUser() {
 				// Filter Gender
 				let filterGender = document.resultsForm.genderEmploymentFilter.value;
 				let filteredDBGender = [];
@@ -342,18 +350,26 @@
 
 				console.log("filteredDBPostcode", filteredDBPostcode); // Log the final filtered DB
 
+				return filteredDBPostcode;
+			}
+
+			// Filters the DB to user input and updates HTML table
+			function calculateEmploymentTable() {
+				resetResultHighlights(); // Reset label colours
+
+				userFilterDB = filterDBByUser();
 				// Calculate Employed Percentages for Filter
 				// Sum of each employment category
-				let employedInFilter = sumEmployCategory(filteredDBPostcode, "employed");
-				let underemployedInFilter = sumEmployCategory(filteredDBPostcode, "underemployed");
-				let unemployedInFilter = sumEmployCategory(filteredDBPostcode, "unemployed");
-				let notinworkforceInFilter = sumEmployCategory(filteredDBPostcode, "notinworkforce");
+				let employedInFilter = sumEmployCategory(userFilterDB, "employed");
+				let underemployedInFilter = sumEmployCategory(userFilterDB, "underemployed");
+				let unemployedInFilter = sumEmployCategory(userFilterDB, "unemployed");
+				let notinworkforceInFilter = sumEmployCategory(userFilterDB, "notinworkforce");
 
 				// Count of each employment category / number of people in filter for percentage
-				let employedRate = calcPercentRate(employedInFilter, filteredDBPostcode);
-				let underemployedRate = calcPercentRate(underemployedInFilter, filteredDBPostcode);
-				let unemployedRate = calcPercentRate(unemployedInFilter, filteredDBPostcode);
-				let notinworkforceRate = calcPercentRate(notinworkforceInFilter, filteredDBPostcode);
+				let employedRate = calcPercentRate(employedInFilter, userFilterDB);
+				let underemployedRate = calcPercentRate(underemployedInFilter, userFilterDB);
+				let unemployedRate = calcPercentRate(unemployedInFilter, userFilterDB);
+				let notinworkforceRate = calcPercentRate(notinworkforceInFilter, userFilterDB);
 
 				// Get IDs of filter result table
 				let employedResultID = document.getElementById("employedCategoryResults");
@@ -366,6 +382,8 @@
 				underemployedResultID.innerHTML = underemployedRate + "%";
 				unemployedResultID.innerHTML = unemployedRate + "%";
 				notinworkforceResultID.innerHTML = notinworkforceRate + "%";
+
+				return userFilterDB;
 			}
 
 			function makePeopleDBTable() {
@@ -447,9 +465,64 @@
 			function sortEmploymentTable() {
 				// Get IDs from Sorting fields
 				let sortTableBy = document.getElementById("sortSelect").value;
+				// console.log(userFilterDB);
+				// if (sortTableBy === "") {
+				// 	console.log(personDB);
+				// }
+				bSort(userFilterDB, twoCompares, sortTableBy);
+				console.log(userFilterDB);
+				createFilterTable();
+			}
 
-				bSort(personDB, twoCompares, sortTableBy);
-				console.log(personDB);
+			function generate_table() {
+				// get the reference for the body
+				let body = document.getElementById("FilterTableBody");
+
+				// creates a <table> element and a <tbody> element
+				let tbl = document.createElement("table");
+				let tblBody = document.createElement("tbody");
+
+				// creating all cells
+				for (let i = 0; i < userFilterDB.length; i++) {
+					// creates a table row
+					let row = document.createElement("tr");
+
+					for (let j = 0; j < 8; j++) {
+						// Create a <td> element and a text node, make the text
+						// node the contents of the <td>, and put the <td> at
+						// the end of the table row
+						let cell = document.createElement("td");
+						let cellText = document.createTextNode("cell in row " + i + ", column " + j);
+						cell.appendChild(cellText);
+						row.appendChild(cell);
+					}
+
+					// add the row to the end of the table body
+					tblBody.appendChild(row);
+				}
+
+				// put the <tbody> in the <table>
+				tbl.appendChild(tblBody);
+				// appends <table> into <body>
+				body.appendChild(tbl);
+				// sets the border attribute of tbl to 2;
+				tbl.setAttribute("border", "2");
+			}
+			function createFilterTable() {
+				let body = document.getElementById("FilterTableBody");
+
+				let tbl = document.createElement("table");
+				let tblBody = document.createElement("tbody");
+
+				// Create Header Row
+
+				let row = document.createElement("tr");
+				for (let i = 0; i < personKeyStr.length; i++) {
+					let cell = document.createElement("th");
+					// console.log(personKeyStr[i]);
+					let cellText = document.createTextNode(personKeyStr[i]);
+				}
+				body.appendChild(cell);
 			}
 
 			function InputFormInitialise() {}
@@ -499,6 +572,7 @@
 					highlightLabel(LABEL_IDS[i], false);
 				}
 
+				// Input form validation
 				// Check for empty fName and sName, then the rest of the keys and
 				// adds person if all fields are okay
 				if (person.fName == undefined || person.sName == undefined) {
@@ -597,7 +671,7 @@
 			// bSort(personDB, twoCompares, "pCode");
 
 			// DISPLAY PHASE
-			makePeopleDBTable();
+			// makePeopleDBTable();
 		</script>
 	</head>
 	<body onload="InputFormInitialise();">
@@ -719,8 +793,8 @@
 			</form>
 			<table border="1">
 				<tr>
-					<td><strong>Employment Status</strong></td>
-					<td><strong>Percent</strong></td>
+					<th>Employment Status</th>
+					<th>Percent</th>
 				</tr>
 				<tr>
 					<td>Employed</td>
@@ -750,6 +824,7 @@
 					<option value="fName">First Name</option>
 					<option value="sName">Surname</option>
 					<option value="DOB">Date of Birth</option>
+					<option value="ageYrs">Age</option>
 					<option value="pCode">Postcode</option>
 				</select>
 				<input
@@ -759,7 +834,15 @@
 					id="filterDBButton"
 					onclick="sortEmploymentTable();"
 				/>
+				<input
+					type="button"
+					class="myButton"
+					value="make random table"
+					id="filterDBButton"
+					onclick="generate_table();"
+				/>
 			</fieldset>
+			<div id="FilterTableBody"></div>
 		</div>
 	</body>
 </html>
