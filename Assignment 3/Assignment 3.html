@@ -2,64 +2,13 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+			crossorigin="anonymous"
+		/>
 		<title>Assignment 2 Jacky</title>
-		<style>
-			.myButton {
-				border: 0;
-				line-height: 2.5;
-				padding: 0 20px;
-				font-size: 1rem;
-				text-align: center;
-				color: #fff;
-				text-shadow: 1px 1px 1px #000;
-				border-radius: 10px;
-				background-color: #6b5639;
-				background-image: linear-gradient(
-					to top left,
-					rgba(0, 0, 0, 0.2),
-					rgba(0, 0, 0, 0.2) 30%,
-					rgba(0, 0, 0, 0)
-				);
-				box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6), inset -2px -2px 3px rgba(0, 0, 0, 0.6);
-			}
-
-			.myButton:hover {
-				background-color: #000000;
-			}
-
-			.section {
-				border: 4px solid black;
-				border-radius: 25px;
-				padding-bottom: 15px;
-				padding-left: 15px;
-				margin: 15px;
-				background-color: #bca27e;
-			}
-
-			body {
-				background-color: #bdaf9d;
-			}
-
-			h1 {
-				text-align: center;
-				background-color: #dddddd;
-			}
-
-			input[type="text"] {
-				box-sizing: border-box;
-				height: 24px;
-				line-height: 18px;
-				padding: 2px;
-				border: 1px solid gray;
-			}
-
-			p {
-				font-size: 0.8rem;
-			}
-			input:invalid {
-				border: red solid 3px;
-			}
-		</style>
 		<script>
 			// TODO
 
@@ -393,7 +342,7 @@
 				} else {
 					// Open table for entire DB and column headers
 					document.write("<h2>Person Database</h2>");
-					document.write("<table border=1>");
+					document.write("<table class='table table-striped'>");
 					document.write("<tr>");
 					document.write("<td><strong>#</strong></td>");
 					document.write("<td><strong>Surname</strong></td>");
@@ -511,18 +460,67 @@
 			function createFilterTable() {
 				let body = document.getElementById("FilterTableBody");
 
+				// Created <table> and <tbody> element
 				let tbl = document.createElement("table");
 				let tblBody = document.createElement("tbody");
 
 				// Create Header Row
-
-				let row = document.createElement("tr");
+				let rowHead = document.createElement("tr");
 				for (let i = 0; i < personKeyStr.length; i++) {
 					let cell = document.createElement("th");
-					// console.log(personKeyStr[i]);
 					let cellText = document.createTextNode(personKeyStr[i]);
+					cell.appendChild(cellText);
+					rowHead.appendChild(cell);
+					tblBody.appendChild(rowHead);
 				}
-				body.appendChild(cell);
+				tbl.appendChild(tblBody);
+				body.appendChild(tbl);
+
+				// Create all the rows for userFilterDB
+				for (let i = 0; i < userFilterDB.length; i++) {
+					let row = document.createElement("tr");
+					for (let j = 0; j < userFilterDB.length; j++) {
+						let cell = document.createElement("td");
+						let cellText = document.createTextNode(userFilterDB[i].fName);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].sName);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTgextNode(userFilterDB[i].gender);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].DOB);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].ageYrs);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].pCode);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].employStat);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].desiredEmployStat);
+						cell.appendChild(cellText);
+						row.append(cell);
+						cell = document.createElement("td");
+						cellText = document.createTextNode(userFilterDB[i].employCategory);
+						cell.appendChild(cellText);
+						row.append(cell);
+						tblBody.appendChild(row);
+					}
+				}
+				tbl.appendChild(tblBody);
+				body.appendChild(tbl);
 			}
 
 			function InputFormInitialise() {}
@@ -658,7 +656,7 @@
 			}
 
 			// INPUT PHASE
-			fillDB(20);
+			fillDB(2);
 
 			//CALCULATION PHASE
 
@@ -675,174 +673,186 @@
 		</script>
 	</head>
 	<body onload="InputFormInitialise();">
-		<h1>Unemployment Survey</h1>
-		<!-- Input form -->
-		<div id="inputForm" class="section">
-			<h2>Input Person Form</h2>
-			<form name="personForm">
-				<fieldset>
-					<legend>Name</legend>
-					<label for="fNameTxtBox" id="fNameLabel">First Name</label> <br />
-					<input type="text" id="fNameTxtBox" />
-					<br /><br />
-					<label for="sNameTxtBox" id="sNameLabel">Surname</label>
-					<br />
-					<input type="text" id="sNameTxtBox" />
-				</fieldset>
+		<div class="container-md">
+			<h1>Unemployment Survey</h1>
+			<!-- Input form -->
+			<div id="inputForm" class="row">
+				<h2>Input Person Form</h2>
+				<form name="personForm">
+					<fieldset>
+						<legend>Name</legend>
 
-				<fieldset>
-					<legend for="GenderRadio" id="GenderRadioLabel">Gender</legend>
-					<br />
-					<input type="radio" name="gender" value="M" id="is-male" />
-					<label for="is-male">Male</label> &nbsp;
-					<input type="radio" name="gender" value="F" id="is-female" />
-					<label for="is-female">Female</label><br /><br />
-				</fieldset>
-
-				<fieldset>
-					<legend for="birthday" id="DOBLabel">Date of Birth</legend>
-					<input type="date" id="birthday" />
-				</fieldset>
-
-				<fieldset>
-					<legend for="PCodeTxtBox" id="PCodeLabel">Postcode</legend>
-					<input type="text" id="PCodeTxtBox" />
-				</fieldset>
-
-				<fieldset>
-					<legend for="employStat" id="employStatLabel">Employment Status</legend>
-					<br />
-					<input type="radio" name="employStat" value="full" id="is-full-time" />
-					<label for="is-full-time">Full-time</label>
-					<input type="radio" name="employStat" value="part" id="is-part-time" />
-					<label for="is-part-time">Part-time</label>
-					<input type="radio" name="employStat" value="none" id="is-unemployed" />
-					<label for="is-unemployed">Unemployed</label>
-					<br /><br />
-				</fieldset>
-
-				<fieldset>
-					<legend for="desiredEmployStat" id="desiredEmployStatLabel">
-						Desired Employment Status
-					</legend>
-					<br />
-					<input type="radio" name="desiredEmployStat" value="full" id="desired-full-time" />
-					<label for="desired-full-time">Full-time</label>
-					<input type="radio" name="desiredEmployStat" value="part" id="desired-part-time" />
-					<label for="desired-part-time">Part-time</label>
-					<input type="radio" name="desiredEmployStat" value="none" id="desired-unemployed" />
-					<label for="desired-unemployed">Unemployed</label>
-					<br /><br />
-				</fieldset>
-
-				<input type="button" class="myButton" value="Add Person" onclick="addPersonButton();" />
-				<input type="button" class="myButton" value="Clear Fields" onclick="clearInputFormFields()" />
-				<br />
-				<input type="button" class="myButton" value="Generate random person" onclick="fillDB(1)" />
-				<input
-					type="button"
-					class="myButton"
-					value="Generate a bunch of random people"
-					onclick="fillDB(10)"
-				/>
-			</form>
-		</div>
-		<div class="section">
-			<h2>Results</h2>
-			<form name="resultsForm">
-				<fieldset>
-					<legend>Calculate Employment Results</legend>
-					<label for="genderEmploymentFilter" id="genderEmploymentFilterLabel">Gender</label><br />
-					<select id="genderEmploymentFilter">
-						<option value="MF">Male and Female</option>
-						<option value="M">Male</option>
-						<option value="F">Female</option></select
-					><br />
-					<table>
-						<tr>
-							<td>
-								<label for="minAgeFilterBox" id="minAgeFilterLabel">Min Age</label>
-							</td>
-							<td>
-								<label for="maxAgeFilterBox" id="maxAgeFilterLabel">Max Age</label>
-							</td>
-						</tr>
+						<label for="fNameTxtBox" id="fNameLabel">First Name</label> <br />
+						<input type="text" id="fNameTxtBox" />
+						<br /><br />
+						<label for="sNameTxtBox" id="sNameLabel">Surname</label>
 						<br />
+						<input type="text" id="sNameTxtBox" />
+					</fieldset>
+					<fieldset>
+						<legend for="PCodeTxtBox" id="PCodeLabel">Postcode</legend>
+						<input type="text" id="PCodeTxtBox" />
+					</fieldset>
+
+					<fieldset>
+						<legend for="GenderRadio" id="GenderRadioLabel">Gender</legend>
+						<br />
+						<input type="radio" name="gender" value="M" id="is-male" />
+						<label for="is-male">Male</label> &nbsp;
+						<input type="radio" name="gender" value="F" id="is-female" />
+						<label for="is-female">Female</label><br /><br />
+					</fieldset>
+
+					<fieldset>
+						<legend for="birthday" id="DOBLabel">Date of Birth</legend>
+						<input type="date" id="birthday" />
+					</fieldset>
+
+					<fieldset>
+						<legend for="employStat" id="employStatLabel">Employment Status</legend>
+						<br />
+						<input type="radio" name="employStat" value="full" id="is-full-time" />
+						<label for="is-full-time">Full-time</label>
+						<input type="radio" name="employStat" value="part" id="is-part-time" />
+						<label for="is-part-time">Part-time</label>
+						<input type="radio" name="employStat" value="none" id="is-unemployed" />
+						<label for="is-unemployed">Unemployed</label>
+						<br /><br />
+					</fieldset>
+
+					<fieldset>
+						<legend for="desiredEmployStat" id="desiredEmployStatLabel">
+							Desired Employment Status
+						</legend>
+						<br />
+						<input type="radio" name="desiredEmployStat" value="full" id="desired-full-time" />
+						<label for="desired-full-time">Full-time</label>
+						<input type="radio" name="desiredEmployStat" value="part" id="desired-part-time" />
+						<label for="desired-part-time">Part-time</label>
+						<input type="radio" name="desiredEmployStat" value="none" id="desired-unemployed" />
+						<label for="desired-unemployed">Unemployed</label>
+						<br /><br />
+					</fieldset>
+
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-success" onclick="addPersonButton();">
+							Add Person
+						</button>
+						<button type="button" class="btn btn-danger" onclick="clearInputFormFields()">
+							Clear Fields
+						</button>
+						<br />
+						<button type="button" class="btn btn-primary" onclick="fillDB(1)">
+							Generate random person
+						</button>
+						<button type="button" class="btn btn-primary" onclick="fillDB(10)">
+							Generate a bunch of random people
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="row">
+				<h2>Results</h2>
+				<div class="col-5">
+					<form name="resultsForm">
+						<fieldset>
+							<legend>Calculate Employment Results</legend>
+							<label for="genderEmploymentFilter" id="genderEmploymentFilterLabel">Gender</label
+							><br />
+							<select id="genderEmploymentFilter" class="form-select">
+								<option value="MF">Male and Female</option>
+								<option value="M">Male</option>
+								<option value="F">Female</option></select
+							><br />
+							<table class="table table-striped">
+								<tr>
+									<td>
+										<label for="minAgeFilterBox" id="minAgeFilterLabel">Min Age</label>
+									</td>
+									<td>
+										<label for="maxAgeFilterBox" id="maxAgeFilterLabel">Max Age</label>
+									</td>
+								</tr>
+								<br />
+								<tr>
+									<td>
+										<input type="number" id="minAgeFilterBox" value="" />
+									</td>
+									<td>
+										<input type="number" id="maxAgeFilterBox" value="" />
+									</td>
+								</tr>
+							</table>
+							<br />
+							<label for="pCodeFilterBox" id="pCodeFilterBoxLabel">Postcode</label><br />
+							<p>'Min'-'Max','Specific Post Code' <br />DDDD-DDDD,DDDD</p>
+							<input type="text" id="pCodeFilterBox" value="" />
+						</fieldset>
+						<br />
+						<input
+							type="button"
+							class="btn btn-primary"
+							value="Show"
+							id="filterDBButton"
+							onclick="calculateEmploymentTable();"
+						/>
+					</form>
+					<table class="table table-striped">
 						<tr>
-							<td>
-								<input type="number" id="minAgeFilterBox" value="" />
-							</td>
-							<td>
-								<input type="number" id="maxAgeFilterBox" value="" />
-							</td>
+							<th>Employment Status</th>
+							<th>Percent</th>
+						</tr>
+						<tr>
+							<td>Employed</td>
+							<td id="employedCategoryResults"></td>
+						</tr>
+						<tr>
+							<td>Underemployed</td>
+							<td id="underemployedCategoryResults"></td>
+						</tr>
+						<tr>
+							<td>Unemployed</td>
+							<td id="unemployedCategoryResults"></td>
+						</tr>
+						<tr>
+							<td>Not in Workforce</td>
+							<td id="notinworkforceCategoryResults"></td>
 						</tr>
 					</table>
-					<br />
-					<label for="pCodeFilterBox" id="pCodeFilterBoxLabel">Postcode</label><br />
-					<p>'Min'-'Max','Specific Post Code' <br />DDDD-DDDD,DDDD</p>
-					<input type="text" id="pCodeFilterBox" value="" />
-				</fieldset>
-				<br />
-				<input
-					type="button"
-					class="myButton"
-					value="Show"
-					id="filterDBButton"
-					onclick="calculateEmploymentTable();"
-				/>
-			</form>
-			<table border="1">
-				<tr>
-					<th>Employment Status</th>
-					<th>Percent</th>
-				</tr>
-				<tr>
-					<td>Employed</td>
-					<td id="employedCategoryResults"></td>
-				</tr>
-				<tr>
-					<td>Underemployed</td>
-					<td id="underemployedCategoryResults"></td>
-				</tr>
-				<tr>
-					<td>Unemployed</td>
-					<td id="unemployedCategoryResults"></td>
-				</tr>
-				<tr>
-					<td>Not in Workforce</td>
-					<td id="notinworkforceCategoryResults"></td>
-				</tr>
-			</table>
-		</div>
-		<div class="section">
-			<h2>Person Details</h2>
-			<fieldset>
-				<legend>Sort Database</legend>
-				<label for="" id="">Sort by:</label> <br />
-				<select id="sortSelect">
-					<option value="">---No Particular Order---</option>
-					<option value="fName">First Name</option>
-					<option value="sName">Surname</option>
-					<option value="DOB">Date of Birth</option>
-					<option value="ageYrs">Age</option>
-					<option value="pCode">Postcode</option>
-				</select>
-				<input
-					type="button"
-					class="myButton"
-					value="Show"
-					id="filterDBButton"
-					onclick="sortEmploymentTable();"
-				/>
-				<input
-					type="button"
-					class="myButton"
-					value="make random table"
-					id="filterDBButton"
-					onclick="generate_table();"
-				/>
-			</fieldset>
-			<div id="FilterTableBody"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-5">
+					<h2>Person Details</h2>
+					<fieldset>
+						<legend>Sort Database</legend>
+						<label for="" id="">Sort by:</label> <br />
+						<select id="sortSelect" class="form-select">
+							<option value="">---No Particular Order---</option>
+							<option value="fName">First Name</option>
+							<option value="sName">Surname</option>
+							<option value="DOB">Date of Birth</option>
+							<option value="ageYrs">Age</option>
+							<option value="pCode">Postcode</option>
+						</select>
+						<input
+							type="button"
+							class="btn btn-primary"
+							value="Show"
+							id="filterDBButton"
+							onclick="sortEmploymentTable();"
+						/>
+						<input
+							type="button"
+							class="btn btn-primary"
+							value="make random table"
+							id="filterDBButton"
+							onclick="generate_table();"
+						/>
+					</fieldset>
+					<div id="FilterTableBody"></div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
