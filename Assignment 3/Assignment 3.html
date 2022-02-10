@@ -423,40 +423,40 @@
 				createFilterTable();
 			}
 
-			function generate_table() {
-				// get the reference for the body
-				let body = document.getElementById("FilterTableBody");
+			// function generate_table() {
+			// 	// get the reference for the body
+			// 	let body = document.getElementById("FilterTableBody");
 
-				// creates a <table> element and a <tbody> element
-				let tbl = document.createElement("table");
-				let tblBody = document.createElement("tbody");
+			// 	// creates a <table> element and a <tbody> element
+			// 	let tbl = document.createElement("table");
+			// 	let tblBody = document.createElement("tbody");
 
-				// creating all cells
-				for (let i = 0; i < userFilterDB.length; i++) {
-					// creates a table row
-					let row = document.createElement("tr");
+			// 	// creating all cells
+			// 	for (let i = 0; i < userFilterDB.length; i++) {
+			// 		// creates a table row
+			// 		let row = document.createElement("tr");
 
-					for (let j = 0; j < 8; j++) {
-						// Create a <td> element and a text node, make the text
-						// node the contents of the <td>, and put the <td> at
-						// the end of the table row
-						let cell = document.createElement("td");
-						let cellText = document.createTextNode("cell in row " + i + ", column " + j);
-						cell.appendChild(cellText);
-						row.appendChild(cell);
-					}
+			// 		for (let j = 0; j < 8; j++) {
+			// 			// Create a <td> element and a text node, make the text
+			// 			// node the contents of the <td>, and put the <td> at
+			// 			// the end of the table row
+			// 			let cell = document.createElement("td");
+			// 			let cellText = document.createTextNode("cell in row " + i + ", column " + j);
+			// 			cell.appendChild(cellText);
+			// 			row.appendChild(cell);
+			// 		}
 
-					// add the row to the end of the table body
-					tblBody.appendChild(row);
-				}
+			// 		// add the row to the end of the table body
+			// 		tblBody.appendChild(row);
+			// 	}
 
-				// put the <tbody> in the <table>
-				tbl.appendChild(tblBody);
-				// appends <table> into <body>
-				body.appendChild(tbl);
-				// sets the border attribute of tbl to 2;
-				tbl.setAttribute("border", "2");
-			}
+			// 	// put the <tbody> in the <table>
+			// 	tbl.appendChild(tblBody);
+			// 	// appends <table> into <body>
+			// 	body.appendChild(tbl);
+			// 	// sets the border attribute of tbl to 2;
+			// 	tbl.setAttribute("border", "2");
+			// }
 			function createFilterTable() {
 				let body = document.getElementById("FilterTableBody");
 
@@ -478,46 +478,44 @@
 
 				// Create all the rows for userFilterDB
 				for (let i = 0; i < userFilterDB.length; i++) {
+					let tempPerson = userFilterDB[i];
+					let personDetailsKeys = Object.keys(tempPerson);
+					// create row for single person
 					let row = document.createElement("tr");
-					for (let j = 0; j < userFilterDB.length; j++) {
+
+					// OPTION 1 = for loop
+					// for (let j = 0; j < personDetailsKeys.length; j++) {
+					// 	const detailKey = personDetailsKeys[j];
+
+					// 	let cell = document.createElement("td");
+					// 	let cellText = document.createTextNode(tempPerson[detailKey]);
+					// 	cell.appendChild(cellText);
+					// 	row.append(cell);
+					// }
+
+					// OPTION 2 = s tier
+					personDetailsKeys.forEach((key) => {
 						let cell = document.createElement("td");
-						let cellText = document.createTextNode(userFilterDB[i].fName);
+						let cellText = document.createTextNode(tempPerson[key]);
 						cell.appendChild(cellText);
 						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].sName);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTgextNode(userFilterDB[i].gender);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].DOB);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].ageYrs);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].pCode);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].employStat);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].desiredEmployStat);
-						cell.appendChild(cellText);
-						row.append(cell);
-						cell = document.createElement("td");
-						cellText = document.createTextNode(userFilterDB[i].employCategory);
-						cell.appendChild(cellText);
-						row.append(cell);
-						tblBody.appendChild(row);
-					}
+					});
+/**
+ *      userFilterDB.forEach(personObj=> console.log(personObj.fName))
+
+                    function myfn (arg) {
+                        //s tuff
+                    }
+
+                  const myfn = (arg) => {
+                      //stuff
+                }
+
+ */
+               
+					// add person row to table
+					tblBody.appendChild(row);
+
 				}
 				tbl.appendChild(tblBody);
 				body.appendChild(tbl);
@@ -842,8 +840,8 @@
 							onclick="generate_table();"
 						/>
 					</fieldset>
-					<div id="FilterTableBody"></div>
 				</div>
+				<div id="FilterTableBody"></div>
 			</div>
 		</div>
 	</body>
